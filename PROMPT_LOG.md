@@ -70,6 +70,18 @@
 - **Thách thức gặp phải:** Lần đầu tiêu đề quá lớn (5 dòng) và chú thích dọc bị cắt.
 - **Cách sửa prompt (Debug prompt):** "Giảm cỡ tiêu đề để hero vừa một màn hình; bỏ chú thích dọc." → AI chỉnh lại `clamp()` cỡ chữ, và chụp kiểm tra lại ở desktop, tablet, mobile (không tràn ngang, chuyển VI/EN vẫn đúng).
 
+### Lần 11: Thêm các hiệu ứng cơ bản, hiện đại
+- **Prompt đã dùng:** "Thêm vài hiệu ứng cơ bản nhưng hiện đại: thanh tiến trình cuộn, header đổi trạng thái khi cuộn, số liệu đếm lên, ảnh hiện dần, nút về đầu trang. Dùng JavaScript thuần, tôn trọng `prefers-reduced-motion`, không lạm dụng."
+- **Kết quả AI tạo ra:** Thanh tiến trình `scaleX` theo vị trí cuộn; header đổ bóng khi cuộn; các số liệu 2008 / 120 / 15.000 m² / 4 đếm lên bằng `requestAnimationFrame` khi vào khung nhìn; ảnh quy trình, thư viện, danh mục "mở" dần bằng `clip-path`; parallax nhẹ ở ảnh hero; nút về đầu trang (có `aria-label` song ngữ). Sự kiện cuộn được gom qua `requestAnimationFrame`.
+- **Thách thức gặp phải:** Hiệu ứng `clip-path` không bao giờ chạy: `IntersectionObserver` coi phần tử đang bị cắt hết là không giao với khung nhìn nên không kích hoạt.
+- **Cách sửa prompt (Debug prompt):** "Quan sát phần tử cha thay vì chính phần tử đang bị `clip-path` che; kiểm thử bằng cách cuộn hết trang và đếm số phần tử đã hiện." → AI đổi sang quan sát phần tử cha; kiểm tra lại cả 19 ảnh đều hiện sau khi cuộn, và khi bật `prefers-reduced-motion` thì các hiệu ứng tự tắt.
+
+### Lần 12: Tích hợp thêm thư viện animation ngoài & làm hover mượt hơn
+- **Prompt đã dùng:** "Tích hợp thêm vài thư viện animation bên ngoài (CDN), và làm các hiệu ứng hover/chuyển động mượt mà hơn. Vẫn phải giữ Animate.css và AOS, không lạm dụng, tôn trọng `prefers-reduced-motion`."
+- **Kết quả AI tạo ra:** Thêm **Lenis** (cuộn có quán tính, nối với ticker của GSAP, link `#` cuộn mượt có trừ chiều cao header); **GSAP + ScrollTrigger** (parallax nhiều lớp ở hero, ảnh phần giới thiệu trượt trong khung, nút "từ tính" bám theo con trỏ); **vanilla-tilt** (thẻ danh mục nghiêng 3D nhẹ kèm ánh phản chiếu). CSS: nút có lớp màu quét từ trái sang, thời gian transition kéo dài và dùng chung một đường cong easing, ảnh phóng chậm hơn, bộ lọc gallery có hiệu ứng ảnh hiện lần lượt.
+- **Thách thức gặp phải:** Hover cũ của nút và thẻ dùng `transform` trong CSS xung đột với `transform` mà GSAP/vanilla-tilt gán trực tiếp; hộp thoại GitHub vẫn để trang cuộn phía sau khi Lenis đang chạy; nút từ tính kéo quá mạnh làm chạm nút bên cạnh.
+- **Cách sửa prompt (Debug prompt):** "Thư viện nào giữ `transform` của phần tử thì CSS hover không được dùng `transform` nữa; dừng Lenis khi mở dialog và chạy lại khi đóng; giảm hệ số từ tính." → AI chuyển hover của nút sang hiệu ứng `::before` + `box-shadow`, của thẻ sang `box-shadow` + viền, thêm `lenis.stop()/start()` theo sự kiện dialog, và kiểm thử bằng trình duyệt thật (điều hướng neo, cuộn chuột, nghiêng thẻ, lọc gallery, mở/đóng dialog, không lỗi console). Khi bật `prefers-reduced-motion` thì cả ba thư viện đều không khởi chạy.
+
 ---
 
 ## 3. Đánh giá cá nhân về quá trình Vibe Coding

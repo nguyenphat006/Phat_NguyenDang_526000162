@@ -153,6 +153,7 @@ window.I18N = {
   "t206": "Project repository",
   "t207": "Prompt log",
   "t301": "Geometric woven panel detail on a teak sofa arm",
+  "t303": "Back to top",
   "menuOpen": "Open menu",
   "menuClose": "Close menu"
 },

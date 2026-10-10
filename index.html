@@ -26,6 +26,7 @@
 </head>
 <body>
 <a class="skip-link" data-i18n="t001" href="#main">Chuyển đến nội dung</a>
+<p class="progress" aria-hidden="true"></p>
 <header class="site-header">
 <a aria-label="Ericss Furniture — trang chủ" class="brand" data-i18n-aria="t002" href="#home">
 <span class="brand__mark">Ericss</span>
@@ -77,19 +78,19 @@
 <dl class="stats__list">
 <div class="stats__item" data-aos="fade-up">
 <dt data-i18n="t026">Thành lập</dt>
-<dd>2008</dd>
+<dd data-count="2008" data-from="1970">2008</dd>
 </div>
 <div class="stats__item" data-aos="fade-up" data-aos-delay="100">
 <dt data-i18n="t028">Nghệ nhân</dt>
-<dd>120</dd>
+<dd data-count="120">120</dd>
 </div>
 <div class="stats__item" data-aos="fade-up" data-aos-delay="200">
 <dt data-i18n="t030">Diện tích xưởng</dt>
-<dd>15,000 m²</dd>
+<dd data-count="15000" data-suffix=" m²">15,000 m²</dd>
 </div>
 <div class="stats__item" data-aos="fade-up" data-aos-delay="300">
 <dt data-i18n="t032">Chất liệu đặc trưng</dt>
-<dd>4</dd>
+<dd data-count="4">4</dd>
 </div>
 </dl>
 </section>
@@ -373,6 +374,10 @@
 <p class="site-footer__copy" data-i18n="t154">© <time datetime="2026">2026</time> Ericss Furniture. Bài kiểm tra giữa kỳ môn Thiết kế Web — Nguyễn Đăng Phát · 526000162 · Trường Đại học Lạc Hồng.</p>
 </footer>
 
+<button class="to-top" type="button" aria-label="Về đầu trang" data-i18n-aria="t303">
+<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
 <dialog id="github-dialog" class="dialog" aria-labelledby="github-dialog-title">
 <article class="dialog__panel">
 <header class="dialog__head">
@@ -403,6 +408,10 @@
 </article>
 </dialog>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
 <script src="i18n.js"></script>
 <script src="script.js"></script>
 </body>
