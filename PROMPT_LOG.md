@@ -21,8 +21,8 @@
 - **Nhận xét & Tinh chỉnh của SV:** Yêu cầu AI chọn thẻ theo đúng ngữ nghĩa thay vì bọc `<div>`: tiêu đề từng khối nằm trong `<header>` của section, các đoạn trong form dùng `<p>` + `<label>` thay vì `<div>`, thêm `aria-label`/`aria-labelledby` cho các vùng điều hướng và section.
 
 ### Lần 2: Định hướng thẩm mỹ "light – cao cấp – không đại trà"
-- **Prompt đã dùng:** "Tông nền sáng ấm (ivory), chữ đen than, một màu nhấn đồng/teak. Font serif thanh lịch cho tiêu đề, sans-serif cho nội dung. Nhiều khoảng trắng, viền mảnh, không dùng gradient sặc sỡ hay bố cục template quen thuộc."
-- **Kết quả AI tạo ra:** Bảng màu `--color-bg: #faf8f4`, `--color-ink: #1f1d1a`, `--color-primary: #8a6a43`; cặp font Cormorant Garamond + Inter; tiêu đề hero lớn với chữ nghiêng nhấn màu; khung viền mảnh lệch sau ảnh hero.
+- **Prompt đã dùng:** "Tông nền sáng ấm (ivory), chữ đen than, một màu nhấn đồng/teak. Font dễ đọc, hiển thị tiếng Việt có dấu rõ ràng. Nhiều khoảng trắng, viền mảnh, không dùng gradient sặc sỡ hay bố cục template quen thuộc."
+- **Kết quả AI tạo ra:** Bảng màu `--color-bg: #faf8f4`, `--color-ink: #1f1d1a`, `--color-primary: #8a6a43`; font Be Vietnam Pro (thiết kế riêng cho tiếng Việt, dấu rõ nét, dễ đọc) cho cả tiêu đề lẫn nội dung — ban đầu thử Cormorant Garamond + Inter nhưng chữ serif mảnh khó đọc, đã đổi lại; tiêu đề hero lớn với chữ nghiêng nhấn màu; khung viền mảnh lệch sau ảnh hero.
 - **Nhận xét & Tinh chỉnh của SV:** Giữ chữ in hoa giãn cách cho nhãn nhỏ (eyebrow) để tạo cảm giác tạp chí nội thất; yêu cầu bỏ bớt đổ bóng nặng, chỉ dùng một biến `--shadow` mềm cho toàn site.
 
 ### Lần 3: Tích hợp thư viện Animate.css & AOS
@@ -63,6 +63,12 @@
 - **Prompt đã dùng:** "Thêm GitHub vào footer, bấm vào mở hộp thoại liệt kê tài khoản tác giả, repository và nhật ký prompt. Dùng thẻ `<dialog>` gốc, hỗ trợ bàn phím."
 - **Kết quả AI tạo ra:** Nút GitHub (biểu tượng SVG) trong footer mở `<dialog>` bằng `showModal()`; đóng bằng nút ×, bấm nền mờ hoặc phím Esc; có animation vào nhẹ và `::backdrop` làm mờ. Nội dung hộp thoại cũng được dịch qua `data-i18n`.
 - **Nhận xét & Tinh chỉnh của SV:** Yêu cầu dùng `<dialog>` thay vì tự dựng `div` modal để có sẵn focus trap và `aria-modal`. Khi kiểm thử trên mobile phát hiện các khối AOS `fade-left` khiến trang tràn ngang trước khi hiện, nên thêm `overflow-x: clip` cho `body`.
+
+### Lần 10: Đổi tông màu & làm mới Hero Section
+- **Prompt đã dùng:** "Tông màu thiên về trắng – đen, pha nâu sang trọng làm điểm nhấn; các khối nền đen đang quá đen. Làm hero hiện đại, độc lạ hơn, không theo mẫu 'chữ bên trái, ảnh bên phải' quen thuộc."
+- **Kết quả AI tạo ra:** Thử 3 phương án nền (than xám, nâu cognac, be sáng) và chọn dải thống kê nâu cognac chữ trắng, footer đen dịu. Hero mới: ảnh chính cắt hình vòm (`border-radius` lớn), ảnh nhỏ chồng lệch có viền trắng và đĩa màu cát phía sau. Sau đó SV yêu cầu bỏ huy hiệu tròn xoay và dải chữ chạy ngang dưới hero cho gọn, nên AI đã gỡ cả HTML, CSS lẫn khóa dịch tương ứng. Hiệu ứng vào dùng Animate.css (`fadeIn`, `fadeInUp` có độ trễ).
+- **Thách thức gặp phải:** Lần đầu tiêu đề quá lớn (5 dòng) và chú thích dọc bị cắt.
+- **Cách sửa prompt (Debug prompt):** "Giảm cỡ tiêu đề để hero vừa một màn hình; bỏ chú thích dọc." → AI chỉnh lại `clamp()` cỡ chữ, và chụp kiểm tra lại ở desktop, tablet, mobile (không tràn ngang, chuyển VI/EN vẫn đúng).
 
 ---
 

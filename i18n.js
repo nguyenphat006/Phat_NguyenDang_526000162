@@ -152,6 +152,7 @@ window.I18N = {
   "t205": "Author account",
   "t206": "Project repository",
   "t207": "Prompt log",
+  "t301": "Geometric woven panel detail on a teak sofa arm",
   "menuOpen": "Open menu",
   "menuClose": "Close menu"
 },
