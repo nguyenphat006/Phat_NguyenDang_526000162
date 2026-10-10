@@ -134,7 +134,7 @@ window.I18N = {
   "t140": "Message",
   "t141": "Send enquiry",
   "t142": "Company details",
-  "t144": "18 Atelier Street,<br>Lyon 69002, France",
+  "t144": "Bien Hoa,<br>Dong Nai, Vietnam",
   "t147": "Back to top",
   "t149": "Footer",
   "t150": "Our Company",

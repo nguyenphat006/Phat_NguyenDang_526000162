@@ -44,8 +44,8 @@
 
 ### Lần 6: Đổi thương hiệu & thông tin doanh nghiệp
 - **Prompt đã dùng:** "Không dùng thông tin của công ty thật; đặt tên website là Ericss Furniture, thay các thông tin liên quan sang thông tin khác."
-- **Kết quả AI tạo ra:** Đổi logo/tiêu đề/favicon thành Ericss, thay năm thành lập, số liệu, địa chỉ, điện thoại, email (dùng tên miền `.example` chuyên dùng cho ví dụ) và bỏ liên kết tới website công ty thật; rà soát lại toàn bộ file để không còn từ khóa cũ.
-- **Nhận xét & Tinh chỉnh của SV:** Số liệu và địa chỉ là nội dung giả lập phục vụ bài thi.
+- **Kết quả AI tạo ra:** Đổi logo/tiêu đề/favicon thành Ericss, thay năm thành lập, số liệu và bỏ liên kết tới website công ty thật; rà soát lại toàn bộ file để không còn từ khóa cũ.
+- **Nhận xét & Tinh chỉnh của SV:** Số liệu giới thiệu là nội dung giả lập phục vụ bài thi; sau đó cập nhật phần liên hệ sang email cá nhân `nguyendangphat1505@gmail.com` và địa điểm Biên Hòa, Đồng Nai, đồng thời bỏ số điện thoại giả.
 
 ### Lần 7: Triển khai GitHub Actions → GitHub Pages
 - **Prompt đã dùng:** "Deploy bằng GitHub Actions: workflow chạy khi push lên `main`, dùng `actions/configure-pages`, `upload-pages-artifact`, `deploy-pages`, quyền tối thiểu `pages: write` và `id-token: write`."
