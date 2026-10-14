@@ -110,11 +110,10 @@ try {
 document.querySelectorAll('[data-open-dialog]').forEach((btn) => {
   btn.addEventListener('click', () => {
     const dlg = document.getElementById(btn.dataset.openDialog);
-    if (dlg && typeof dlg.showModal === 'function') { dlg.showModal(); if (window.lenis) window.lenis.stop(); }
+    if (dlg && typeof dlg.showModal === 'function') { dlg.showModal(); }
   });
 });
 document.querySelectorAll('dialog').forEach((dlg) => {
-  dlg.addEventListener('close', () => { if (window.lenis) window.lenis.start(); });
   dlg.querySelector('[data-close-dialog]').addEventListener('click', () => dlg.close());
   dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
 });
@@ -139,10 +138,7 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 onScroll();
 
-toTop.addEventListener('click', () => {
-  if (window.lenis) window.lenis.scrollTo(0, { duration: 1.4 });
-  else window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
-});
+toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }));
 
 // Count-up numbers in the stats band
 function countUp(el) {
@@ -181,32 +177,8 @@ if (!reduceMotion) {
   });
 }
 
-// ---------- External motion libraries: Lenis, GSAP + ScrollTrigger, vanilla-tilt ----------
+// ---------- External motion libraries: GSAP + ScrollTrigger, vanilla-tilt ----------
 const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-if (!reduceMotion && window.Lenis) {
-  // Lenis: inertia-based smooth scrolling, driven by GSAP's ticker
-  const lenis = new Lenis({ duration: 1.15, easing: (t) => 1 - Math.pow(1 - t, 3), smoothWheel: true });
-  window.lenis = lenis;
-  if (window.gsap && window.ScrollTrigger) {
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((time) => lenis.raf(time * 1000));
-    gsap.ticker.lagSmoothing(0);
-  } else {
-    (function raf(time) { lenis.raf(time); requestAnimationFrame(raf); })(performance.now());
-  }
-  // In-page links glide to the section, leaving room for the sticky header
-  document.addEventListener('click', (e) => {
-    const link = e.target.closest('a[href^="#"]');
-    const id = link && link.getAttribute('href');
-    if (!id || id === '#') return;
-    const target = document.querySelector(id);
-    if (!target) return;
-    e.preventDefault();
-    lenis.scrollTo(target, { offset: -(header.offsetHeight - 1), duration: 1.3 });
-    history.replaceState(null, '', id);
-  });
-}
 
 if (!reduceMotion && window.gsap && window.ScrollTrigger) {
   gsap.registerPlugin(ScrollTrigger);

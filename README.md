@@ -13,7 +13,7 @@ Website giới thiệu nhà sản xuất nội thất cao cấp phong cách Châ
 - Gallery có bộ lọc theo chất liệu, menu mobile, tôn trọng `prefers-reduced-motion`.
 
 ## Công nghệ
-HTML5 semantic · CSS Variables · Flexbox/Grid · [Animate.css](https://animate.style/) · [AOS](https://michalsnik.github.io/aos/) · [GSAP + ScrollTrigger](https://gsap.com/) · [Lenis](https://lenis.darkroom.engineering/) · [vanilla-tilt](https://micku7zu.github.io/vanilla-tilt.js/) · JavaScript thuần · Deploy bằng GitHub Actions → GitHub Pages.
+HTML5 semantic · CSS Variables · Flexbox/Grid · [Animate.css](https://animate.style/) · [AOS](https://michalsnik.github.io/aos/) · [GSAP + ScrollTrigger](https://gsap.com/) · [vanilla-tilt](https://micku7zu.github.io/vanilla-tilt.js/) · JavaScript thuần · Deploy bằng GitHub Actions → GitHub Pages.
 
 ## Cấu trúc
 ```
