@@ -15,6 +15,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet"/>
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
 <link href="style.css" rel="stylesheet"/>
+<link href="features.css" rel="stylesheet"/>
 <noscript>
 <style>
       [data-aos] {
@@ -24,7 +25,7 @@
     </style>
 </noscript>
 </head>
-<body>
+<body data-page="home">
 <a class="skip-link" data-i18n="t001" href="#main">Chuyển đến nội dung</a>
 <p class="progress" aria-hidden="true"></p>
 <header class="site-header">
@@ -37,20 +38,24 @@
 </button>
 <nav aria-label="Điều hướng chính" class="site-nav" data-i18n-aria="t008" id="primary-nav">
 <ul class="site-nav__list">
-<li><a data-i18n="t009" href="#home">Trang chủ</a></li>
-<li><a data-i18n="t010" href="#about">Về chúng tôi</a></li>
-<li><a data-i18n="t011" href="#collections">Bộ sưu tập</a></li>
-<li><a data-i18n="t012" href="#materials">Vật liệu</a></li>
-<li><a data-i18n="t013" href="#process">Quy trình</a></li>
-<li><a data-i18n="t014" href="#gallery">Thư viện ảnh</a></li>
-<li><a data-i18n="t015" href="#contact">Liên hệ</a></li>
+<li><a data-i18n="t009" href="index.html" aria-current="page">Trang chủ</a></li>
+<li><a data-i18n="t010" href="index.html#about">Về chúng tôi</a></li>
+<li><a data-i18n="t011" href="products.html">Sản phẩm</a></li>
+<li><a data-i18n="t013" href="index.html#process">Quy trình</a></li>
+<li><a data-i18n="t014" href="index.html#gallery">Thư viện ảnh</a></li>
+<li><a data-i18n="t012" href="estimator.html">Ước giá</a></li>
+<li><a data-i18n="t015" href="contact.html">Liên hệ</a></li>
 </ul>
-<a class="btn btn--small" data-i18n="t016" href="#contact">Yêu cầu báo giá</a>
+<a class="btn btn--small" data-i18n="t016" href="contact.html">Yêu cầu báo giá</a>
 <p class="lang-switch" role="group" aria-label="Ngôn ngữ" data-i18n-aria="t200">
 <button class="lang-switch__btn is-active" type="button" data-lang="vi" lang="vi" aria-pressed="true" title="Tiếng Việt">VI</button>
 <button class="lang-switch__btn" type="button" data-lang="en" lang="en" aria-pressed="false" title="English">EN</button>
 </p>
 </nav>
+<button class="cart-btn" type="button" aria-haspopup="dialog" aria-controls="cart-dialog" data-open-dialog="cart-dialog" data-t-aria="cart.open" aria-label="Mở giỏ báo giá">
+<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M5 8h14l-1.2 11.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8L5 8zM9 8V6a3 3 0 0 1 6 0v2"/></svg>
+<span class="cart-btn__count" hidden>0</span>
+</button>
 </header>
 <main id="main">
 <!-- HERO -->
@@ -128,7 +133,7 @@
 <div class="card__body">
 <h3 data-i18n="t045">Nội thất Teak</h3>
 <p data-i18n="t046">Bàn ăn, ghế dài và sofa bằng gỗ teak nguyên khối sấy khô, tự nhiên chống chịu thời tiết và thời gian.</p>
-<a class="card__link" data-i18n="t047" href="#contact">Tìm hiểu về Teak</a>
+<a class="card__link" data-i18n="t047" href="products.html?cat=teak">Tìm hiểu về Teak</a>
 </div>
 </article>
 </li>
@@ -139,7 +144,7 @@
 <div class="card__body">
 <h3 data-i18n="t049">Nội thất Nhôm</h3>
 <p data-i18n="t050">Khung nhẹ, mảnh, không gỉ, cắt laser và hàn robot, hoàn thiện bằng sơn tĩnh điện bền màu.</p>
-<a class="card__link" data-i18n="t051" href="#contact">Tìm hiểu về Nhôm</a>
+<a class="card__link" data-i18n="t051" href="products.html?cat=aluminum">Tìm hiểu về Nhôm</a>
 </div>
 </article>
 </li>
@@ -149,7 +154,7 @@
 <div class="card__body">
 <h3 data-i18n="t053">Nội thất Dây thừng</h3>
 <p data-i18n="t054">Dây thừng mềm mại, chống tia UV, được đan tay trên khung nhôm hoặc teak cho vẻ ấm áp, giàu cảm xúc.</p>
-<a class="card__link" data-i18n="t055" href="#contact">Tìm hiểu về Dây thừng</a>
+<a class="card__link" data-i18n="t055" href="products.html?cat=rope">Tìm hiểu về Dây thừng</a>
 </div>
 </article>
 </li>
@@ -159,7 +164,7 @@
 <div class="card__body">
 <h3 data-i18n="t057">Nội thất Mây nhựa</h3>
 <p data-i18n="t058">Sợi nhựa ép đùn, nướng định hình, đan thành những dáng khối tinh tế và vẫn mềm dẻo ngoài trời.</p>
-<a class="card__link" data-i18n="t059" href="#contact">Tìm hiểu về Mây nhựa</a>
+<a class="card__link" data-i18n="t059" href="products.html?cat=wicker">Tìm hiểu về Mây nhựa</a>
 </div>
 </article>
 </li>
@@ -322,31 +327,14 @@
 <p class="section__intro" data-i18n="t131">Hãy cho chúng tôi biết về dự án, chúng tôi sẽ phản hồi với các phương án, thời gian sản xuất và mẫu thử.</p>
 </header>
 <div class="contact__grid">
-<form action="mailto:nguyendangphat1505@gmail.com" class="form" data-aos="fade-right" enctype="text/plain" method="post">
-<p class="form__row">
-<label data-i18n="t132" for="name">Họ và tên</label>
-<input autocomplete="name" id="name" name="name" required="" type="text"/>
+<div class="contact__cta" data-aos="fade-right">
+<p class="contact__cta-text" data-t="home.cta.text">Chọn sản phẩm, thêm vào giỏ báo giá và gửi yêu cầu chỉ trong vài bước.</p>
+<p class="hero__actions">
+<a class="btn" href="products.html" data-t="home.cta.products">Xem sản phẩm</a>
+<a class="btn btn--ghost" href="estimator.html" data-t="home.cta.estimate">Ước tính giá</a>
+<a class="btn btn--ghost" href="contact.html#quote-form" data-t="home.cta.quote">Gửi yêu cầu báo giá</a>
 </p>
-<p class="form__row">
-<label data-i18n="t133" for="email">Email</label>
-<input autocomplete="email" id="email" name="email" required="" type="email"/>
-</p>
-<p class="form__row">
-<label data-i18n="t134" for="interest">Tôi quan tâm đến</label>
-<select id="interest" name="interest">
-<option data-i18n="t135">Nội thất Teak</option>
-<option data-i18n="t136">Nội thất Nhôm</option>
-<option data-i18n="t137">Nội thất Dây thừng</option>
-<option data-i18n="t138">Nội thất Mây nhựa</option>
-<option data-i18n="t139">Dự án tùy chỉnh</option>
-</select>
-</p>
-<p class="form__row">
-<label data-i18n="t140" for="message">Lời nhắn</label>
-<textarea id="message" name="message" required="" rows="4"></textarea>
-</p>
-<button class="btn" data-i18n="t141" type="submit">Gửi yêu cầu</button>
-</form>
+</div>
 <aside aria-label="Thông tin công ty" class="contact__info" data-aos="fade-left" data-i18n-aria="t142">
 <address>
 <h3>Ericss Furniture</h3>
@@ -377,6 +365,27 @@
 <button class="to-top" type="button" aria-label="Về đầu trang" data-i18n-aria="t303">
 <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M12 19V5M5 12l7-7 7 7"/></svg>
 </button>
+
+<dialog id="cart-dialog" class="dialog drawer" aria-labelledby="cart-title">
+<article class="dialog__panel drawer__panel">
+<header class="dialog__head">
+<h2 id="cart-title" data-t="cart.title">Giỏ báo giá</h2>
+<button class="dialog__close" type="button" data-close-dialog data-t-aria="dialog.close" aria-label="Đóng">&times;</button>
+</header>
+<p id="cart-empty" class="cart__empty"><span data-t="cart.empty">Giỏ báo giá đang trống.</span> <a class="card__link" href="products.html" data-t="cart.browse">Xem sản phẩm</a></p>
+<div id="cart-body">
+<ul id="cart-list" class="cart-list"></ul>
+<form id="coupon-form" class="coupon" novalidate>
+<label for="coupon-input" data-t="coupon.label">Mã giảm giá</label>
+<p class="coupon__row"><input id="coupon-input" type="text" autocomplete="off" placeholder="ERICSS10" data-t-ph="coupon.placeholder"><button class="btn btn--small btn--ghost" type="submit" data-t="coupon.apply">Áp dụng</button></p>
+<p id="coupon-msg" class="coupon__msg" role="status"></p>
+</form>
+<dl id="cart-totals" class="totals"></dl>
+<p class="cart__actions"><button id="cart-clear" class="btn btn--small btn--ghost" type="button" data-t="cart.clear">Xóa giỏ</button><a class="btn btn--small" href="contact.html#quote-form" data-t="cart.checkout">Gửi yêu cầu báo giá</a></p>
+</div>
+</article>
+</dialog>
+<p class="toast" role="status" aria-live="polite"></p>
 
 <dialog id="github-dialog" class="dialog" aria-labelledby="github-dialog-title">
 <article class="dialog__panel">
@@ -413,5 +422,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
 <script src="i18n.js"></script>
 <script src="script.js"></script>
+<script type="module" src="js/main.js"></script>
 </body>
 </html>

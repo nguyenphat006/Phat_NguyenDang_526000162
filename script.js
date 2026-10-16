@@ -36,7 +36,7 @@ function setLang(next) {
       if (text !== undefined) apply(el, text);
     });
   });
-  document.title = dict.title;
+  if (!document.documentElement.hasAttribute('data-own-title')) document.title = dict.title;
   document.documentElement.lang = next;
   langButtons.forEach((b) => {
     const active = b.dataset.lang === next;
@@ -44,6 +44,8 @@ function setLang(next) {
     b.setAttribute('aria-pressed', String(active));
   });
   setNav(nav.classList.contains('is-open'));
+  // lets the data-driven modules (js/) re-render in the new language
+  document.dispatchEvent(new CustomEvent('ericss:lang', { detail: { lang: next } }));
   try { localStorage.setItem('ericss-lang', next); } catch (e) { /* storage unavailable */ }
 }
 
@@ -93,11 +95,14 @@ const links = document.querySelectorAll('.site-nav__list a');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (!entry.isIntersecting) return;
-    links.forEach((a) => a.classList.toggle('is-current', a.getAttribute('href') === '#' + entry.target.id));
+    links.forEach((a) => a.classList.toggle('is-current', a.getAttribute('href').endsWith('#' + entry.target.id)));
   });
 }, { rootMargin: '-45% 0px -50% 0px' });
 
-document.querySelectorAll('main section[id]').forEach((s) => observer.observe(s));
+// Section highlighting only makes sense on the landing page (other pages mark aria-current)
+if (document.body.dataset.page === 'home') {
+  document.querySelectorAll('main section[id]').forEach((s) => observer.observe(s));
+}
 
 // Language switch buttons + restore saved choice
 langButtons.forEach((btn) => btn.addEventListener('click', () => setLang(btn.dataset.lang)));
@@ -114,7 +119,8 @@ document.querySelectorAll('[data-open-dialog]').forEach((btn) => {
   });
 });
 document.querySelectorAll('dialog').forEach((dlg) => {
-  dlg.querySelector('[data-close-dialog]').addEventListener('click', () => dlg.close());
+  const closeButton = dlg.querySelector('[data-close-dialog]');
+  if (closeButton) closeButton.addEventListener('click', () => dlg.close());
   dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
 });
 
@@ -184,16 +190,20 @@ if (!reduceMotion && window.gsap && window.ScrollTrigger) {
   gsap.registerPlugin(ScrollTrigger);
 
   // Layered parallax in the hero: arch, inset and background disc drift at different speeds
-  const heroTrigger = { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.6 };
-  gsap.to('.hero__arch', { yPercent: 6, ease: 'none', scrollTrigger: heroTrigger });
-  gsap.to('.hero__inset', { yPercent: -22, ease: 'none', scrollTrigger: heroTrigger });
-  gsap.to('.hero__visual', { '--disc-shift': '60px', ease: 'none', scrollTrigger: heroTrigger });
+  if (document.querySelector('.hero')) {
+    const heroTrigger = { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.6 };
+    gsap.to('.hero__arch', { yPercent: 6, ease: 'none', scrollTrigger: heroTrigger });
+    gsap.to('.hero__inset', { yPercent: -22, ease: 'none', scrollTrigger: heroTrigger });
+    gsap.to('.hero__visual', { '--disc-shift': '60px', ease: 'none', scrollTrigger: heroTrigger });
+  }
 
   // About picture: the photo slides inside its frame while the page scrolls
-  gsap.fromTo('.about__media img',
-    { yPercent: -7, scale: 1.14 },
-    { yPercent: 7, scale: 1.14, ease: 'none',
-      scrollTrigger: { trigger: '.about__media', start: 'top bottom', end: 'bottom top', scrub: 0.6 } });
+  if (document.querySelector('.about__media')) {
+    gsap.fromTo('.about__media img',
+      { yPercent: -7, scale: 1.14 },
+      { yPercent: 7, scale: 1.14, ease: 'none',
+        scrollTrigger: { trigger: '.about__media', start: 'top bottom', end: 'bottom top', scrub: 0.6 } });
+  }
 
   // Magnetic buttons: they lean toward the cursor, then spring back
   if (canHover) {

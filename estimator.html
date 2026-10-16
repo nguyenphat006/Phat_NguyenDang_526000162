@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html lang="vi" data-own-title data-title-key="title.estimator">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Ước giá — Ericss Furniture</title>
+<meta name="description" content="Công cụ ước giá nội thất Ericss Furniture: chọn chất liệu, kích thước, lớp hoàn thiện và xem giá cùng thời gian sản xuất."/>
+<meta content="#ffffff" name="theme-color"/>
+<link href="assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<!-- Animate.css + AOS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet"/>
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
+<link href="style.css" rel="stylesheet"/>
+<link href="features.css" rel="stylesheet"/>
+<noscript>
+<style>
+      [data-aos] {
+        opacity: 1 !important;
+        transform: none !important
+      }
+    </style>
+</noscript>
+</head>
+<body data-page="estimator">
+<a class="skip-link" data-i18n="t001" href="#main">Chuyển đến nội dung</a>
+<p class="progress" aria-hidden="true"></p>
+<header class="site-header">
+<a aria-label="Ericss Furniture — trang chủ" class="brand" data-i18n-aria="t002" href="#home">
+<span class="brand__mark">Ericss</span>
+<span class="brand__sub">Furniture</span>
+</a>
+<button aria-controls="primary-nav" aria-expanded="false" aria-label="Mở menu" class="nav-toggle" type="button">
+<span class="nav-toggle__bar"></span>
+</button>
+<nav aria-label="Điều hướng chính" class="site-nav" data-i18n-aria="t008" id="primary-nav">
+<ul class="site-nav__list">
+<li><a data-i18n="t009" href="index.html">Trang chủ</a></li>
+<li><a data-i18n="t010" href="index.html#about">Về chúng tôi</a></li>
+<li><a data-i18n="t011" href="products.html">Sản phẩm</a></li>
+<li><a data-i18n="t013" href="index.html#process">Quy trình</a></li>
+<li><a data-i18n="t014" href="index.html#gallery">Thư viện ảnh</a></li>
+<li><a data-i18n="t012" href="estimator.html" aria-current="page">Ước giá</a></li>
+<li><a data-i18n="t015" href="contact.html">Liên hệ</a></li>
+</ul>
+<a class="btn btn--small" data-i18n="t016" href="contact.html">Yêu cầu báo giá</a>
+<p class="lang-switch" role="group" aria-label="Ngôn ngữ" data-i18n-aria="t200">
+<button class="lang-switch__btn is-active" type="button" data-lang="vi" lang="vi" aria-pressed="true" title="Tiếng Việt">VI</button>
+<button class="lang-switch__btn" type="button" data-lang="en" lang="en" aria-pressed="false" title="English">EN</button>
+</p>
+</nav>
+<button class="cart-btn" type="button" aria-haspopup="dialog" aria-controls="cart-dialog" data-open-dialog="cart-dialog" data-t-aria="cart.open" aria-label="Mở giỏ báo giá">
+<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M5 8h14l-1.2 11.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8L5 8zM9 8V6a3 3 0 0 1 6 0v2"/></svg>
+<span class="cart-btn__count" hidden>0</span>
+</button>
+</header>
+<main id="main">
+<section class="page-hero" aria-labelledby="page-title">
+<p class="eyebrow animate__animated animate__fadeIn" data-t="estimator.eyebrow">Ước giá</p>
+<h1 id="page-title" class="animate__animated animate__fadeInUp" data-t="estimator.title">Cấu hình món đồ, biết ngay giá và thời gian sản xuất.</h1>
+<p class="section__intro animate__animated animate__fadeInUp animate__delay-1s" data-t="estimator.intro">Chọn loại, chất liệu, kích thước và lớp hoàn thiện. Giá được tính theo bảng giá trong tệp JSON và đã gồm chiết khấu số lượng, VAT.</p>
+</section>
+<section class="section section--flush" aria-label="Công cụ ước giá" data-t-aria="estimator.region">
+<div class="estimator">
+<form id="estimator-form" class="form estimator__form" aria-label="Cấu hình sản phẩm" data-t-aria="estimator.form">
+<p class="form__row"><label for="est-type" data-t="est.type">Loại sản phẩm</label><select id="est-type"></select></p>
+<p class="form__row"><label for="est-material" data-t="est.material">Chất liệu</label><select id="est-material"></select></p>
+<p class="form__row"><label for="est-size" data-t="est.size">Kích thước</label><select id="est-size"></select></p>
+<p class="form__row"><label for="est-finish" data-t="est.finish">Lớp hoàn thiện</label><select id="est-finish"></select></p>
+<p class="form__row"><label for="est-qty" data-t="est.qty">Số lượng</label><input id="est-qty" type="number" min="1" max="99" value="1" inputmode="numeric"></p>
+<button class="btn" type="submit" data-t="est.add">Thêm vào giỏ báo giá</button>
+</form>
+<aside class="estimator__result" aria-live="polite" aria-label="Kết quả ước giá" data-t-aria="estimator.result">
+<h2 data-t="est.result">Giá ước tính</h2>
+<dl class="totals totals--large">
+<dt data-t="est.unit">Đơn giá</dt><dd><output id="est-unit"></output></dd>
+<dt data-t="totals.subtotalShort">Tạm tính</dt><dd><output id="est-subtotal"></output></dd>
+<dt data-t="est.discount">Chiết khấu số lượng</dt><dd class="is-discount"><output id="est-discount"></output></dd>
+<dt data-t="est.vat">VAT</dt><dd><output id="est-vat"></output></dd>
+<dt class="is-total" data-t="totals.total">Tổng cộng</dt><dd class="is-total"><output id="est-total"></output></dd>
+<dt data-t="est.lead">Thời gian sản xuất</dt><dd><output id="est-lead"></output></dd>
+</dl>
+<p class="estimator__note" data-t="est.note">Giá tham khảo, chưa gồm vận chuyển. Mua từ 5 / 10 / 20 sản phẩm được giảm 3% / 5% / 8%.</p>
+</aside>
+</div>
+</section>
+</main>
+<footer class="site-footer">
+<p class="site-footer__brand"><span class="brand__mark">Ericss</span> Furniture</p>
+<nav aria-label="Chân trang" data-i18n-aria="t149">
+<ul class="site-footer__nav">
+<li><a data-i18n="t150" href="#about">Về chúng tôi</a></li>
+<li><a data-i18n="t151" href="#collections">Bộ sưu tập</a></li>
+<li><a data-i18n="t152" href="#process">Quy trình</a></li>
+<li><a data-i18n="t153" href="#contact">Liên hệ</a></li>
+<li><button class="footer-github" type="button" aria-haspopup="dialog" aria-controls="github-dialog" data-open-dialog="github-dialog">
+<svg class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+<span data-i18n="t201">GitHub</span></button></li>
+</ul>
+</nav>
+<p class="site-footer__copy" data-i18n="t154">© <time datetime="2026">2026</time> Ericss Furniture. Bài kiểm tra giữa kỳ môn Thiết kế Web — Nguyễn Đăng Phát · 526000162 · Trường Đại học Lạc Hồng.</p>
+</footer>
+
+<button class="to-top" type="button" aria-label="Về đầu trang" data-i18n-aria="t303">
+<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<dialog id="cart-dialog" class="dialog drawer" aria-labelledby="cart-title">
+<article class="dialog__panel drawer__panel">
+<header class="dialog__head">
+<h2 id="cart-title" data-t="cart.title">Giỏ báo giá</h2>
+<button class="dialog__close" type="button" data-close-dialog data-t-aria="dialog.close" aria-label="Đóng">&times;</button>
+</header>
+<p id="cart-empty" class="cart__empty"><span data-t="cart.empty">Giỏ báo giá đang trống.</span> <a class="card__link" href="products.html" data-t="cart.browse">Xem sản phẩm</a></p>
+<div id="cart-body">
+<ul id="cart-list" class="cart-list"></ul>
+<form id="coupon-form" class="coupon" novalidate>
+<label for="coupon-input" data-t="coupon.label">Mã giảm giá</label>
+<p class="coupon__row"><input id="coupon-input" type="text" autocomplete="off" placeholder="ERICSS10" data-t-ph="coupon.placeholder"><button class="btn btn--small btn--ghost" type="submit" data-t="coupon.apply">Áp dụng</button></p>
+<p id="coupon-msg" class="coupon__msg" role="status"></p>
+</form>
+<dl id="cart-totals" class="totals"></dl>
+<p class="cart__actions"><button id="cart-clear" class="btn btn--small btn--ghost" type="button" data-t="cart.clear">Xóa giỏ</button><a class="btn btn--small" href="contact.html#quote-form" data-t="cart.checkout">Gửi yêu cầu báo giá</a></p>
+</div>
+</article>
+</dialog>
+<p class="toast" role="status" aria-live="polite"></p>
+
+<dialog id="github-dialog" class="dialog" aria-labelledby="github-dialog-title">
+<article class="dialog__panel">
+<header class="dialog__head">
+<h2 id="github-dialog-title" data-i18n="t202">Tài khoản &amp; mã nguồn GitHub</h2>
+<button class="dialog__close" type="button" data-close-dialog aria-label="Đóng" data-i18n-aria="t203">&times;</button>
+</header>
+<p class="dialog__lead" data-i18n="t204">Tác giả dự án và nơi lưu trữ mã nguồn của website này.</p>
+<ul class="dialog__list">
+<li>
+<a class="dialog__link" href="https://github.com/nguyenphat006" target="_blank" rel="noopener">
+<strong data-i18n="t205">Tài khoản tác giả</strong>
+<span>github.com/nguyenphat006</span>
+</a>
+</li>
+<li>
+<a class="dialog__link" href="https://github.com/nguyenphat006/Phat_NguyenDang_526000162" target="_blank" rel="noopener">
+<strong data-i18n="t206">Repository dự án</strong>
+<span>Phat_NguyenDang_526000162</span>
+</a>
+</li>
+<li>
+<a class="dialog__link" href="https://github.com/nguyenphat006/Phat_NguyenDang_526000162/blob/main/PROMPT_LOG.md" target="_blank" rel="noopener">
+<strong data-i18n="t207">Nhật ký Prompt</strong>
+<span>PROMPT_LOG.md</span>
+</a>
+</li>
+</ul>
+</article>
+</dialog>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+<script src="i18n.js"></script>
+<script src="script.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
