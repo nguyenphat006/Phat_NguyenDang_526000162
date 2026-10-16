@@ -1,0 +1,122 @@
+[
+  {
+    "id": "teak-haven-dining",
+    "category": "teak",
+    "name": { "vi": "Bàn ăn Teak Haven", "en": "Haven Teak Dining Table" },
+    "description": {
+      "vi": "Bàn ăn gỗ teak nguyên khối, chân chữ A vững chãi, mặt bàn ghép thanh lộ vân gỗ tự nhiên.",
+      "en": "Solid teak dining table with sturdy trestle legs and a slatted top that shows the natural grain."
+    },
+    "price": 38500000,
+    "dimensions": "220 × 100 × 75 cm",
+    "leadTimeDays": 30,
+    "image": "assets/img/g-teak-table.jpg",
+    "tags": ["dining", "outdoor", "table"],
+    "featured": true
+  },
+  {
+    "id": "teak-sole-lounge",
+    "category": "teak",
+    "name": { "vi": "Sofa góc Teak Solé", "en": "Solé Teak Corner Sofa" },
+    "description": {
+      "vi": "Khung teak khắc họa tiết hình học, đệm dày màu kem, dành cho phòng khách và sân hiên.",
+      "en": "Teak frame with a geometric woven panel and deep cream cushions for living rooms and terraces."
+    },
+    "price": 52000000,
+    "dimensions": "240 × 95 × 78 cm",
+    "leadTimeDays": 40,
+    "image": "assets/img/g-wicker-detail.jpg",
+    "tags": ["sofa", "lounge", "outdoor"],
+    "featured": true
+  },
+  {
+    "id": "alu-aria-dining",
+    "category": "aluminum",
+    "name": { "vi": "Bàn ăn nhôm Aria", "en": "Aria Aluminum Dining Table" },
+    "description": {
+      "vi": "Khung nhôm sơn tĩnh điện đen mảnh, mặt bàn giả đá chống trầy, nhẹ và không gỉ.",
+      "en": "Slim black powder-coated aluminum frame with a scratch-resistant stone-effect top. Light and rust-free."
+    },
+    "price": 29800000,
+    "dimensions": "200 × 95 × 75 cm",
+    "leadTimeDays": 28,
+    "image": "assets/img/g-alu-table.jpg",
+    "tags": ["dining", "table", "outdoor"],
+    "featured": false
+  },
+  {
+    "id": "alu-luna-side",
+    "category": "aluminum",
+    "name": { "vi": "Bộ bàn phụ Luna", "en": "Luna Side Table Set" },
+    "description": {
+      "vi": "Hai bàn tròn lồng nhau, mặt giả đá tối màu, chân nhôm hình giọt nước.",
+      "en": "Two nesting round tables with dark stone-effect tops on sculpted aluminum bases."
+    },
+    "price": 8900000,
+    "dimensions": "Ø60 / Ø45 × 45 cm",
+    "leadTimeDays": 20,
+    "image": "assets/img/cat-aluminum.jpg",
+    "tags": ["side", "table", "set"],
+    "featured": false
+  },
+  {
+    "id": "rope-corde-chair",
+    "category": "rope",
+    "name": { "vi": "Ghế ăn dây thừng Cordé", "en": "Cordé Rope Dining Chair" },
+    "description": {
+      "vi": "Ghế có tay vịn, mặt và lưng đan dây thừng thủ công trên khung teak.",
+      "en": "Armchair with a hand-woven rope seat and back on a teak frame."
+    },
+    "price": 6800000,
+    "dimensions": "58 × 60 × 82 cm",
+    "leadTimeDays": 22,
+    "image": "assets/img/g-rope-chair.jpg",
+    "tags": ["chair", "dining", "handmade"],
+    "featured": true
+  },
+  {
+    "id": "rope-maree-sofa",
+    "category": "rope",
+    "name": { "vi": "Sofa dây thừng Marée", "en": "Marée Rope Sofa" },
+    "description": {
+      "vi": "Tay vịn đan dây thừng họa tiết lưới, đệm ngồi và gối tựa bọc vải chống UV.",
+      "en": "Open-weave rope arms with UV-resistant cushions and bolsters."
+    },
+    "price": 46500000,
+    "dimensions": "220 × 90 × 75 cm",
+    "leadTimeDays": 38,
+    "image": "assets/img/cat-rope.jpg",
+    "tags": ["sofa", "lounge", "handmade"],
+    "featured": false
+  },
+  {
+    "id": "wicker-tresse-sofa",
+    "category": "wicker",
+    "name": { "vi": "Sofa mây nhựa Tressé", "en": "Tressé Resin Wicker Sofa" },
+    "description": {
+      "vi": "Thân sofa đan mây nhựa bện chéo, khung gỗ teak viền, đệm kem êm ái.",
+      "en": "Braided resin wicker body edged in teak, with soft cream cushions."
+    },
+    "price": 41200000,
+    "dimensions": "210 × 92 × 74 cm",
+    "leadTimeDays": 35,
+    "image": "assets/img/cat-wicker.jpg",
+    "tags": ["sofa", "lounge", "outdoor"],
+    "featured": true
+  },
+  {
+    "id": "wicker-noir-armchair",
+    "category": "wicker",
+    "name": { "vi": "Ghế bành mây nhựa Noir", "en": "Noir Resin Wicker Armchair" },
+    "description": {
+      "vi": "Sợi mây nhựa màu than đan tay ôm lấy lưng ghế, vừa bền vừa mềm mại khi ngồi.",
+      "en": "Charcoal resin wicker hand-woven around the back: durable and soft to sit in."
+    },
+    "price": 12400000,
+    "dimensions": "78 × 82 × 76 cm",
+    "leadTimeDays": 25,
+    "image": "assets/img/g-wicker-weave.jpg",
+    "tags": ["chair", "armchair", "handmade"],
+    "featured": false
+  }
+]
