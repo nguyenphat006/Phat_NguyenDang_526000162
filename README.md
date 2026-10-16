@@ -11,17 +11,25 @@ Website giới thiệu nhà sản xuất nội thất cao cấp phong cách Châ
 | Trang | Nội dung |
 |---|---|
 | `index.html` | Landing page: giới thiệu, bộ sưu tập, vật liệu, quy trình sản xuất, thư viện ảnh |
-| `products.html` | Danh mục sản phẩm đọc từ `data/products.json`: tìm kiếm, lọc theo chất liệu và giá, sắp xếp, yêu thích, xem chi tiết, thêm vào giỏ báo giá |
+| `products.html` | Danh sách 26 sản phẩm đọc từ `data/products.json`: tìm kiếm (tên, chất liệu, SKU), lọc theo chất liệu và giá, sắp xếp, phân trang "Xem thêm", yêu thích, xem chi tiết. **Mỗi sản phẩm có nút "Gửi báo giá"**: khách nhập số lượng đặt (MOQ của khách), thấy ngay MOQ của xưởng, tạm tính và gửi yêu cầu |
 | `estimator.html` | Ước giá: chọn loại, chất liệu, kích thước, lớp hoàn thiện, số lượng để xem giá, chiết khấu, VAT, thời gian sản xuất |
-| `contact.html` | Form yêu cầu báo giá có kiểm tra hợp lệ, đính kèm giỏ báo giá, lịch sử yêu cầu (xuất / nhập JSON) |
+| `contact.html` | Form yêu cầu báo giá có kiểm tra hợp lệ, đính kèm giỏ báo giá, lịch sử yêu cầu kèm trạng thái đồng bộ Google Sheet (gửi lại, xuất / nhập JSON) |
 
 Giỏ báo giá (ngăn kéo bên phải) và ngôn ngữ Việt – Anh dùng chung trên mọi trang.
 
 ## Dữ liệu JSON
-- `data/products.json`: 8 sản phẩm (tên, mô tả song ngữ, giá, kích thước, thời gian giao, ảnh, thẻ).
+- `data/products.json`: 26 sản phẩm mẫu (SKU, tên và mô tả song ngữ, giá, **MOQ của xưởng**, kích thước, thời gian giao, ảnh, thẻ). Ảnh dùng lại nhiều lần; thay đường dẫn `image` bằng ảnh thật khi có.
+- `data/config.json`: `sheetEndpoint` (link Google Apps Script) và `maxQuoteQty`.
 - `data/pricing.json`: VAT, bậc chiết khấu theo số lượng, mã giảm giá, bảng giá cho công cụ ước giá.
 - `data/ui.json`: toàn bộ chuỗi giao diện Việt – Anh của các tính năng động.
 - Dữ liệu người dùng (giỏ báo giá, yêu thích, lịch sử yêu cầu) lưu trong `localStorage` dưới dạng JSON và có thể xuất / nhập bằng tệp `.json`.
+
+## Lưu yêu cầu báo giá lên Google Sheet
+Website tĩnh gửi `POST` tới một Google Apps Script (`apps-script/Code.gs`), script ghi mỗi yêu cầu thành một dòng trong Sheet. Hướng dẫn cài đặt từng bước: [`apps-script/README.md`](apps-script/README.md).
+- Yêu cầu luôn được **lưu trên thiết bị trước**, sau đó mới gửi; mất mạng hoặc chưa cấu hình thì ở trạng thái "chờ đồng bộ" / "chưa kết nối Sheet" và tự gửi lại khi tải trang, hoặc bấm "Gửi lại".
+- Mỗi yêu cầu có `id` duy nhất; Apps Script bỏ qua `id` đã có nên gửi lại không bị trùng dòng.
+- Các cột gồm loại yêu cầu, thông tin khách, sản phẩm, **MOQ xưởng**, **MOQ khách nhập**, `meetsMoq` (đạt MOQ hay không), danh sách sản phẩm, tổng tiền, lời nhắn.
+- Chống bot bằng ô ẩn (honeypot); Apps Script chặn ô văn bản bắt đầu bằng `=`, `+`, `-`, `@`.
 
 ## Công thức tính tiền (`js/pricing.js`)
 1. Tạm tính = Σ đơn giá × số lượng.
@@ -30,14 +38,17 @@ Giỏ báo giá (ngăn kéo bên phải) và ngôn ngữ Việt – Anh dùng ch
 4. VAT 10% tính trên số tiền còn lại. Mọi số tiền làm tròn đến đồng.
 
 ## Kiến trúc JavaScript (`js/`)
-`api.js` (fetch JSON) · `store.js` (localStorage JSON) · `lang.js` (song ngữ) · `ui.js` (DOM, định dạng) · `pricing.js` và `filters.js` và `validation.js` (hàm thuần, có test) · `cart.js` · `cart-ui.js` · `catalog.js` · `estimator.js` · `quote.js` · `main.js` (khởi tạo theo từng trang). Dùng ES Modules, `map` / `filter` / `reduce` / `forEach`, event delegation, `async/await`, `try/catch`.
+`api.js` (fetch JSON) · `store.js` (localStorage JSON) · `lang.js` (song ngữ) · `ui.js` (DOM, định dạng) · `pricing.js`, `filters.js`, `validation.js` (hàm thuần, có test) · `sheet.js` (gửi lên Google Sheet) · `quotes.js` (tạo, lưu, đồng bộ yêu cầu) · `cart.js` · `cart-ui.js` · `catalog.js` · `product-quote.js` (hộp thoại báo giá + MOQ) · `estimator.js` · `quote.js` (trang liên hệ) · `main.js` (khởi tạo theo từng trang). Dùng ES Modules, `map` / `filter` / `reduce` / `forEach`, event delegation, `async/await`, `try/catch`.
 
 ## Chạy thử trên máy
-Vì trang đọc tệp JSON bằng `fetch`, cần mở qua máy chủ web (không mở trực tiếp `file://`):
+Vì trang đọc tệp JSON bằng `fetch`, **không mở trực tiếp file `.html` (địa chỉ `file://`)** vì trình duyệt sẽ chặn và danh sách sản phẩm không hiện ra. Hãy chạy một máy chủ web:
 ```
-python -m http.server 8000     # rồi mở http://localhost:8000
-npm test                       # chạy 20 unit test (Node 18+)
+Windows: bấm đúp  chay-website.bat      (tự mở http://localhost:8000)
+hoặc:    npm start                      (Node.js)
+hoặc:    python -m http.server 8000     (Python)
+npm test                                (27 unit test, Node 18+)
 ```
+Trên GitHub Pages thì không cần làm gì thêm.
 
 ## Tính năng chung
 - Song ngữ Việt – Anh (mặc định tiếng Việt), nhớ lựa chọn người dùng.
@@ -52,8 +63,10 @@ HTML5 semantic · CSS Variables · Flexbox/Grid · [Animate.css](https://animate
 index.html  products.html  estimator.html  contact.html
 style.css   features.css   script.js (hiệu ứng, song ngữ chung)   i18n.js
 js/         (module các tính năng)
+serve.mjs  chay-website.bat (chạy thử trên máy)
+apps-script/ Code.gs (nhận yêu cầu, ghi Google Sheet) + hướng dẫn cài đặt
 data/       products.json  pricing.json  ui.json
-tests/      pricing.test.mjs  filters-validation.test.mjs
+tests/      pricing.test.mjs  filters-validation.test.mjs  quotes-sheet.test.mjs
 assets/     (img/, favicon.svg)
 PROMPT_LOG.md
 .github/workflows/deploy.yml
