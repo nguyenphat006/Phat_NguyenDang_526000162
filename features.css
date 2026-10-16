@@ -67,6 +67,7 @@
 .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--space-3); }
 .products__message, .catalog__empty { grid-column: 1 / -1; color: var(--color-muted); }
 .catalog__empty { margin-top: var(--space-3); }
+.products__message.is-error { padding: var(--space-3); background: var(--color-tint); border-left: 3px solid #b3402f; color: var(--color-ink); }
 .product {
   height: 100%; display: flex; flex-direction: column; overflow: hidden;
   background: var(--color-surface); border: 1px solid var(--color-line); border-radius: var(--radius);
@@ -76,18 +77,24 @@
 .product__media { position: relative; margin: 0; aspect-ratio: 5 / 4; overflow: hidden; background: var(--color-tint); }
 .product__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
 .product:hover .product__media img { transform: scale(1.07); }
-.product__wish {
-  position: absolute; top: 0.8rem; right: 0.8rem; width: 40px; height: 40px; display: grid; place-items: center; cursor: pointer;
-  background: rgba(255, 255, 255, 0.92); color: var(--color-line); border: 0; border-radius: 50%; font-size: 1.15rem; line-height: 1;
-  transition: color 0.3s var(--ease), transform 0.3s var(--ease);
+.product__round {
+  position: absolute; top: 0.8rem; width: 40px; height: 40px; display: grid; place-items: center; cursor: pointer;
+  background: rgba(255, 255, 255, 0.92); color: var(--color-ink); border: 0; border-radius: 50%; font-size: 1.15rem; line-height: 1;
+  transition: color 0.3s var(--ease), background 0.3s var(--ease), transform 0.3s var(--ease);
 }
-.product__wish:hover, .product__wish:focus-visible { transform: scale(1.12); color: var(--color-primary); }
+.product__wish { right: 0.8rem; color: var(--color-line); }
+.product__cart { right: 3.6rem; font-size: 1.4rem; }
+.product__round:hover, .product__round:focus-visible { transform: scale(1.12); color: var(--color-primary); }
+.product__cart:hover, .product__cart:focus-visible { background: var(--color-ink); color: #fff; }
 .product__wish[aria-pressed="true"] { color: #b3402f; }
 .product__body { display: flex; flex-direction: column; flex: 1; padding: var(--space-3); }
 .product__body h3 { margin-bottom: 0.4rem; }
 .product__cat { margin: 0 0 0.3rem; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-primary); }
 .product__desc { color: var(--color-muted); font-size: var(--fs-sm); flex: 1; }
-.product__meta { font-size: 0.8rem; color: var(--color-muted); margin-bottom: 0.4rem; }
+.product__meta { font-size: 0.8rem; color: var(--color-muted); margin-bottom: 0.2rem; }
+.product__moq { margin-bottom: 0.5rem; color: var(--color-primary-dark); font-weight: 500; }
+.catalog__more { display: flex; justify-content: center; margin: var(--space-4) 0 0; }
+.catalog__more[hidden], #load-more[hidden] { display: none; }
 .product__price { font-size: 1.2rem; font-weight: 500; color: var(--color-ink); margin-bottom: var(--space-2); }
 .product__actions { display: flex; flex-wrap: wrap; gap: var(--space-1); margin: 0; }
 
@@ -184,11 +191,44 @@
 .history__item p { margin: 0.2rem 0 0; color: var(--color-muted); font-size: var(--fs-sm); }
 .history__item span { color: var(--color-muted); font-size: var(--fs-sm); }
 
+/* ---------- Product quote dialog (MOQ) ---------- */
+.pq { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: var(--space-4); align-items: start; }
+.pq__media { margin: 0 0 var(--space-2); }
+.pq__media img { width: 100%; aspect-ratio: 5 / 4; object-fit: cover; border-radius: var(--radius); }
+.pq__summary h3 { margin: 0.2rem 0 0.3rem; }
+.pq__sku { margin: 0 0 var(--space-2); color: var(--color-muted); font-size: 0.8rem; letter-spacing: 0.08em; }
+.pq__form { display: grid; gap: 0.9rem; }
+.pq__form h2 { font-size: 1.5rem; margin-bottom: 0.3rem; }
+.pq__form input, .pq__form textarea {
+  font: inherit; color: inherit; width: 100%; padding: 0.6rem 0; background: transparent;
+  border: 0; border-bottom: 1px solid var(--color-line); border-radius: 0;
+  transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.pq__form input:focus, .pq__form textarea:focus { outline: none; border-bottom-color: var(--color-primary); box-shadow: 0 1px 0 var(--color-primary); }
+.pq__form input[aria-invalid="true"] { border-bottom-color: #b3402f; }
+.pq__form label { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-muted); }
+.pq__form label small { text-transform: none; letter-spacing: 0; }
+.pq__hint { min-height: 1.2em; font-size: 0.8rem; }
+.pq__hint[data-status="ok"] { color: #2f6b3a; }
+.pq__hint[data-status="below"] { color: #a0651a; }
+.pq__note { margin: 0; color: var(--color-muted); font-size: 0.78rem; }
+.pq__form .btn { justify-self: start; }
+.pq__website { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* ---------- Sync badge + notice ---------- */
+.history__side { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: var(--space-1) var(--space-2); margin: 0; }
+.badge { padding: 0.2rem 0.7rem; border-radius: 99px; font-size: 0.7rem; letter-spacing: 0.04em; border: 1px solid var(--color-line); color: var(--color-muted); }
+.badge--sent { background: #e7f3ea; border-color: #bfdcc6; color: #2f6b3a; }
+.badge--failed { background: #fbe9e5; border-color: #efc4bb; color: #b3402f; }
+.badge--pending { background: #fdf3df; border-color: #ecd8a8; color: #8a5a10; }
+.notice { margin: 0 0 var(--space-2); padding: 0.8rem 1rem; background: var(--color-tint); border-left: 3px solid var(--color-primary); font-size: var(--fs-sm); color: var(--color-muted); }
+.notice[hidden] { display: none; }
+
 /* ---------- Responsive ---------- */
 @media (max-width: 960px) {
   .toolbar { grid-template-columns: 1fr 1fr; }
   .toolbar__field--search { grid-column: 1 / -1; }
-  .estimator, .detail { grid-template-columns: 1fr; }
+  .estimator, .detail, .pq { grid-template-columns: 1fr; }
   .estimator__result { position: static; }
   .cart-btn { order: 2; margin-left: auto; margin-right: var(--space-1); }
   .nav-toggle { order: 3; }

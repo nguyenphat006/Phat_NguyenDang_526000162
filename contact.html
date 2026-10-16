@@ -77,6 +77,11 @@
 <span id="err-email" class="form__error" role="alert"></span>
 </p>
 <p class="form__row">
+<label for="phone"><span data-t="form.phone">Số điện thoại</span> <small data-t="form.optional">(không bắt buộc)</small></label>
+<input id="phone" name="phone" type="tel" autocomplete="tel" aria-describedby="err-phone">
+<span id="err-phone" class="form__error" role="alert"></span>
+</p>
+<p class="form__row">
 <label for="interest" data-t="form.interest">Tôi quan tâm đến</label>
 <select id="interest" name="interest">
 <option value="teak" data-t="opt.teak">Nội thất Teak</option>
@@ -91,6 +96,7 @@
 <textarea id="message" name="message" rows="4" required aria-describedby="err-message"></textarea>
 <span id="err-message" class="form__error" role="alert"></span>
 </p>
+<p class="pq__website" aria-hidden="true"><label>Website <input name="website" type="text" tabindex="-1" autocomplete="off"></label></p>
 <p class="form__row form__row--check">
 <label class="check"><input id="attach-cart" name="attach" type="checkbox" checked> <span id="attach-label" data-t="form.attachEmpty">Giỏ báo giá đang trống</span></label>
 </p>
@@ -114,6 +120,7 @@
 <input id="import-file" type="file" accept="application/json,.json" hidden>
 </p>
 </header>
+<p id="sheet-notice" class="notice" role="note" data-t="sheet.notice" hidden>Chưa kết nối Google Sheet: yêu cầu hiện chỉ được lưu trên thiết bị này.</p>
 <p id="history-empty" class="history__empty" data-t="history.empty">Chưa có yêu cầu nào.</p>
 <ul id="quote-history" class="history__list"></ul>
 </section>

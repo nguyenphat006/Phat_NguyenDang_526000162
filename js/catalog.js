@@ -1,4 +1,4 @@
-// Products page: search, filter, sort, wishlist and product details.
+// Products page: search, filter, sort, wishlist, product details and the quote buttons.
 import { loadJSON } from './api.js';
 import { filterProducts } from './filters.js';
 import { getLang, onLangChange, pick, t } from './lang.js';
@@ -6,8 +6,9 @@ import * as store from './store.js';
 import { $, $$, categoryLabel, debounce, formatMoney, h, toast } from './ui.js';
 
 const CATEGORIES = ['teak', 'aluminum', 'rope', 'wicker'];
+const PAGE_SIZE = 12;
 
-export async function initCatalog(cart) {
+export async function initCatalog(cart, { openQuote } = {}) {
   const grid = $('#product-grid');
   if (!grid) return;
 
@@ -29,6 +30,7 @@ export async function initCatalog(cart) {
     maxPrice: priceCap,
     sort: 'default',
     wishOnly: false,
+    shown: PAGE_SIZE,
   };
 
   const search = $('#q');
@@ -39,6 +41,7 @@ export async function initCatalog(cart) {
   const wishCount = $('#wish-count');
   const count = $('#catalog-count');
   const empty = $('#catalog-empty');
+  const more = $('#load-more');
   const chips = $$('.chip');
   const dialog = $('#product-dialog');
   const dialogBody = $('#product-dialog-body');
@@ -51,7 +54,7 @@ export async function initCatalog(cart) {
   search.value = state.query;
 
   const toCartItem = (product) => ({
-    id: product.id, name: product.name, price: product.price, image: product.image, category: product.category,
+    id: product.id, sku: product.sku, name: product.name, price: product.price, image: product.image, category: product.category,
   });
 
   function toggleWish(id) {
@@ -67,6 +70,11 @@ export async function initCatalog(cart) {
     toast(t('toast.added', { name: pick(product.name) }));
   }
 
+  function quoteProduct(product) {
+    if (dialog.open) dialog.close();
+    openQuote?.open(product);
+  }
+
   function renderCard(product) {
     const name = pick(product.name);
     const wished = wishlist.has(product.id);
@@ -74,26 +82,31 @@ export async function initCatalog(cart) {
       h('article', { class: 'product' },
         h('figure', { class: 'product__media' },
           h('img', { src: product.image, alt: name, width: 600, height: 480, loading: 'lazy' }),
+          h('button', { type: 'button', class: 'product__round product__cart', 'data-action': 'add', 'aria-label': `${t('card.add')}: ${name}` }, '+'),
           h('button', {
-            type: 'button', class: 'product__wish', 'data-action': 'wish', 'aria-pressed': String(wished),
+            type: 'button', class: 'product__round product__wish', 'data-action': 'wish', 'aria-pressed': String(wished),
             'aria-label': wished ? t('wish.remove') : t('wish.add'),
           }, '♥')),
         h('div', { class: 'product__body' },
-          h('p', { class: 'product__cat' }, categoryLabel(product.category)),
+          h('p', { class: 'product__cat' }, `${categoryLabel(product.category)} · ${product.sku}`),
           h('h3', {}, name),
           h('p', { class: 'product__desc' }, pick(product.description)),
           h('p', { class: 'product__meta' }, `${product.dimensions} · ${t('days', { n: product.leadTimeDays })}`),
+          h('p', { class: 'product__meta product__moq' }, t('card.moq', { n: product.moq })),
           h('p', { class: 'product__price' }, formatMoney(product.price)),
           h('p', { class: 'product__actions' },
             h('button', { type: 'button', class: 'btn btn--small btn--ghost', 'data-action': 'details' }, t('card.details')),
-            h('button', { type: 'button', class: 'btn btn--small', 'data-action': 'add' }, t('card.add'))))));
+            h('button', { type: 'button', class: 'btn btn--small', 'data-action': 'quote' }, t('card.quote'))))));
   }
 
   function render() {
-    const visible = filterProducts(products, { ...state, wishlist, lang: getLang() });
+    const matches = filterProducts(products, { ...state, wishlist, lang: getLang() });
+    const visible = matches.slice(0, state.shown);
     grid.replaceChildren(...visible.map(renderCard));
-    empty.hidden = visible.length > 0;
-    count.textContent = t('catalog.count', { n: visible.length, total: products.length });
+    empty.hidden = matches.length > 0;
+    more.hidden = matches.length <= state.shown;
+    more.textContent = t('catalog.more', { n: matches.length - state.shown });
+    count.textContent = t('catalog.count', { n: visible.length, total: matches.length });
     rangeOut.textContent = formatMoney(state.maxPrice);
     wishCount.textContent = wishlist.size;
     chips.forEach((chip) => {
@@ -103,6 +116,9 @@ export async function initCatalog(cart) {
     });
   }
 
+  /** Any change to the filters starts again from the first page. */
+  const refilter = (change) => { Object.assign(state, change, { shown: PAGE_SIZE }); render(); };
+
   function renderDialog(id) {
     const product = products.find((entry) => entry.id === id);
     if (!product) return;
@@ -111,15 +127,17 @@ export async function initCatalog(cart) {
     dialogBody.replaceChildren(
       h('figure', { class: 'detail__media' }, h('img', { src: product.image, alt: pick(product.name), width: 600, height: 480 })),
       h('div', { class: 'detail__text' },
-        h('p', { class: 'product__cat' }, categoryLabel(product.category)),
+        h('p', { class: 'product__cat' }, `${categoryLabel(product.category)} · ${product.sku}`),
         h('h2', { id: 'product-dialog-title' }, pick(product.name)),
         h('p', {}, pick(product.description)),
         h('dl', { class: 'detail__specs' },
           h('dt', {}, t('detail.dimensions')), h('dd', {}, product.dimensions),
           h('dt', {}, t('detail.lead')), h('dd', {}, t('days', { n: product.leadTimeDays })),
+          h('dt', {}, t('detail.moq')), h('dd', {}, t('pq.pieces', { n: product.moq })),
           h('dt', {}, t('detail.price')), h('dd', { class: 'product__price' }, formatMoney(product.price))),
         h('p', { class: 'product__actions' },
-          h('button', { type: 'button', class: 'btn btn--small', onClick: () => addToCart(product) }, t('card.add')),
+          h('button', { type: 'button', class: 'btn btn--small', onClick: () => quoteProduct(product) }, t('card.quote')),
+          h('button', { type: 'button', class: 'btn btn--small btn--ghost', onClick: () => addToCart(product) }, t('card.add')),
           h('button', { type: 'button', class: 'btn btn--small btn--ghost', 'aria-pressed': String(wished), onClick: () => toggleWish(id) },
             wished ? t('wish.remove') : t('wish.add')))));
   }
@@ -133,24 +151,25 @@ export async function initCatalog(cart) {
     const actions = {
       wish: () => toggleWish(product.id),
       add: () => addToCart(product),
+      quote: () => quoteProduct(product),
       details: () => { renderDialog(product.id); dialog.showModal(); },
     };
     actions[button.dataset.action]?.();
   });
   dialog.addEventListener('close', () => { openProductId = null; });
 
-  search.addEventListener('input', debounce(() => { state.query = search.value; render(); }, 150));
-  sortSelect.addEventListener('change', () => { state.sort = sortSelect.value; render(); });
-  range.addEventListener('input', () => { state.maxPrice = Number(range.value); render(); });
-  wishOnly.addEventListener('change', () => { state.wishOnly = wishOnly.checked; render(); });
-  chips.forEach((chip) => chip.addEventListener('click', () => { state.category = chip.dataset.cat; render(); }));
+  search.addEventListener('input', debounce(() => refilter({ query: search.value }), 150));
+  sortSelect.addEventListener('change', () => refilter({ sort: sortSelect.value }));
+  range.addEventListener('input', () => refilter({ maxPrice: Number(range.value) }));
+  wishOnly.addEventListener('change', () => refilter({ wishOnly: wishOnly.checked }));
+  chips.forEach((chip) => chip.addEventListener('click', () => refilter({ category: chip.dataset.cat })));
+  more.addEventListener('click', () => { state.shown += PAGE_SIZE; render(); });
   $('#reset-filters').addEventListener('click', () => {
-    Object.assign(state, { query: '', category: 'all', maxPrice: priceCap, sort: 'default', wishOnly: false });
     search.value = '';
     sortSelect.value = 'default';
     range.value = priceCap;
     wishOnly.checked = false;
-    render();
+    refilter({ query: '', category: 'all', maxPrice: priceCap, sort: 'default', wishOnly: false });
   });
 
   onLangChange(() => { render(); if (openProductId) renderDialog(openProductId); });

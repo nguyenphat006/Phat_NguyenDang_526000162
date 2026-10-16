@@ -67,7 +67,7 @@
 <form class="toolbar" role="search" aria-label="Bộ lọc sản phẩm" data-t-aria="catalog.toolbar" onsubmit="return false">
 <p class="toolbar__field toolbar__field--search">
 <label for="q" data-t="search.label">Tìm kiếm</label>
-<input id="q" type="search" autocomplete="off" placeholder="Tên sản phẩm, chất liệu…" data-t-ph="search.placeholder">
+<input id="q" type="search" autocomplete="off" placeholder="Tên, chất liệu hoặc mã SKU…" data-t-ph="search.placeholder">
 </p>
 <p class="toolbar__field">
 <label for="sort" data-t="sort.label">Sắp xếp</label>
@@ -95,17 +95,62 @@
 </div>
 <p id="catalog-count" class="catalog__count" role="status" aria-live="polite"></p>
 <ul id="product-grid" class="products">
-<li class="products__message" data-t="loading">Đang tải sản phẩm…</li>
+<li class="products__message" data-loading data-t="loading">Đang tải sản phẩm…</li>
 </ul>
 <p id="catalog-empty" class="catalog__empty" hidden>
 <span data-t="catalog.empty">Không tìm thấy sản phẩm phù hợp.</span>
 <button id="reset-filters" class="link-btn" type="button" data-t="catalog.reset">Xóa bộ lọc</button>
 </p>
+<p class="catalog__more"><button id="load-more" class="btn btn--ghost" type="button" hidden></button></p>
 </section>
 <dialog id="product-dialog" class="dialog dialog--wide" aria-labelledby="product-dialog-title">
 <article class="dialog__panel">
 <button class="dialog__close dialog__close--float" type="button" data-close-dialog data-t-aria="dialog.close" aria-label="Đóng">&times;</button>
 <div id="product-dialog-body" class="detail"></div>
+</article>
+</dialog>
+<dialog id="quote-dialog" class="dialog dialog--wide" aria-labelledby="pq-title">
+<article class="dialog__panel">
+<button class="dialog__close dialog__close--float" type="button" data-close-dialog data-t-aria="dialog.close" aria-label="Đóng">&times;</button>
+<div class="pq">
+<div id="pq-summary" class="pq__summary"></div>
+<form id="pq-form" class="pq__form" novalidate>
+<h2 id="pq-title" data-t="pq.title">Gửi báo giá cho sản phẩm này</h2>
+<p class="form__row">
+<label for="pq-name" data-t="form.name">Họ và tên</label>
+<input id="pq-name" name="name" type="text" autocomplete="name" required aria-describedby="pq-err-name">
+<span id="pq-err-name" class="form__error" role="alert"></span>
+</p>
+<p class="form__row">
+<label for="pq-email" data-t="form.email">Email</label>
+<input id="pq-email" name="email" type="email" autocomplete="email" required aria-describedby="pq-err-email">
+<span id="pq-err-email" class="form__error" role="alert"></span>
+</p>
+<p class="form__row">
+<label for="pq-phone"><span data-t="form.phone">Số điện thoại</span> <small data-t="form.optional">(không bắt buộc)</small></label>
+<input id="pq-phone" name="phone" type="tel" autocomplete="tel" aria-describedby="pq-err-phone">
+<span id="pq-err-phone" class="form__error" role="alert"></span>
+</p>
+<p class="form__row">
+<label for="pq-company"><span data-t="form.company">Công ty</span> <small data-t="form.optional">(không bắt buộc)</small></label>
+<input id="pq-company" name="company" type="text" autocomplete="organization">
+</p>
+<p class="form__row">
+<label for="pq-qty" data-t="pq.qty">Số lượng đặt (MOQ của bạn)</label>
+<input id="pq-qty" name="qty" type="number" min="1" step="1" inputmode="numeric" required aria-describedby="pq-moq-hint pq-err-qty">
+<span id="pq-moq-hint" class="pq__hint" role="status"></span>
+<span id="pq-err-qty" class="form__error" role="alert"></span>
+</p>
+<p class="form__row">
+<label for="pq-message" data-t="pq.note">Ghi chú</label>
+<textarea id="pq-message" name="message" rows="2"></textarea>
+</p>
+<p class="pq__website" aria-hidden="true"><label>Website <input name="website" type="text" tabindex="-1" autocomplete="off"></label></p>
+<dl id="pq-estimate" class="totals"></dl>
+<p class="pq__note" data-t="pq.disclaimer">Giá chỉ mang tính tham khảo, báo giá chính thức sẽ được gửi qua email.</p>
+<button class="btn" type="submit" data-t="pq.submit">Gửi báo giá</button>
+</form>
+</div>
 </article>
 </dialog>
 </main>
