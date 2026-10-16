@@ -6,6 +6,11 @@
  */
 const SHEET_NAME = 'Quotes';
 
+// Nếu script được mở từ Sheet (Tiện ích mở rộng -> Apps Script) thì để trống.
+// Nếu script là dự án độc lập (tạo từ script.google.com) thì dán ID của Google Sheet vào đây.
+// ID là đoạn giữa /d/ và /edit trong link Sheet:  https://docs.google.com/spreadsheets/d/<ID>/edit
+const SPREADSHEET_ID = '';
+
 // Thứ tự cột trong Sheet. Tên phải trùng với khóa trong js/sheet.js (toSheetRow).
 const HEADERS = [
   'id', 'createdAt', 'type', 'lang',
@@ -48,8 +53,23 @@ function doGet() {
   return reply({ ok: true, service: 'Ericss quote intake' });
 }
 
+function getSpreadsheet() {
+  const spreadsheet = SPREADSHEET_ID ? SpreadsheetApp.openById(SPREADSHEET_ID) : SpreadsheetApp.getActiveSpreadsheet();
+  if (!spreadsheet) throw new Error('Script chưa gắn với Google Sheet: hãy điền SPREADSHEET_ID ở đầu file Code.gs.');
+  return spreadsheet;
+}
+
+/**
+ * Chạy hàm này MỘT LẦN từ trình soạn thảo (chọn "authorize" -> Chạy) để Google hiện màn hình cấp quyền.
+ * Xong rồi mới Triển khai. Hàm cũng tạo sẵn sheet "Quotes" và hàng tiêu đề.
+ */
+function authorize() {
+  const sheet = getSheet();
+  Logger.log('OK. Sheet "' + sheet.getName() + '" của "' + sheet.getParent().getName() + '" đã sẵn sàng.');
+}
+
 function getSheet() {
-  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  const spreadsheet = getSpreadsheet();
   let sheet = spreadsheet.getSheetByName(SHEET_NAME);
   if (!sheet) sheet = spreadsheet.insertSheet(SHEET_NAME);
   if (sheet.getLastRow() === 0) {

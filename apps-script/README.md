@@ -7,13 +7,18 @@ Website là trang tĩnh (GitHub Pages) nên không tự ghi vào Google Sheet đ
 1. Tạo một Google Sheet mới, ví dụ tên **Ericss – Yêu cầu báo giá**.
 2. Trong Sheet: menu **Tiện ích mở rộng → Apps Script**.
 3. Xóa mã mặc định, dán toàn bộ nội dung file [`Code.gs`](Code.gs), bấm **Lưu**.
-4. Bấm **Triển khai → Tùy chọn triển khai mới**:
+4. **Cấp quyền trước khi triển khai** (bước hay bị kẹt):
+   - Trên thanh công cụ, ô chọn hàm chọn **`authorize`**, bấm **Chạy**.
+   - Hộp thoại "Cần được cho phép" → **Xem lại quyền** → chọn tài khoản Google.
+   - Nếu hiện *"Google chưa xác minh ứng dụng này"*: bấm **Nâng cao** → **Chuyển đến … (không an toàn)** → **Cho phép**. Đây là script do chính bạn viết nên an toàn.
+   - Xem **Nhật ký thực thi**: có dòng `OK. Sheet "Quotes"…` là thành công.
+5. Bấm **Triển khai → Tùy chọn triển khai mới**:
    - Loại: **Ứng dụng web**
    - **Thực thi với tư cách: Tôi**
    - **Người có quyền truy cập: Bất kỳ ai**
    - Bấm **Triển khai** và cấp quyền khi Google yêu cầu.
-5. Sao chép **URL ứng dụng web** (dạng `https://script.google.com/macros/s/.../exec`).
-6. Mở `data/config.json` trong repo và điền:
+6. Sao chép **URL ứng dụng web** (dạng `https://script.google.com/macros/s/.../exec`).
+7. Mở `data/config.json` trong repo và điền:
    ```json
    {
      "sheetEndpoint": "https://script.google.com/macros/s/XXXXXXXX/exec",
@@ -21,9 +26,21 @@ Website là trang tĩnh (GitHub Pages) nên không tự ghi vào Google Sheet đ
    }
    ```
    `maxQuoteQty` là số lượng tối đa khách được nhập ở ô MOQ khi gửi báo giá cho một sản phẩm.
-7. Commit và push. Gửi thử một yêu cầu trên website: sheet `Quotes` sẽ tự có hàng tiêu đề và dòng dữ liệu đầu tiên.
+8. Commit và push. Gửi thử một yêu cầu trên website: sheet `Quotes` sẽ tự có hàng tiêu đề và dòng dữ liệu đầu tiên.
 
-Mở URL ở bước 5 trên trình duyệt sẽ thấy `{"ok":true,"service":"Ericss quote intake"}` nếu dịch vụ đang chạy.
+Mở URL ở bước 6 trên trình duyệt sẽ thấy `{"ok":true,"service":"Ericss quote intake"}` nếu dịch vụ đang chạy.
+
+## Script độc lập (không mở từ Sheet)
+Nếu bạn tạo script trực tiếp ở `script.google.com` (không qua Sheet), hãy dán **ID của Sheet** vào dòng `const SPREADSHEET_ID = '';` ở đầu `Code.gs` (ID là đoạn giữa `/d/` và `/edit` trong link Sheet). Bỏ qua bước này sẽ báo lỗi *"Script chưa gắn với Google Sheet"*.
+
+## Xử lý sự cố
+| Hiện tượng | Cách xử lý |
+|---|---|
+| Bấm cấp quyền / Triển khai chỉ mở **mail** (`mailto:`) hoặc báo *"liên hệ quản trị viên"* | Tài khoản đang dùng là **Google Workspace của công ty** và quản trị viên chặn script / web app công khai. Hãy làm toàn bộ bằng **tài khoản Gmail cá nhân** (mở cửa sổ ẩn danh, chỉ đăng nhập Gmail). Link có `/u/0/` nghĩa là tài khoản đầu tiên đang đăng nhập, có thể là tài khoản công ty. |
+| Ô **"Người có quyền truy cập: Bất kỳ ai"** bị mờ / không chọn được | Cùng nguyên nhân (chính sách Workspace). Dùng Gmail cá nhân. |
+| Nút **Triển khai** không bấm được | Bấm **Lưu** (Ctrl+S) trước; kiểm tra không có dòng đỏ báo lỗi cú pháp. |
+| Màn hình *"Google chưa xác minh ứng dụng này"* | Bấm **Nâng cao → Chuyển đến … (không an toàn) → Cho phép**. |
+| Gửi thử không thấy dòng nào trong Sheet | Mở URL web app trên trình duyệt, phải thấy `{"ok":true,...}`; xem **Thực thi** trong Apps Script để biết lỗi; nhớ tạo **phiên bản mới** sau mỗi lần sửa mã. |
 
 ## Khi sửa `Code.gs`
 Mỗi lần sửa phải **Triển khai → Quản lý triển khai → Chỉnh sửa → Phiên bản mới** thì link cũ mới dùng mã mới.
