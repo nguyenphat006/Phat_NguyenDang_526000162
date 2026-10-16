@@ -36,7 +36,7 @@ Nếu bạn tạo script trực tiếp ở `script.google.com` (không qua Sheet
 ## Xử lý sự cố
 | Hiện tượng | Cách xử lý |
 |---|---|
-| Bấm cấp quyền / Triển khai chỉ mở **mail** (`mailto:`) hoặc báo *"liên hệ quản trị viên"* | Tài khoản đang dùng là **Google Workspace của công ty** và quản trị viên chặn script / web app công khai. Hãy làm toàn bộ bằng **tài khoản Gmail cá nhân** (mở cửa sổ ẩn danh, chỉ đăng nhập Gmail). Link có `/u/0/` nghĩa là tài khoản đầu tiên đang đăng nhập, có thể là tài khoản công ty. |
+| Bấm cấp quyền / Triển khai chỉ mở **mail** (`mailto:`) hoặc báo *"liên hệ quản trị viên"* | Tài khoản đang đăng nhập là tài khoản **Google Workspace do một quản trị viên quản lý** (cơ quan, trường học…), bị chặn script hoặc web app công khai. Hãy làm toàn bộ bằng **tài khoản Gmail cá nhân** (mở cửa sổ ẩn danh, chỉ đăng nhập Gmail đó). Link có `/u/0/` nghĩa là tài khoản đầu tiên đang đăng nhập, hãy chắc đó là tài khoản cá nhân. |
 | Ô **"Người có quyền truy cập: Bất kỳ ai"** bị mờ / không chọn được | Cùng nguyên nhân (chính sách Workspace). Dùng Gmail cá nhân. |
 | Nút **Triển khai** không bấm được | Bấm **Lưu** (Ctrl+S) trước; kiểm tra không có dòng đỏ báo lỗi cú pháp. |
 | Màn hình *"Google chưa xác minh ứng dụng này"* | Bấm **Nâng cao → Chuyển đến … (không an toàn) → Cho phép**. |

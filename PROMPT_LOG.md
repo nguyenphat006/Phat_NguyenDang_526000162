@@ -36,15 +36,15 @@
 - **Kết quả AI tạo ra:** Nút `.btn` đổi màu và nhấc nhẹ; `.card` nâng lên, đổi viền, ảnh phóng nhẹ, link giãn chữ; menu có gạch chân chạy từ trái; ảnh gallery hiện caption khi hover/focus; ô form đổi màu viền dưới khi focus; `:focus-visible` có outline rõ ràng.
 - **Nhận xét & Tinh chỉnh của SV:** Card ban đầu chỉ phản ứng khi hover chuột nên đã yêu cầu thêm `tabindex="0"` và `:focus-within` để điều hướng bằng bàn phím cũng thấy hiệu ứng tương đương.
 
-### Lần 5: Chọn hình ảnh phù hợp (tránh ảnh nhận diện công ty)
-- **Prompt đã dùng:** "Không dùng các ảnh đặc thù lộ ra công ty gốc (cổng, nhà xưởng, container, showroom). Chỉ dùng ảnh trên mạng hoặc ảnh trong quá trình sản xuất."
+### Lần 5: Chọn hình ảnh phù hợp
+- **Prompt đã dùng:** "Chỉ dùng ảnh quá trình sản xuất và ảnh cận cảnh vật liệu; không dùng ảnh toàn cảnh nhà xưởng, cổng, showroom hay xe container."
 - **Kết quả AI tạo ra:** Loại bỏ ảnh cổng, mặt tiền, xe container và ảnh toàn cảnh showroom. Giữ lại ảnh công đoạn sản xuất (cưa, CNC, cắt laser, uốn, hàn robot, đan tay) và ảnh cận cảnh vật liệu.
 - **Thách thức gặp phải:** Các ảnh stock tìm được trên Unsplash đều thuộc gói Unsplash+ (trả phí), không phù hợp để dùng miễn phí.
 - **Cách sửa prompt (Debug prompt):** "Nếu không có ảnh miễn phí rõ nguồn thì dùng ảnh sản xuất và cận cảnh chất liệu." → Hero được cắt từ ảnh cận cảnh dây thừng + khung teak; đã nén ảnh về ≤ 1500px (JPEG ~80%) để trang tải nhanh.
 
-### Lần 6: Đổi thương hiệu & thông tin doanh nghiệp
-- **Prompt đã dùng:** "Không dùng thông tin của công ty thật; đặt tên website là Ericss Furniture, thay các thông tin liên quan sang thông tin khác."
-- **Kết quả AI tạo ra:** Đổi logo/tiêu đề/favicon thành Ericss, thay năm thành lập, số liệu và bỏ liên kết tới website công ty thật; rà soát lại toàn bộ file để không còn từ khóa cũ.
+### Lần 6: Đặt tên thương hiệu & nội dung giới thiệu
+- **Prompt đã dùng:** "Đặt tên website là Ericss Furniture và dùng nội dung giới thiệu giả lập, không dùng thông tin của bất kỳ doanh nghiệp thật nào."
+- **Kết quả AI tạo ra:** Đặt logo/tiêu đề/favicon là Ericss; năm thành lập và các số liệu giới thiệu là nội dung giả lập; không có liên kết ra website của doanh nghiệp nào; rà soát lại toàn bộ file để không còn từ khóa cũ.
 - **Nhận xét & Tinh chỉnh của SV:** Số liệu giới thiệu là nội dung giả lập phục vụ bài thi; sau đó cập nhật phần liên hệ sang email cá nhân `nguyendangphat1505@gmail.com` và địa điểm Biên Hòa, Đồng Nai, đồng thời bỏ số điện thoại giả.
 
 ### Lần 7: Triển khai GitHub Actions → GitHub Pages
