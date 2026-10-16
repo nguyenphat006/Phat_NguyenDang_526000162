@@ -15,7 +15,7 @@ const sorters = {
 
 export function filterProducts(products, { query = '', category = 'all', maxPrice = Infinity, sort = 'default', wishOnly = false, wishlist = new Set(), lang = 'vi' }) {
   const needle = normalize(query).trim();
-  const searchable = (p) => normalize([p.name.vi, p.name.en, p.description.vi, p.description.en, p.category, ...p.tags].join(' '));
+  const searchable = (p) => normalize([p.sku, p.name.vi, p.name.en, p.description.vi, p.description.en, p.category, ...p.tags].join(' '));
 
   return products
     .filter((p) => category === 'all' || p.category === category)

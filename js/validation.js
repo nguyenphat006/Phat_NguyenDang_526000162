@@ -1,11 +1,27 @@
-// Pure validation for the quote request form. Returns { field: translationKey } for each error.
+// Pure validation for the quote forms. Each validator returns { field: translationKey } for every error.
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE = /^\+?[\d\s().-]{8,18}$/;
 
-export function validateQuote({ name = '', email = '', message = '' }) {
+function validateContact({ name = '', email = '', phone = '' }) {
   const errors = {};
   if (name.trim().length < 2) errors.name = 'err.name';
   if (!EMAIL.test(email.trim())) errors.email = 'err.email';
-  if (message.trim().length < 10) errors.message = 'err.message';
+  if (phone.trim() && !PHONE.test(phone.trim())) errors.phone = 'err.phone';
+  return errors;
+}
+
+/** Contact page form: the message is required (at least 10 characters). */
+export function validateQuote(values) {
+  const errors = validateContact(values);
+  if ((values.message ?? '').trim().length < 10) errors.message = 'err.message';
+  return errors;
+}
+
+/** Per-product quote form: the customer's own MOQ must be a whole number from 1 to maxQty. */
+export function validateProductQuote(values, maxQty = 100000) {
+  const errors = validateContact(values);
+  const qty = Number(values.qty);
+  if (!Number.isInteger(qty) || qty < 1 || qty > maxQty) errors.qty = 'err.qty';
   return errors;
 }
 

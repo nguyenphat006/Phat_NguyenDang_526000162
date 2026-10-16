@@ -61,3 +61,6 @@ export function estimateUnit(estimator, selection) {
     leadDays: type.days + material.days + size.days + finish.days,
   };
 }
+
+/** Does the customer's quantity reach the factory's minimum order quantity? */
+export const meetsMoq = (qty, factoryMoq) => qty >= factoryMoq;
