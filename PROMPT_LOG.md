@@ -95,6 +95,24 @@
 - **Thách thức gặp phải:** (1) Apps Script không trả lời được yêu cầu kiểm tra CORS (preflight) và trình duyệt có thể chặn đọc phản hồi chuyển hướng; (2) gửi lại có nguy cơ ghi trùng dòng; (3) mất mạng làm mất yêu cầu; (4) bot có thể gửi rác; (5) tôi (AI) không thể tự tạo Google Sheet hay triển khai Apps Script thay SV.
 - **Cách sửa prompt (Debug prompt):** "Gửi `POST` dạng `text/plain` để không bị preflight; nếu đọc phản hồi bị chặn thì gửi lại kiểu `no-cors`, và để không ghi trùng thì mỗi yêu cầu có `id` duy nhất, script kiểm tra `id` trước khi ghi" → AI thêm cơ chế gửi dự phòng và chống trùng. "Luôn lưu cục bộ trước rồi mới gửi, thất bại thì giữ trạng thái chờ và tự gửi lại" → thêm `syncPending()` khi tải trang và nút "Gửi lại". "Thêm ô ẩn chống bot và chặn ô bắt đầu bằng = + - @" → honeypot ở client, `clean()` ở Apps Script. Với (5), AI viết sẵn `Code.gs` và hướng dẫn 7 bước trong `apps-script/README.md` để SV tự triển khai bằng tài khoản Google của mình. Kiểm thử bằng một máy chủ giả lập Apps Script (cả kiểu có CORS, bị chặn CORS, mất kết nối rồi gửi lại) cùng unit test cho cấu trúc dòng gửi lên Sheet.
 
+### Lần 15: Kết nối Google Sheet thật và gỡ lỗi cấp quyền
+- **Prompt đã dùng:** "Nút cấp quyền chỉ mở mail, không triển khai được Apps Script" rồi "test lại đi".
+- **Kết quả AI tạo ra:** Sửa `Code.gs` chạy được cả khi script là dự án độc lập (`SPREADSHEET_ID`), thêm hàm `authorize()` để cấp quyền trước khi triển khai, thêm mục "Xử lý sự cố" trong `apps-script/README.md`. Sau khi SV triển khai, AI kiểm tra link thật bằng các lệnh gọi ẩn danh.
+- **Thách thức gặp phải:** (1) Mã cũ dùng `getActiveSpreadsheet()` nên lỗi với script độc lập; (2) lần đầu bản triển khai đặt quyền "chỉ mình tôi", khách ẩn danh bị chuyển sang trang đăng nhập (HTTP 401); (3) kịch bản kiểm thử lỡ gọi Google Sheet thật nên ghi các dòng thử.
+- **Cách sửa prompt (Debug prompt):** "Gọi link ẩn danh như một khách để kiểm tra quyền truy cập, rồi thử gửi trùng `id`, thiếu trường, JSON sai và ô ẩn bị điền để xem script xử lý thế nào" → xác nhận đúng cách quyền "Bất kỳ ai" và các nhánh xử lý lỗi. Sau đó chặn mọi kịch bản kiểm thử gọi Sheet thật (máy chủ thử trả cấu hình rỗng).
+
+### Lần 16: Một biểu mẫu báo giá duy nhất có chọn sản phẩm và MOQ
+- **Prompt đã dùng:** "Làm form gửi báo giá đồng nhất với hộp thoại gửi báo giá, để nhận đúng sản phẩm; form riêng chưa chọn được sản phẩm. Design biểu mẫu cho đẹp."
+- **Kết quả AI tạo ra:** Module `quote-form.js` dùng chung cho hộp thoại (trang sản phẩm) và biểu mẫu đặt sẵn ở trang Liên hệ: ô chọn sản phẩm (hoặc dự án tùy chỉnh), ô số lượng có nút −/+ và gợi ý ×1, ×2, ×5 MOQ, tạm tính tức thì, đính kèm giỏ báo giá, màn hình xác nhận thành công, trạng thái "đang gửi". Tách lịch sử yêu cầu sang `history.js`; thêm `validateRequest` cùng unit test.
+- **Thách thức gặp phải:** Khi gộp, quy tắc kiểm tra thay đổi theo ngữ cảnh: có sản phẩm thì bắt buộc MOQ, không có sản phẩm thì bắt buộc lời nhắn, còn đính kèm giỏ hàng thì lời nhắn là tùy chọn.
+- **Cách sửa prompt (Debug prompt):** "Viết bảng các trường hợp (có sản phẩm / không có / có giỏ) và unit test cho từng trường hợp trước khi sửa giao diện" → hàm `validateRequest` thuần, dễ test; kịch bản kiểm thử trình duyệt được cập nhật theo luồng mới.
+
+### Lần 17: Thiết kế lại trang chủ bằng skill, dọn dẹp thư mục, viết tài liệu thuyết trình
+- **Prompt đã dùng:** "Cài skill `taste-skill`, dùng nó để thiết kế lại trang landing; xong thì xóa các tệp cấu hình thừa, giữ thư mục skills, dọn thư mục cho gọn; làm tài liệu để tôi nắm website và thuyết trình theo rubric."
+- **Kết quả AI tạo ra:** AI đọc và kiểm tra các script của skill trước khi chạy, dùng `draw.mjs` chọn hướng "tên là kiến trúc", giữ bảng màu và font của thương hiệu, dựng lại trang chủ (tên "ericss" cỡ khổng lồ cắt ngang ảnh, băng bốn chất liệu, quy trình dạng phiếu, con số, dãy ảnh xưởng, một chữ "Báo giá" làm nút). Số liệu trên trang lấy từ `products.json`. Dọn dẹp: bỏ mã CSS/JS của giao diện cũ, gom CSS vào `css/`, mã dùng chung vào `js/`, `tools/serve.mjs`, bỏ `package.json`; thêm `docs/HUONG-DAN-THUYET-TRINH.md`.
+- **Thách thức gặp phải:** Công cụ đo của skill báo lỗi (nhãn chữ hoa cỡ nhỏ, đường kẻ mảnh, chữ bị che khi cuộn, nhãn ở trên tiêu đề); chữ "ericss" ban đầu chỉ chiếm 74% bề ngang nên chưa đủ "kiến trúc".
+- **Cách sửa prompt (Debug prompt):** "Chạy `inspect.mjs`, sửa từng FAIL rồi chạy lại; mỗi WARN phải sửa hoặc bảo vệ được bằng một câu" → từ 2 FAIL còn 0 FAIL (còn 3 cảnh báo có lý do: số cỡ chữ do phần đầu/chân trang dùng chung, không có video vì không có đoạn phim phù hợp, dãy ảnh cuộn ngang có chủ đích trên điện thoại).
+
 ---
 
 ## 3. Đánh giá cá nhân về quá trình Vibe Coding
