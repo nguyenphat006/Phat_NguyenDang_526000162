@@ -2,6 +2,6 @@
 window.Ericss = window.Ericss || {};
 Ericss.data = Ericss.data || {};
 Ericss.data.config = {
-  "sheetEndpoint": "https://script.google.com/macros/s/AKfycbxO6il1NgvdqMhhTZLaIgTPr6vwO8xzxaXtHVa-mW3sCUeadMRKJY2TJ3a0Ek1xQ_DF/exec",
+  "sheetEndpoint": "https://script.google.com/macros/s/AKfycbyjIMqvpjW101CWsDlu_SOb5ToNkc4PDzqAeQcpJ0AJFC8-yJ05sdq5UxPAAYL59qxq/exec",
   "maxQuoteQty": 100000
 };
