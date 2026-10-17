@@ -35,6 +35,7 @@
       vat: totals.vat ?? 0,
       total: totals.total ?? 0,
       message: quote.message ?? '',
+      fillMs: quote.fillMs ?? null,   // how long the form was open before sending (the script rejects instant posts)
     };
   }
 
@@ -46,24 +47,7 @@
     }
   }
 
-  /**
-   * How many quote slots are used. The Apps Script answers GET with { count, limit }.
-   * Resolves to { count, limit, left, open } or null when unknown (no endpoint, offline).
-   */
-  async function getSeats() {
-    const { sheetEndpoint } = await readConfig();
-    if (!sheetEndpoint) return null;
-    try {
-      const response = await fetch(sheetEndpoint, { cache: 'no-store' });
-      const reply = await response.json();
-      if (reply && reply.ok && Number.isFinite(reply.count) && Number.isFinite(reply.limit)) {
-        return { count: reply.count, limit: reply.limit, left: Math.max(reply.limit - reply.count, 0), open: reply.count < reply.limit };
-      }
-    } catch (error) { /* unknown: keep the form open, the server still enforces the limit */ }
-    return null;
-  }
-
-  /** Resolves to 'sent' | 'failed' | 'disabled' (no endpoint configured) | 'full' (no slots left). */
+  /** Resolves to 'sent' | 'failed' | 'disabled' (no endpoint configured) | 'limited' (the script refused it as too many / too fast). */
   async function sendToSheet(quote) {
     const { sheetEndpoint } = await readConfig();
     if (!sheetEndpoint) return 'disabled';
@@ -73,7 +57,7 @@
     try {
       const response = await fetch(sheetEndpoint, init);
       const reply = await response.json().catch(() => null);
-      if (reply && reply.ok === false) return reply.error === 'full' ? 'full' : 'failed';
+      if (reply && reply.ok === false) return reply.error === 'limited' ? 'limited' : 'failed';
       return 'sent';
     } catch (error) {
       // Some browsers refuse to read the redirected Apps Script reply. Send again without reading it;
@@ -87,5 +71,5 @@
     }
   }
 
-  E.sheet = { toSheetRow, sendToSheet, getSeats };
+  E.sheet = { toSheetRow, sendToSheet };
 })(window.Ericss = window.Ericss || {});

@@ -245,7 +245,7 @@ Giải thích đơn giản để nói: *`map` biến mỗi phần tử thành th
 | 6 | **Gửi báo giá** ở một sản phẩm; nhập số lượng thấp hơn MOQ rồi bấm gợi ý ×2, ×5 | Cảnh báo MOQ; chiết khấu tự đổi; tạm tính cập nhật tức thì |
 | 7 | Thêm vài món vào giỏ, nhập mã `ERICSS10` | `reduce`; mã chỉ áp dụng khi đủ điều kiện |
 | 8 | Sang Liên hệ: gửi khi để trống (cho thấy lỗi), rồi gửi đúng | Kiểm tra form; **cùng một biểu mẫu** với hộp thoại |
-| 9 | Sau khi gửi: chỉ ra **mã QR** và dòng "Còn X/50 lượt"; mở Google Sheet cho thấy dòng mới (cột MOQ xưởng, MOQ khách đặt, Đạt MOQ, Tổng cộng); mở email cảm ơn của khách | Cầu nối Apps Script; lưu cục bộ trước, mất mạng vẫn không mất yêu cầu |
+| 9 | Sau khi gửi: chỉ ra thông báo "đã nhận, sẽ liên hệ sớm nhất" và **mã QR**; mở Google Sheet cho thấy dòng mới (cột MOQ xưởng, MOQ khách đặt, Đạt MOQ, Tổng cộng); mở email cảm ơn của khách | Cầu nối Apps Script; lưu cục bộ trước, mất mạng vẫn không mất yêu cầu |
 | 10 | Mở `js/pricing.js` và chỉ hàm `calcQuote`; mở tab Actions trên GitHub | Công thức đúng thứ tự; push là tự deploy |
 | 11 | Mở `PROMPT_LOG.md` và bảng prompt trong README | Tư duy điều khiển AI |
 
@@ -265,13 +265,13 @@ Giỏ, yêu thích, lịch sử lưu ở `localStorage` của trình duyệt, n�
 Dùng Google Apps Script làm "web app" nhận `POST` rồi ghi dòng vào Sheet (`apps-script/Code.gs`).
 
 **Email cảm ơn gửi bằng cách nào? Có bị lạm dụng không?**
-Apps Script dùng `MailApp.sendEmail` gửi từ tài khoản Google của chủ website, ngay sau khi ghi dòng vào Sheet. Vì link web app công khai nên em chống lạm dụng: mỗi địa chỉ chỉ nhận 1 email mỗi giờ (lưu bằng `CacheService`), dừng khi hạn mức thư trong ngày sắp hết, chỉ gửi nội dung khách đã nhập và có câu "nếu không phải bạn, hãy bỏ qua".
+Apps Script dùng `MailApp.sendEmail` gửi từ tài khoản Google của chủ website, ngay sau khi ghi dòng vào Sheet. Vì link web app công khai nên em chống lạm dụng: mỗi email chỉ gửi được tối đa 3 yêu cầu mỗi giờ (đếm bằng `CacheService`) nên cũng chỉ nhận tối đa 3 thư, dừng khi hạn mức thư trong ngày sắp hết, chỉ gửi nội dung khách đã nhập và có câu "nếu không phải bạn, hãy bỏ qua".
 
 **Mã QR lấy ở đâu, chứa gì?**
 Gọi API QuickChart (`quickchart.io/qr?text=...`) với nội dung là họ tên và mã yêu cầu; ảnh hiện ngay trong màn hình xác nhận và nằm trong email. Cần nói thật: họ tên và mã được gửi tới quickchart.io để vẽ ảnh.
 
-**Giới hạn 50 lượt làm thế nào, có bị vượt khi hai người gửi cùng lúc không?**
-Website hỏi Apps Script số dòng hiện có để hiện "Còn X/50" và đóng form khi đủ. Nhưng việc **từ chối thật sự nằm ở Apps Script** (đếm dòng rồi mới ghi, có khóa `LockService`), nên dù ai đó mở form trước khi hết chỗ rồi bấm gửi sau, hoặc hai người gửi cùng lúc, vẫn không vượt 50.
+**Làm sao chặn spam báo giá?**
+Em chống spam ở hai lớp. **Trên trình duyệt:** ô ẩn (honeypot), thời gian điền form được gửi kèm (`fillMs`), mỗi thiết bị phải chờ 30 giây giữa hai yêu cầu và tối đa 5 yêu cầu mỗi giờ. **Trong Apps Script** (lớp quyết định, vì khách có thể bỏ qua trình duyệt): từ chối form điền dưới 3 giây, tên quá ngắn, email sai định dạng, nội dung quá dài hoặc có hơn 2 đường link; mỗi email tối đa 3 yêu cầu mỗi giờ, toàn hệ thống tối đa 6 yêu cầu mỗi phút và 60 mỗi giờ. Yêu cầu bị từ chối không ghi dòng nào, không gửi email. Phần quyết định nằm ở Apps Script vì ai cũng có thể bỏ qua trình duyệt và gọi thẳng link; các bộ đếm chạy trong khóa `LockService` nên gửi đồng thời cũng không vượt giới hạn.
 
 **Làm sao tránh ghi trùng một yêu cầu?**
 Mỗi yêu cầu có `id` duy nhất; script kiểm tra `id` đã có trong Sheet thì bỏ qua. Nhờ đó website gửi lại nhiều lần cũng không trùng.

@@ -28,7 +28,7 @@ Website là trang tĩnh (GitHub Pages) nên không tự ghi vào Google Sheet đ
    `maxQuoteQty` là số lượng tối đa khách được nhập ở ô MOQ khi gửi báo giá cho một sản phẩm.
 8. Commit và push. Gửi thử một yêu cầu trên website: sheet **Báo giá** sẽ có dòng dữ liệu đầu tiên và khách nhận email cảm ơn.
 
-Mở URL ở bước 6 trên trình duyệt sẽ thấy `{"ok":true,"service":"Ericss quote intake","count":0,"limit":50,"open":true}` nếu dịch vụ đang chạy.
+Mở URL ở bước 6 trên trình duyệt sẽ thấy `{"ok":true,"service":"Ericss quote intake"}` nếu dịch vụ đang chạy.
 
 ### Nếu bạn đã cài bản cũ rồi
 1. Dán lại toàn bộ `Code.gs` mới, bấm **Lưu**.
@@ -56,9 +56,13 @@ Bảng có hàng tiêu đề cố định, kẻ sọc xen kẽ, ô tiền địn
 ## Ba tính năng của biểu mẫu báo giá
 1. **Email cảm ơn tự động:** ngay sau khi ghi vào Sheet, script gửi email cảm ơn đến địa chỉ khách vừa nhập (tiếng Việt hoặc tiếng Anh theo ngôn ngữ khách dùng), có mã yêu cầu, sản phẩm, MOQ, tạm tính và mã QR.
    - Email gửi từ chính tài khoản Google của bạn nên bị giới hạn hạn mức của Google (khoảng 100 thư mỗi ngày với Gmail thường).
-   - Vì link web app là công khai, script **chống lạm dụng**: một địa chỉ chỉ nhận 1 email mỗi giờ, dừng gửi khi hạn mức ngày sắp hết, nội dung chỉ gồm điều khách đã nhập kèm câu "nếu không phải bạn, hãy bỏ qua". Muốn tắt hẳn, đặt `SEND_EMAIL = false`.
+   - Vì link web app là công khai, nội dung email chỉ gồm điều khách đã nhập kèm câu "nếu không phải bạn, hãy bỏ qua"; mỗi email chỉ gửi được tối đa 3 yêu cầu mỗi giờ nên cũng chỉ nhận tối đa 3 thư; dừng gửi khi hạn mức ngày sắp hết. Muốn tắt hẳn, đặt `SEND_EMAIL = false`.
 2. **Mã QR:** sau khi gửi xong, website hiện mã QR (API [QuickChart](https://quickchart.io/)) chứa **họ tên và mã yêu cầu** của khách để đối chiếu. Lưu ý: họ tên và mã được gửi tới quickchart.io để vẽ ảnh QR.
-3. **Giới hạn lượt nhận báo giá:** `SEAT_LIMIT = 50` trong `Code.gs`. Website hiển thị "Còn X/50 lượt". Khi sheet đã đủ 50 dòng, script từ chối yêu cầu mới và form trên website tự đóng với thông báo **"Hết chỗ"**. Muốn đổi giới hạn, sửa `SEAT_LIMIT` rồi triển khai phiên bản mới.
+3. **Chống spam:** các giới hạn nằm ở đầu `Code.gs`, sửa rồi triển khai phiên bản mới.
+   - Form điền dưới `MIN_FILL_MS` (3 giây) bị từ chối; tên dưới 2 ký tự, email sai định dạng, nội dung quá dài (`LIMITS`) hoặc có hơn `MAX_LINKS` (2) đường link cũng bị từ chối.
+   - Mỗi email tối đa `MAX_PER_EMAIL_PER_HOUR` (3) yêu cầu mỗi giờ; toàn hệ thống tối đa `MAX_PER_MINUTE` (6) mỗi phút và `MAX_PER_HOUR` (60) mỗi giờ.
+   - Yêu cầu bị từ chối trả về `{ok:false, error:'limited'}`: không ghi dòng nào, không gửi email; website báo "Chưa gửi được yêu cầu".
+   - Website cũng tự giới hạn trên thiết bị: chờ 30 giây giữa hai yêu cầu, tối đa 5 yêu cầu mỗi giờ.
 
 ## Script độc lập (không mở từ Sheet)
 Nếu bạn tạo script trực tiếp ở `script.google.com` (không qua Sheet), hãy dán **ID của Sheet** vào dòng `const SPREADSHEET_ID = '';` ở đầu `Code.gs` (ID là đoạn giữa `/d/` và `/edit` trong link Sheet). Bỏ qua bước này sẽ báo lỗi *"Script chưa gắn với Google Sheet"*.
@@ -71,13 +75,13 @@ Nếu bạn tạo script trực tiếp ở `script.google.com` (không qua Sheet
 | Nút **Triển khai** không bấm được | Bấm **Lưu** (Ctrl+S) trước; kiểm tra không có dòng đỏ báo lỗi cú pháp. |
 | Màn hình *"Google chưa xác minh ứng dụng này"* | Bấm **Nâng cao → Chuyển đến … (không an toàn) → Cho phép**. |
 | Gửi thử không thấy dòng nào trong Sheet | Mở URL web app trên trình duyệt, phải thấy `{"ok":true,...}`; xem **Thực thi** trong Apps Script để biết lỗi; nhớ tạo **phiên bản mới** sau mỗi lần sửa mã. |
-| Có dòng trong Sheet nhưng khách không nhận email | Chưa cấp quyền gửi email (chạy lại `authorize`, triển khai phiên bản mới); hoặc địa chỉ đó vừa nhận email trong vòng 1 giờ; hoặc đã hết hạn mức thư trong ngày; kiểm tra cả thư mục Spam. |
-| Website không hiện "Còn X/50 lượt" | Bản triển khai chưa phải phiên bản mới nhất (trả lời `GET` không có `count` và `limit`). Triển khai phiên bản mới. |
+| Có dòng trong Sheet nhưng khách không nhận email | Chưa cấp quyền gửi email (chạy lại `authorize`, triển khai phiên bản mới); hoặc đã hết hạn mức thư trong ngày; kiểm tra cả thư mục Spam. |
+| Yêu cầu báo "Chưa gửi được yêu cầu" / trạng thái "Bị giới hạn" | Bị chặn chống spam (gửi quá nhanh hoặc quá nhiều lần với cùng email / cùng thiết bị). Đợi một lúc rồi gửi lại. Khi tự thử nhiều lần, dùng email khác nhau hoặc đợi 1 giờ. |
 
 ## Cách hoạt động
 - Mỗi yêu cầu có một mã duy nhất. Apps Script bỏ qua nếu mã đã có trong Sheet, nên gửi lại nhiều lần không bị trùng dòng, không gửi lại email và không mất thêm lượt.
-- Nếu mất mạng hoặc chưa cấu hình, yêu cầu vẫn được lưu trên thiết bị với trạng thái "chờ đồng bộ" và tự gửi lại lần sau; trong trang **Liên hệ** có nút "Gửi lại". Yêu cầu bị từ chối vì hết chỗ được đánh dấu "Hết chỗ" và không gửi lại nữa.
-- Việc đếm và từ chối khi đủ 50 diễn ra trong script (có khóa `LockService`), nên hai người gửi cùng lúc cũng không vượt giới hạn.
+- Nếu mất mạng hoặc chưa cấu hình, yêu cầu vẫn được lưu trên thiết bị với trạng thái "chờ đồng bộ" và tự gửi lại lần sau; trong trang **Liên hệ** có nút "Gửi lại". Yêu cầu bị từ chối vì spam được đánh dấu "Bị giới hạn" và không gửi lại nữa.
+- Việc chống spam diễn ra trong script (có khóa `LockService`), nên hai người gửi cùng lúc cũng không vượt giới hạn.
 - Ô văn bản bắt đầu bằng `=`, `+`, `-`, `@` được thêm dấu `'` phía trước để Google Sheet không coi là công thức.
 - Form có một ô ẩn (honeypot) để chặn bot; bot điền ô này sẽ bị bỏ qua.
 

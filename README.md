@@ -47,7 +47,7 @@ Website gửi `POST` tới một Google Apps Script (`apps-script/Code.gs`), scr
 ### Ba tính năng của biểu mẫu báo giá
 1. **Email cảm ơn tự động:** ngay sau khi ghi vào Sheet, Apps Script gửi email cảm ơn đến địa chỉ khách vừa nhập (song ngữ, có mã yêu cầu, sản phẩm, MOQ, tạm tính, mã QR). Có chống lạm dụng: mỗi địa chỉ 1 email/giờ, dừng khi sắp hết hạn mức thư trong ngày.
 2. **Mã QR (QuickChart):** sau khi gửi xong, trang hiện mã QR chứa **họ tên và mã yêu cầu** để khách giữ lại đối chiếu.
-3. **Đếm chỗ, tối đa 50 lượt:** form hiện "Còn X/50 lượt nhận báo giá"; khi Sheet đủ 50 dòng, script từ chối và form tự đóng với thông báo **"Hết chỗ"**.
+3. **Chống spam:** Chống spam ở hai lớp. **Trên trình duyệt:** ô ẩn (honeypot), thời gian điền form được gửi kèm (`fillMs`), mỗi thiết bị phải chờ 30 giây giữa hai yêu cầu và tối đa 5 yêu cầu mỗi giờ. **Trong Apps Script** (lớp quyết định, vì khách có thể bỏ qua trình duyệt): từ chối form điền dưới 3 giây, tên quá ngắn, email sai định dạng, nội dung quá dài hoặc có hơn 2 đường link; mỗi email tối đa 3 yêu cầu mỗi giờ, toàn hệ thống tối đa 6 yêu cầu mỗi phút và 60 mỗi giờ. Yêu cầu bị từ chối không ghi dòng nào, không gửi email.
 
 ## Kiến trúc JavaScript (`js/`)
 Dùng **script thường** (không `import` / `export`): mỗi tệp là một module kiểu IIFE, gắn các hàm của nó vào một đối tượng chung `Ericss` (ví dụ `Ericss.pricing.calcQuote`). Mỗi trang nạp các tệp theo thứ tự phụ thuộc (xem cuối `index.html`).

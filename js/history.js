@@ -57,7 +57,7 @@
             h('p', {}, `${t(`history.type.${quote.type ?? 'contact'}`)} · ${quote.customer.name} · ${what} · ${formatMoney(quote.totals.total)}`)),
           h('p', { class: 'history__side' },
             h('span', { class: `badge badge--${quote.sync ?? 'pending'}` }, t(`sync.${quote.sync ?? 'pending'}`)),
-            quote.sync === 'sent' || quote.sync === 'full' ? null : h('button', { type: 'button', class: 'link-btn', 'data-action': 'retry' }, t('history.retry')),
+            quote.sync === 'sent' || quote.sync === 'limited' ? null : h('button', { type: 'button', class: 'link-btn', 'data-action': 'retry' }, t('history.retry')),
             h('button', { type: 'button', class: 'link-btn', 'data-action': 'delete', 'aria-label': `${t('history.delete')} ${quote.id}` }, t('history.delete'))));
       }));
     }

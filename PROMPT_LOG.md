@@ -126,6 +126,12 @@
 - **Thách thức gặp phải:** (1) Link web app công khai nên tính năng gửi email có thể bị lợi dụng để gửi thư rác đến người khác; (2) việc "đóng form" ở phía website không đủ vì người dùng có thể mở form trước khi hết chỗ rồi bấm gửi sau, hoặc hai người gửi cùng lúc; (3) tôi (AI) không thể gửi email thật từ tài khoản của SV để thử.
 - **Cách sửa prompt (Debug prompt):** "Coi người dùng là kẻ xấu: mỗi địa chỉ chỉ 1 email mỗi giờ, dừng khi hết hạn mức ngày, escape HTML, chỉ gửi điều khách đã nhập" → thêm `CacheService`, kiểm tra `getRemainingDailyQuota`, `escapeHtml`. "Từ chối thật sự phải nằm ở server, có khóa, và vẫn chấp nhận gửi lại một mã đã lưu" → đếm dòng trong `doPost` dưới `LockService`; website xử lý trả lời `full` bằng trạng thái riêng và không thử gửi lại. "Chạy `Code.gs` với bản giả lập Sheet, Mail, Cache, Lock" → 32 kiểm tra (mỗi ô của dòng dữ liệu, email, trùng, hết chỗ, honeypot...) và mô phỏng hết chỗ ngay lúc bấm gửi trên trình duyệt.
 
+### Lần 20: Bỏ giới hạn 50 lượt, chống spam báo giá, xuất Excel
+- **Prompt đã dùng:** "Xóa phần lượt nhận báo giá đi và xử lý cho tôi vấn đề spam báo giá. Thông báo sau khi gửi phải nói 'chúng tôi đã nhận, sẽ liên hệ sớm nhất' chứ không nhắc ghi vào Sheet; đổi xuất JSON thành Excel, bỏ nhập JSON. Gửi email chỉ nhận được đúng lần đầu, các lần sau không nhận được, vì sao?"
+- **Kết quả AI tạo ra:** Gỡ bộ đếm "Còn X/50" và trạng thái "Hết chỗ". Thêm chống spam hai lớp: trình duyệt (thời gian điền form `fillMs`, chờ 30 giây giữa hai yêu cầu, tối đa 5 yêu cầu mỗi giờ) và Apps Script (`checkSpam`: form dưới 3 giây, tên / email sai, nội dung quá dài hoặc nhiều link, mỗi email 3 yêu cầu mỗi giờ, 6 yêu cầu mỗi phút và 60 mỗi giờ toàn hệ thống). Tìm ra nguyên nhân mất email là quy tắc "1 email mỗi giờ cho mỗi địa chỉ" ở lần 19 nên bỏ quy tắc đó, vì giới hạn 3 yêu cầu mỗi email đã bao phủ. Nút "Tải Excel" (SheetJS, dự phòng CSV) thay cho "Tải JSON", bỏ "Nhập JSON".
+- **Thách thức gặp phải:** Chặn spam mà không chặn nhầm khách thật (khách điền sai rồi gửi lại, nhiều người dùng chung mạng). Link công khai nên mọi kiểm tra ở trình duyệt đều bỏ qua được, chỉ phần trong Apps Script là chắc chắn.
+- **Cách sửa prompt (Debug prompt):** "Mọi giới hạn quyết định phải nằm trong Apps Script, giới hạn ở trình duyệt chỉ để khách thật biết lý do; yêu cầu bị từ chối không được ghi dòng và không gửi email; viết bài test cho từng quy tắc."
+
 ---
 
 ## 3. Đánh giá cá nhân về quá trình Vibe Coding

@@ -15,15 +15,15 @@
 
   /**
    * Fill `panel` with a success message and show it.
-   * status: 'sent' | 'failed' | 'disabled' (what happened with the Google Sheet) | 'full' (no slots left).
+   * status: 'sent' | 'failed' | 'disabled' (what happened with the Google Sheet) | 'limited' (refused as spam).
    * Accepted requests get a QR code to keep; actions: extra buttons / links.
    */
   function renderSuccess(panel, { quote, status, actions = [] }) {
-    const accepted = status !== 'full';
+    const accepted = status !== 'limited';
     panel.dataset.status = status;
     panel.replaceChildren(
       h('span', { class: 'success__icon', 'aria-hidden': 'true' }),
-      h('h3', {}, accepted ? t('success.title') : t('seats.full.title')),
+      h('h3', {}, accepted ? t('success.title') : t('limited.title')),
       h('p', { class: 'success__text' }, t(`toast.quote.${status}`, { id: quote.id })),
       status === 'sent' ? h('p', { class: 'success__mail' }, t('success.email', { email: quote.customer.email })) : null,
       accepted ? h('figure', { class: 'success__qr' },

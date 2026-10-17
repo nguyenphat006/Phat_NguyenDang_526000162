@@ -4,7 +4,7 @@
  *
  * Tính năng:
  *  1. Ghi mỗi yêu cầu thành một dòng trong sheet "Báo giá" (cột tiếng Việt, không ghi trùng theo mã yêu cầu).
- *  2. Giới hạn số lượt nhận báo giá (SEAT_LIMIT). Đủ số dòng thì từ chối và trả {error: 'full'}.
+ *  2. Chống spam (xem checkSpam): ô ẩn, thời gian điền form, độ dài / định dạng, giới hạn theo email và theo thời gian.
  *  3. Gửi email cảm ơn đến địa chỉ khách vừa nhập (có chống lạm dụng, xem sendThankYou).
  *
  * Web app phải được deploy với:  Execute as = Me,  Who has access = Anyone.
@@ -17,13 +17,17 @@ const TIME_ZONE = 'Asia/Ho_Chi_Minh';
 // ID là đoạn giữa /d/ và /edit trong link Sheet:  https://docs.google.com/spreadsheets/d/<ID>/edit
 const SPREADSHEET_ID = '';
 
-// Số lượt nhận báo giá tối đa. Khi sheet đã có đủ ngần ấy dòng dữ liệu, form trên website tự đóng và báo "Hết chỗ".
-const SEAT_LIMIT = 50;
+// Chống spam. Link web app là công khai nên ai cũng gọi được; các giới hạn dưới đây chặn việc gửi hàng loạt.
+const MIN_FILL_MS = 3000;              // form được điền dưới 3 giây là bot (người thật không nhanh vậy)
+const MAX_PER_EMAIL_PER_HOUR = 3;      // một email chỉ gửi tối đa 3 yêu cầu mỗi giờ
+const MAX_PER_MINUTE = 6;              // toàn hệ thống tối đa 6 yêu cầu mỗi phút
+const MAX_PER_HOUR = 60;               // toàn hệ thống tối đa 60 yêu cầu mỗi giờ
+const MAX_LINKS = 2;                   // văn bản có hơn 2 đường link (http) bị coi là spam quảng cáo
+const LIMITS = { name: 100, email: 120, phone: 30, company: 120, message: 2000, items: 1500 };
 
 // Email cảm ơn
 const SEND_EMAIL = true;
 const SENDER_NAME = 'Ericss Furniture';
-const EMAIL_COOLDOWN_SECONDS = 3600;   // một địa chỉ chỉ nhận tối đa 1 email mỗi giờ (chống người lạ dùng link để gửi thư rác)
 const MIN_DAILY_QUOTA_LEFT = 5;        // chừa lại một ít hạn mức gửi thư trong ngày của tài khoản Google
 
 // Màu của bảng
@@ -71,15 +75,17 @@ function doPost(e) {
     const sheet = getSheet();
     const lastRow = sheet.getLastRow();
 
-    // Chống ghi trùng: website có thể gửi lại cùng một yêu cầu (không gửi lại email, không tính thêm chỗ).
+    // Chống ghi trùng: website có thể gửi lại cùng một yêu cầu (không gửi lại email, không tính vào giới hạn).
     if (lastRow > 1) {
       const ids = sheet.getRange(2, 1, lastRow - 1, 1).getValues().flat();
-      if (ids.indexOf(data.id) !== -1) return reply({ ok: true, duplicate: true, count: countRows(sheet), limit: SEAT_LIMIT });
+      if (ids.indexOf(data.id) !== -1) return reply({ ok: true, duplicate: true });
     }
 
-    // Hết chỗ: không ghi thêm. Khóa (lock) ở trên đảm bảo hai người gửi cùng lúc không vượt giới hạn.
-    if (countRows(sheet) >= SEAT_LIMIT) {
-      return reply({ ok: false, error: 'full', count: countRows(sheet), limit: SEAT_LIMIT });
+    // Chống spam: bị từ chối thì không ghi dòng nào và không gửi email.
+    const reason = checkSpam(data);
+    if (reason) {
+      console.warn('Từ chối yêu cầu (' + reason + '): ' + String(data.email));
+      return reply({ ok: false, error: 'limited', reason: reason });
     }
 
     data.receivedAt = new Date();
@@ -93,7 +99,7 @@ function doPost(e) {
         console.error('Không gửi được email: ' + mailError); // yêu cầu vẫn đã được ghi, không báo lỗi cho khách
       }
     }
-    return reply({ ok: true, emailed: emailed, count: countRows(sheet), limit: SEAT_LIMIT });
+    return reply({ ok: true, emailed: emailed });
   } catch (error) {
     return reply({ ok: false, error: String(error) });
   } finally {
@@ -101,22 +107,51 @@ function doPost(e) {
   }
 }
 
-// Website hỏi "còn chỗ không" bằng cách mở link này; mở bằng trình duyệt cũng thấy dịch vụ đang chạy.
+// Mở link này bằng trình duyệt để thấy dịch vụ đang chạy.
 function doGet() {
-  const count = countRows(getSheet());
-  return reply({ ok: true, service: 'Ericss quote intake', count: count, limit: SEAT_LIMIT, open: count < SEAT_LIMIT });
+  return reply({ ok: true, service: 'Ericss quote intake' });
 }
 
-// Số dòng dữ liệu (không tính hàng tiêu đề).
-function countRows(sheet) {
-  return Math.max(sheet.getLastRow() - 1, 0);
+/**
+ * Kiểm tra spam. Trả về lý do (chuỗi) nếu phải từ chối, hoặc '' nếu hợp lệ.
+ * Chạy trong khóa (lock) của doPost nên bộ đếm không bị lệch khi nhiều người gửi cùng lúc.
+ */
+function checkSpam(data) {
+  const text = (value) => String(value === undefined || value === null ? '' : value);
+  const email = text(data.email).trim().toLowerCase();
+
+  // 1. Điền form quá nhanh (chỉ kiểm tra khi website có gửi thời gian điền)
+  if (data.fillMs !== undefined && data.fillMs !== null && Number(data.fillMs) < MIN_FILL_MS) return 'too fast';
+
+  // 2. Dữ liệu phải hợp lệ và không quá dài
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'bad email';
+  if (text(data.name).trim().length < 2) return 'bad name';
+  for (const field in LIMITS) if (text(data[field]).length > LIMITS[field]) return 'too long: ' + field;
+
+  // 3. Nhiều đường link trong văn bản tự do là dấu hiệu spam quảng cáo
+  const links = (text(data.name) + ' ' + text(data.company) + ' ' + text(data.message)).match(/https?:\/\//gi);
+  if (links && links.length > MAX_LINKS) return 'links';
+
+  // 4. Giới hạn số lượng: theo email, theo phút và theo giờ cho cả hệ thống
+  const now = new Date();
+  const checks = [
+    ['rate:email:' + email, MAX_PER_EMAIL_PER_HOUR, 3600],
+    ['rate:min:' + Math.floor(now.getTime() / 60000), MAX_PER_MINUTE, 120],
+    ['rate:hour:' + Math.floor(now.getTime() / 3600000), MAX_PER_HOUR, 7200],
+  ];
+  const cache = CacheService.getScriptCache();
+  for (const [key, max] of checks) {
+    if (Number(cache.get(key) || 0) >= max) return 'rate limit';
+  }
+  checks.forEach(([key, max, ttl]) => cache.put(key, String(Number(cache.get(key) || 0) + 1), ttl));
+  return '';
 }
 
 /**
  * Email cảm ơn gửi đến địa chỉ khách nhập. Trả về true nếu đã gửi.
  * Vì link web app là công khai, ai cũng có thể điền email của người khác, nên:
  *  - chỉ nhận địa chỉ đúng định dạng;
- *  - một địa chỉ chỉ được gửi 1 email mỗi EMAIL_COOLDOWN_SECONDS;
+ *  - một địa chỉ chỉ gửi được tối đa MAX_PER_EMAIL_PER_HOUR yêu cầu mỗi giờ (xem checkSpam), nên cũng chỉ nhận tối đa ngần ấy email;
  *  - dừng gửi khi hạn mức thư trong ngày sắp hết;
  *  - nội dung chỉ gồm điều chính khách đã nhập, kèm câu "nếu không phải bạn, hãy bỏ qua".
  */
@@ -124,11 +159,6 @@ function sendThankYou(data) {
   const email = String(data.email || '').trim();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return false;
   if (MailApp.getRemainingDailyQuota() <= MIN_DAILY_QUOTA_LEFT) return false;
-
-  const cache = CacheService.getScriptCache();
-  const cacheKey = 'mail:' + email.toLowerCase();
-  if (cache.get(cacheKey)) return false;
-  cache.put(cacheKey, '1', EMAIL_COOLDOWN_SECONDS);
 
   const vi = data.lang !== 'en';
   const qr = 'https://quickchart.io/qr?size=220&margin=2&text=' + encodeURIComponent(data.name + ' · ' + data.id);

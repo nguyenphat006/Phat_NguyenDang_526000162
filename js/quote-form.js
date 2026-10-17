@@ -7,11 +7,10 @@
   const { loadData } = E.api;
   const { getLang, onLangChange, pick, t } = E.lang;
   const { calcQuote, meetsMoq } = E.pricing;
-  const { buildQuote, submitQuote } = E.quotes;
+  const { buildQuote, canSubmit, markSubmitted, submitQuote } = E.quotes;
   const { renderSuccess } = E.success;
-  const { $, categoryLabel, formatMoney, h } = E.ui;
+  const { $, categoryLabel, formatMoney, h, toast } = E.ui;
   const { validateRequest } = E.validation;
-  const { getSeats } = E.sheet;
 
 
   const FIELDS = ['name', 'email', 'phone', 'qty', 'message'];
@@ -32,8 +31,6 @@
     const attach = form.elements.attach ?? null; // only the contact page has the "attach my cart" box
     const attachLabel = $('#pq-attach-label');
     const emptyTemplate = $('#pq-summary-empty');
-    const seatsEl = $('#pq-seats');
-    const closedEl = $('#pq-closed');
     const maxQty = config.maxQuoteQty ?? 100000;
     const locale = () => (getLang() === 'vi' ? 'vi-VN' : 'en-US');
 
@@ -141,35 +138,6 @@
       });
     }
 
-    // ---------- slots: "Còn X/50" and the "Hết chỗ" state ----------
-    let seats = null;
-
-    function renderSeats() {
-      const closed = Boolean(seats && !seats.open);
-      if (seatsEl) {
-        seatsEl.hidden = !seats || closed;
-        if (seats && !closed) {
-          seatsEl.textContent = t('seats.left', { left: seats.left, limit: seats.limit });
-          seatsEl.classList.toggle('is-low', seats.left <= 5);
-        }
-      }
-      if (closedEl) {
-        closedEl.hidden = !closed || !success.hidden; // a request that was just sent keeps its confirmation on screen
-        if (closed) {
-          closedEl.replaceChildren(
-            h('span', { class: 'success__icon', 'aria-hidden': 'true' }),
-            h('h3', {}, t('seats.full.title')),
-            h('p', { class: 'success__text' }, t('seats.full.text', { limit: seats.limit })));
-        }
-      }
-      form.hidden = closed || !success.hidden;
-    }
-
-    async function refreshSeats() {
-      seats = await getSeats();
-      renderSeats();
-    }
-
     function refresh() { renderSummary(); renderPresets(); renderEstimate(); }
 
     // ---------- behaviour ----------
@@ -186,10 +154,13 @@
       renderEstimate();
     }
 
+    let openedAt = Date.now(); // when the form became usable: a person needs a few seconds, a bot posts instantly
+
     function showForm() {
       success.hidden = true;
-      renderSeats();
-      if (!form.hidden) form.elements.name.focus();
+      form.hidden = false;
+      openedAt = Date.now();
+      form.elements.name.focus();
     }
 
     select.addEventListener('change', () => setProduct(select.value));
@@ -222,6 +193,9 @@
       const firstInvalid = FIELDS.find((field) => errors[field]);
       if (firstInvalid) { form.elements[firstInvalid].focus(); return; }
 
+      const gate = canSubmit();
+      if (!gate.ok) { toast(gate.reason === 'wait' ? t('spam.wait', { s: gate.seconds }) : t('spam.hour')); return; }
+
       const withCart = useCart();
       const lines = collectLines();
       const quote = buildQuote({
@@ -235,18 +209,19 @@
         product: product ? { id: product.id, sku: product.sku, name: product.name, price: product.price, factoryMoq: product.moq } : null,
         customerMoq: product ? Number(data.qty) : null,
         lang: getLang(),
+        fillMs: Date.now() - openedAt,
       });
 
       const submit = form.querySelector('[type="submit"]');
       submit.disabled = true;
       submit.setAttribute('aria-busy', 'true');
+      markSubmitted();
       const status = await submitQuote(quote);
       submit.disabled = false;
       submit.removeAttribute('aria-busy');
       if (withCart) cart.clear();
 
       form.hidden = true;
-      closedEl.hidden = true;
       renderSuccess(success, {
         quote,
         status,
@@ -257,16 +232,14 @@
           h('a', { class: 'btn btn--small btn--ghost', href: dialog ? 'contact.html#history-title' : '#history-title' }, t('success.history')),
         ],
       });
-      refreshSeats();
     });
 
     cart.subscribe(() => { renderAttach(); renderEstimate(); });
-    onLangChange(() => { fillProducts(); refresh(); renderAttach(); showErrors({}); renderSeats(); });
+    onLangChange(() => { fillProducts(); refresh(); renderAttach(); showErrors({}); });
 
     fillProducts();
     setProduct(new URLSearchParams(location.search).get('product') ?? '');
     renderAttach();
-    refreshSeats();
 
     return {
       /** Products page: open the dialog for one product. */
@@ -275,9 +248,10 @@
         success.hidden = true;
         setProduct(product.id);
         renderAttach();
-        renderSeats();
+        form.hidden = false;
+        openedAt = Date.now();
         dialog.showModal();
-        refreshSeats().then(() => { if (!form.hidden) form.elements.name.focus(); });
+        form.elements.name.focus();
       },
     };
   }
