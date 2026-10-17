@@ -1,3 +1,9 @@
+# tai lieu tham khao cua ban (de thi, rubric), khong dua len GitHub
+tai-lieu/
 *.pdf
 image.png
+
+# cong cu cuc bo
+.claude/
+.taste-skill/
 node_modules/

@@ -65,32 +65,6 @@ toggle.addEventListener('click', () => setNav(!nav.classList.contains('is-open')
 nav.addEventListener('click', (e) => { if (e.target.closest('a')) setNav(false); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setNav(false); });
 
-// Gallery filter
-const filters = document.querySelectorAll('.filter');
-const items = document.querySelectorAll('.gallery__item');
-
-filters.forEach((btn) => {
-  btn.addEventListener('click', () => {
-    const value = btn.dataset.filter;
-    filters.forEach((b) => {
-      const active = b === btn;
-      b.classList.toggle('is-active', active);
-      b.setAttribute('aria-pressed', String(active));
-    });
-    let order = 0;
-    items.forEach((item) => {
-      item.hidden = !(value === 'all' || item.dataset.category === value);
-      item.classList.remove('filter-in');
-      if (!item.hidden) {
-        void item.offsetWidth; // restart the animation
-        item.style.animationDelay = `${order++ * 70}ms`;
-        item.classList.add('filter-in');
-      }
-    });
-    if (window.AOS) AOS.refresh();
-  });
-});
-
 // Highlight current section in the menu
 const links = document.querySelectorAll('.site-nav__list a');
 const observer = new IntersectionObserver((entries) => {
@@ -147,12 +121,12 @@ onScroll();
 
 toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }));
 
-// Count-up numbers in the stats band
+// Count-up numbers (the "figures" on the landing page)
 function countUp(el) {
   const target = Number(el.dataset.count);
   const from = Number(el.dataset.from || 0);
   const suffix = el.dataset.suffix || '';
-  const format = (n) => (target >= 10000 ? n.toLocaleString('en-US') : String(n)) + suffix;
+  const format = (n) => (target >= 10000 ? n.toLocaleString(lang === 'en' ? 'en-US' : 'vi-VN') : String(n)) + suffix;
   if (reduceMotion) { el.textContent = format(target); return; }
   const start = performance.now();
   const duration = 1600;
@@ -168,43 +142,11 @@ const counters = new IntersectionObserver((entries, obs) => {
 }, { threshold: 0.6 });
 document.querySelectorAll('[data-count]').forEach((el) => counters.observe(el));
 
-// Curtain reveal for pictures (added by JS so content stays visible without it).
-// The parent is observed because a clipped element never reports as intersecting.
-if (!reduceMotion) {
-  const reveals = new IntersectionObserver((entries, obs) => {
-    entries.forEach((e) => {
-      if (!e.isIntersecting) return;
-      e.target.querySelectorAll(':scope > .reveal').forEach((el) => el.classList.add('is-visible'));
-      obs.unobserve(e.target);
-    });
-  }, { rootMargin: '0px 0px -12% 0px' });
-  document.querySelectorAll('.about__media, .step figure, .gallery__item figure, .card__media').forEach((el) => {
-    el.classList.add('reveal');
-    reveals.observe(el.parentElement);
-  });
-}
-
-// ---------- External motion libraries: GSAP + ScrollTrigger, vanilla-tilt ----------
+// ---------- GSAP + ScrollTrigger: magnetic buttons (the wordmark scroll move lives in js/landing.js) ----------
 const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
 if (!reduceMotion && window.gsap && window.ScrollTrigger) {
   gsap.registerPlugin(ScrollTrigger);
-
-  // Layered parallax in the hero: arch, inset and background disc drift at different speeds
-  if (document.querySelector('.hero')) {
-    const heroTrigger = { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.6 };
-    gsap.to('.hero__arch', { yPercent: 6, ease: 'none', scrollTrigger: heroTrigger });
-    gsap.to('.hero__inset', { yPercent: -22, ease: 'none', scrollTrigger: heroTrigger });
-    gsap.to('.hero__visual', { '--disc-shift': '60px', ease: 'none', scrollTrigger: heroTrigger });
-  }
-
-  // About picture: the photo slides inside its frame while the page scrolls
-  if (document.querySelector('.about__media')) {
-    gsap.fromTo('.about__media img',
-      { yPercent: -7, scale: 1.14 },
-      { yPercent: 7, scale: 1.14, ease: 'none',
-        scrollTrigger: { trigger: '.about__media', start: 'top bottom', end: 'bottom top', scrub: 0.6 } });
-  }
 
   // Magnetic buttons: they lean toward the cursor, then spring back
   if (canHover) {
@@ -221,19 +163,12 @@ if (!reduceMotion && window.gsap && window.ScrollTrigger) {
   }
 }
 
-// vanilla-tilt: collection cards tilt slightly in 3D under the cursor
-if (!reduceMotion && canHover && window.VanillaTilt) {
-  VanillaTilt.init(document.querySelectorAll('.card'), {
-    max: 5, speed: 600, scale: 1.02, perspective: 1100, glare: true, 'max-glare': 0.12,
-  });
-}
-
 // ---------- Data features need a web server ----------
 // The product list etc. are read from JSON files with fetch(), which browsers block on file:// pages.
 // Never leave the visitor staring at "Loading…": explain what to do instead.
 const DATA_HELP = {
-  vi: 'Không tải được dữ liệu sản phẩm. Nếu bạn đang mở file trực tiếp trên máy, hãy chạy máy chủ web: bấm đúp file chay-website.bat (hoặc chạy "npm start") rồi mở http://localhost:8000.',
-  en: 'The product data could not be loaded. If you opened the file directly from disk, start a web server: double-click chay-website.bat (or run "npm start") and open http://localhost:8000.',
+  vi: 'Không tải được dữ liệu sản phẩm. Nếu bạn đang mở file trực tiếp trên máy, hãy chạy máy chủ web: bấm đúp file chay-website.bat (hoặc chạy "node tools/serve.mjs") rồi mở http://localhost:8000.',
+  en: 'The product data could not be loaded. If you opened the file directly from disk, start a web server: double-click chay-website.bat (or run "node tools/serve.mjs") and open http://localhost:8000.',
 };
 function showDataHelp() {
   document.querySelectorAll('[data-loading]').forEach((el) => {
