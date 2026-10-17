@@ -57,7 +57,7 @@ PROMPT_LOG.md   README.md   .github/workflows/deploy.yml
 | `catalog.js` | Trang sản phẩm | |
 | `quote-form.js` | **Biểu mẫu báo giá duy nhất** dùng cho hộp thoại và trang Liên hệ | Một nơi sửa, hai nơi dùng |
 | `quotes.js`, `sheet.js` | Tạo yêu cầu, lưu, gửi lên Google Sheet | |
-| `history.js` | Lịch sử yêu cầu, xuất / nhập JSON | |
+| `history.js` | Lịch sử yêu cầu, xuất Excel | |
 | `estimator.js` | Trang ước giá | |
 | `site.js`, `site-i18n.js` | Menu, đổi ngôn ngữ, hiệu ứng chung | |
 
@@ -184,7 +184,6 @@ Giải thích đơn giản để nói: *`map` biến mỗi phần tử thành th
 - Tìm kiếm không phân biệt dấu tiếng Việt: gõ "day thung" ra "dây thừng", cả chữ "Đ" hoa.
 - MOQ khách nhập thấp hơn MOQ xưởng → vẫn cho gửi nhưng cảnh báo "giá có thể thay đổi".
 - Số lượng không hợp lệ (0, âm, số lẻ, chữ, quá giới hạn) → báo lỗi.
-- Nhập JSON lịch sử: bỏ qua bản ghi sai cấu trúc, không ghi trùng `id`.
 
 **Cách nói:** "Dữ liệu em để trong JSON, giá lưu bằng số nguyên đồng để không bị sai số thập phân. Hàm tính tiền tách riêng nên em kiểm tra được bằng số tính tay, và em đã bắt được lỗi làm tròn ở biên .5."
 

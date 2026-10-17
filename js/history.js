@@ -1,4 +1,4 @@
-// Contact page: list of sent requests with Google Sheet sync status, retry, delete, JSON export / import.
+// Contact page: list of sent requests with Google Sheet sync status, retry, delete, Excel export.
 
 (function (E) {
   'use strict';
@@ -6,15 +6,40 @@
   const { loadData } = E.api;
   const { onLangChange, t } = E.lang;
   const { getQuotes, onQuotesChange, replaceQuotes, syncPending, syncQuote } = E.quotes;
-  const { $, downloadJSON, formatDate, formatMoney, h, toast } = E.ui;
-  const { isQuoteRecord } = E.validation;
+  const { $, downloadExcel, formatDate, formatMoney, h, toast } = E.ui;
 
+
+  const TYPES = { contact: 'Liên hệ', cart: 'Giỏ báo giá', product: 'Sản phẩm' };
+
+  /** One saved quote as a row with Vietnamese column names (same columns as the Google Sheet). */
+  function toExcelRow(quote) {
+    const product = quote.product ?? null;
+    const totals = quote.totals ?? {};
+    const customerMoq = quote.customerMoq ?? null;
+    return {
+      'Mã yêu cầu': quote.id,
+      'Thời gian': formatDate(quote.createdAt),
+      'Loại yêu cầu': TYPES[quote.type ?? 'contact'] ?? '',
+      'Họ và tên': quote.customer.name,
+      'Email': quote.customer.email ?? '',
+      'Số điện thoại': quote.customer.phone ?? '',
+      'Công ty': quote.customer.company ?? '',
+      'Sản phẩm đặt': (quote.items ?? []).map((item) => `${item.name?.vi ?? item.id}${item.sku ? ` (${item.sku})` : ''} × ${item.qty}`).join('\n'),
+      'MOQ xưởng': product?.factoryMoq ?? '',
+      'MOQ khách đặt': customerMoq ?? '',
+      'Đạt MOQ': product && customerMoq !== null ? (customerMoq >= product.factoryMoq ? 'Có' : 'Không') : '',
+      'Tạm tính': totals.subtotal ?? 0,
+      'Giảm giá': (totals.volumeDiscount ?? 0) + (totals.couponDiscount ?? 0),
+      'VAT': totals.vat ?? 0,
+      'Tổng cộng': totals.total ?? 0,
+      'Lời nhắn': quote.customer.message ?? quote.message ?? '',
+    };
+  }
 
   async function initHistory() {
     const list = $('#quote-history');
     if (!list) return;
     const empty = $('#history-empty');
-    const importInput = $('#import-file');
     const notice = $('#sheet-notice');
     const config = await loadData('config').catch(() => ({}));
     notice.hidden = Boolean(config.sheetEndpoint);
@@ -52,28 +77,11 @@
 
     $('#history-export').addEventListener('click', () => {
       if (getQuotes().length === 0) { toast(t('history.nothing')); return; }
-      downloadJSON(`ericss-quotes-${new Date().toISOString().slice(0, 10)}.json`, getQuotes());
+      downloadExcel(`ericss-yeu-cau-bao-gia-${new Date().toISOString().slice(0, 10)}`, getQuotes().map(toExcelRow));
     });
     $('#history-clear').addEventListener('click', () => {
       replaceQuotes([]);
       toast(t('history.cleared'));
-    });
-    $('#history-import').addEventListener('click', () => importInput.click());
-    importInput.addEventListener('change', async () => {
-      const [file] = importInput.files;
-      if (!file) return;
-      try {
-        const parsed = JSON.parse(await file.text());
-        const valid = (Array.isArray(parsed) ? parsed : [parsed]).filter(isQuoteRecord);
-        const known = new Set(getQuotes().map((quote) => quote.id));
-        const fresh = valid.filter((quote) => !known.has(quote.id)).map((quote) => ({ ...quote, sync: 'pending' }));
-        replaceQuotes([...fresh, ...getQuotes()].sort((a, b) => b.createdAt.localeCompare(a.createdAt)));
-        toast(t('history.imported', { n: fresh.length }));
-        syncPending();
-      } catch (error) {
-        toast(t('history.importError'));
-      }
-      importInput.value = '';
     });
 
     onQuotesChange(render);

@@ -27,7 +27,7 @@ Các bảng dữ liệu nằm trong `data/*.js`: nội dung là JSON, đặt tro
 | `data/ui.js` | Chuỗi giao diện Việt / Anh của các tính năng động |
 | `data/config.js` | `sheetEndpoint` (link Google Apps Script) và `maxQuoteQty` |
 
-Dữ liệu của người dùng (giỏ báo giá, yêu thích, lịch sử yêu cầu) lưu trong `localStorage` dạng JSON, có thể xuất / nhập bằng tệp `.json`.
+Dữ liệu của người dùng (giỏ báo giá, yêu thích, lịch sử yêu cầu) lưu trong `localStorage` dạng JSON, có thể tải về dạng Excel (.xlsx, thư viện SheetJS).json`.
 
 ## Công thức tính tiền (`js/pricing.js`)
 1. Tạm tính = Σ đơn giá × số lượng.

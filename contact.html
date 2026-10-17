@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Liên hệ & báo giá — Ericss Furniture</title>
-<meta name="description" content="Gửi yêu cầu báo giá nội thất cho Ericss Furniture, đính kèm giỏ báo giá và tải lịch sử yêu cầu dạng JSON."/>
+<meta name="description" content="Gửi yêu cầu báo giá nội thất cho Ericss Furniture, đính kèm giỏ báo giá và tải lịch sử yêu cầu dạng Excel."/>
 <meta content="#ffffff" name="theme-color"/>
 <link href="assets/favicon.svg" rel="icon" type="image/svg+xml"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -139,10 +139,8 @@
 <header class="history__head">
 <h2 id="history-title" data-t="history.title">Yêu cầu đã gửi trên thiết bị này</h2>
 <p class="history__actions">
-<button id="history-export" class="btn btn--small btn--ghost" type="button" data-t="history.export">Tải JSON</button>
-<button id="history-import" class="btn btn--small btn--ghost" type="button" data-t="history.import">Nhập JSON</button>
+<button id="history-export" class="btn btn--small btn--ghost" type="button" data-t="history.export">Tải Excel</button>
 <button id="history-clear" class="btn btn--small btn--ghost" type="button" data-t="history.clear">Xóa lịch sử</button>
-<input id="import-file" type="file" accept="application/json,.json" hidden>
 </p>
 </header>
 <p id="sheet-notice" class="notice" role="note" data-t="sheet.notice" hidden>Chưa kết nối Google Sheet: yêu cầu hiện chỉ được lưu trên thiết bị này.</p>
@@ -239,6 +237,7 @@
 <script src="js/filters.js"></script>
 <script src="js/validation.js"></script>
 <script src="js/cart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="js/sheet.js"></script>
 <script src="js/quotes.js"></script>
 <script src="js/success.js"></script>

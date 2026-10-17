@@ -52,11 +52,21 @@
     toastTimer = setTimeout(() => el.classList.remove('is-visible'), 3200);
   }
 
-  /** Save an object as a .json file download. */
-  function downloadJSON(filename, data) {
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const link = h('a', { href: url, download: filename });
+  /** Download a list of rows (objects with the same keys) as an Excel file; falls back to CSV if the library is missing. */
+  function downloadExcel(filename, rows, sheetName = 'Báo giá') {
+    if (window.XLSX) {
+      const sheet = XLSX.utils.json_to_sheet(rows);
+      sheet['!cols'] = Object.keys(rows[0] ?? {}).map((key) => ({ wch: Math.min(40, Math.max(key.length + 2, ...rows.map((row) => String(row[key] ?? '').length + 2))) }));
+      const book = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(book, sheet, sheetName);
+      XLSX.writeFile(book, `${filename}.xlsx`);
+      return;
+    }
+    const cell = (value) => `"${String(value ?? '').replace(/"/g, '""')}"`;
+    const keys = Object.keys(rows[0] ?? {});
+    const csv = [keys, ...rows.map((row) => keys.map((key) => row[key]))].map((line) => line.map(cell).join(',')).join('\r\n');
+    const url = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' }));
+    const link = h('a', { href: url, download: `${filename}.csv` });
     document.body.append(link);
     link.click();
     link.remove();
@@ -65,5 +75,5 @@
 
   const categoryLabel = (category) => t(`cat.${category}`);
 
-  E.ui = { h, $, $$, debounce, formatMoney, formatDate, toast, downloadJSON, categoryLabel };
+  E.ui = { h, $, $$, debounce, formatMoney, formatDate, toast, downloadExcel, categoryLabel };
 })(window.Ericss = window.Ericss || {});
