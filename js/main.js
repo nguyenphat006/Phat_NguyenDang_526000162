@@ -9,7 +9,6 @@
   const { initCatalog } = E.catalog;
   const { initEstimator } = E.estimator;
   const { initLang } = E.lang;
-  const { initLanding } = E.landing;
   const { initHistory } = E.history;
   const { initQuoteForm } = E.quoteForm;
   const { syncPending } = E.quotes;
@@ -23,7 +22,6 @@
     await initCatalog(cart, { openQuote: quoteForm });
     initEstimator(cart, pricing);
     await initHistory();
-    await initLanding();
     syncPending(); // quotes saved earlier but not yet in the Google Sheet (offline, or endpoint added later)
   }
 

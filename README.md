@@ -57,7 +57,7 @@ Dùng **script thường** (không `import` / `export`): mỗi tệp là một m
 | Hạ tầng | `api.js` (lấy bảng dữ liệu), `store.js` (localStorage), `lang.js` (song ngữ), `ui.js` (DOM và định dạng) |
 | Hàm thuần (không đụng giao diện) | `pricing.js`, `filters.js`, `validation.js` |
 | Nghiệp vụ | `cart.js`, `quotes.js`, `sheet.js`, `quote-form.js` (biểu mẫu báo giá duy nhất) |
-| Giao diện từng trang | `catalog.js`, `estimator.js`, `history.js`, `landing.js`, `cart-ui.js`, `success.js` |
+| Giao diện từng trang | `catalog.js`, `estimator.js`, `history.js`, `cart-ui.js`, `success.js` |
 | Khởi động | `main.js` (nạp sau cùng, mỗi trang chỉ chạy phần có markup tương ứng), `site.js` + `site-i18n.js` (menu, song ngữ chung, hiệu ứng) |
 
 Kỹ thuật: `map` / `filter` / `reduce` / `forEach`, event delegation, `async/await`, `try/catch`, debounce, `IntersectionObserver`.
@@ -93,5 +93,5 @@ Nhật ký đầy đủ nằm trong [PROMPT_LOG.md](PROMPT_LOG.md). Dưới đâ
 | "Ô tìm kiếm không phân biệt dấu tiếng Việt" | Chữ "Đ" hoa không khớp vì thay `đ` chạy trước khi hạ chữ thường | Đưa `toLowerCase()` lên trước |
 | "Lưu báo giá lên Google Sheet từ web tĩnh" | Apps Script không trả lời CORS preflight, gửi lại có thể ghi trùng | Gửi `text/plain`, dự phòng `no-cors`, `id` duy nhất và script kiểm tra trùng |
 | "Gộp form liên hệ và hộp thoại báo giá thành một biểu mẫu" | Hai biểu mẫu khác nhau, form riêng không chọn được sản phẩm | Một module `quote-form.js` dùng chung, sản phẩm chọn bằng ô chọn hoặc tham số `?product=` |
-| "Thiết kế lại landing theo skill `design-taste-frontend`" | Bố cục "chữ trái, ảnh phải" quen thuộc | Chạy `draw.mjs` chọn hướng "tên là kiến trúc", giữ bảng màu và font của thương hiệu, sửa đến khi `inspect.mjs` không còn FAIL |
+| "Thiết kế lại landing theo skill `design-taste-frontend`" | Bố cục "chữ trái, ảnh phải" quen thuộc | Chạy `draw.mjs` chọn hướng "tên là kiến trúc", giữ bảng màu và font của thương hiệu, sửa đến khi `inspect.mjs` không còn FAIL | (đã hoàn nguyên về landing cũ theo yêu cầu)
 | "Dùng script thường để mở thẳng file là chạy" | `fetch` đọc JSON và `import` bị chặn khi mở bằng `file://` | Chuyển mỗi module thành IIFE gắn vào `Ericss`, dữ liệu thành `data/*.js` |

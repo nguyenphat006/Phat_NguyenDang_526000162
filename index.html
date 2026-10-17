@@ -58,131 +58,293 @@
 <span class="cart-btn__count" hidden>0</span>
 </button>
 </header>
-<main id="main" class="landing">
-<section id="home" class="monument" aria-labelledby="monument-title">
-<figure class="monument__photo">
-<img src="assets/img/hero.jpg" alt="Cận cảnh tấm đan dây thừng thủ công trong khung gỗ teak nguyên khối" data-i18n-alt="t023" width="1500" height="1133" fetchpriority="high">
+<main id="main">
+<!-- HERO -->
+<section aria-labelledby="hero-title" class="hero" id="home">
+<div class="hero__copy">
+<p class="eyebrow animate__animated animate__fadeIn" data-i18n="t017">Xưởng nội thất Ericss Furniture · Từ năm 2008</p>
+<h1 class="hero__title animate__animated animate__fadeInUp" data-i18n="t018" id="hero-title">Nội thất được làm bằng sự <em>kiên nhẫn</em>, bền bỉ theo năm tháng.</h1>
+<p class="hero__lead animate__animated animate__fadeInUp animate__delay-1s" data-i18n="t020">Teak, nhôm, dây thừng và mây nhựa cao cấp, thiết kế theo tiêu chuẩn Châu Âu và hoàn thiện bởi đôi tay lành nghề — dành cho gia đình, khách sạn và khu nghỉ dưỡng.</p>
+<p class="hero__actions animate__animated animate__fadeInUp animate__delay-2s">
+<a class="btn" data-i18n="t021" href="#collections">Khám phá bộ sưu tập</a>
+<a class="btn btn--ghost" data-i18n="t022" href="#process">Xem quy trình sản xuất</a>
+</p>
+</div>
+<div class="hero__visual">
+<figure class="hero__arch animate__animated animate__fadeIn animate__slow">
+<img alt="Cận cảnh tấm đan dây thừng thủ công trong khung gỗ teak nguyên khối" data-i18n-alt="t023" fetchpriority="high" height="1133" src="assets/img/hero.jpg" width="1500"/>
 </figure>
-<div class="monument__intro">
-<p class="monument__lead animate__animated animate__fadeInUp" data-t="home.hero.lead">Teak, nhôm, dây thừng và mây nhựa. Làm trọn vẹn trong một xưởng.</p>
-<p class="monument__action animate__animated animate__fadeInUp animate__delay-1s"><a class="btn" href="products.html" data-t="home.hero.cta">Xem sản phẩm</a></p>
+<figure class="hero__inset animate__animated animate__fadeInUp animate__delay-1s">
+<img alt="Chi tiết tấm đan hình học trên tay sofa gỗ teak" data-i18n-alt="t301" height="694" loading="lazy" src="assets/img/g-wicker-detail.jpg" width="496"/>
+</figure>
 </div>
-<h1 id="monument-title" class="monument__name animate__animated animate__fadeIn animate__slow"><span aria-hidden="true">ericss</span><span class="sr-only">Ericss Furniture</span></h1>
 </section>
-
-<section id="about" class="intro" aria-labelledby="intro-title">
-<div class="intro__row">
-<h2 id="intro-title" data-aos="fade-up" data-t="home.intro.title">Tự làm, tự kiểm soát</h2>
-<p class="intro__note" data-aos="fade-up" data-aos-delay="100" data-t="home.intro.note">Từ khúc gỗ teak đến chiếc ghế hoàn chỉnh, mọi công đoạn diễn ra trong xưởng Ericss, nên chúng tôi giữ được chất lượng và chỉnh theo từng dự án.</p>
+<!-- FIGURES -->
+<section aria-label="Ericss Furniture trong những con số" class="stats" data-i18n-aria="t025">
+<dl class="stats__list">
+<div class="stats__item" data-aos="fade-up">
+<dt data-i18n="t026">Thành lập</dt>
+<dd data-count="2008" data-from="1970">2008</dd>
 </div>
-<dl class="facts">
-<div class="facts__item" data-aos="fade-up"><dt>4</dt><dd data-t="home.fact.materials">chất liệu: teak, nhôm, dây thừng, mây nhựa</dd></div>
-<div class="facts__item" data-aos="fade-up" data-aos-delay="80"><dt>8</dt><dd data-t="home.fact.steps">công đoạn, tất cả trong xưởng</dd></div>
-<div class="facts__item" data-aos="fade-up" data-aos-delay="160"><dt id="fact-lead">14–40 ngày</dt><dd data-t="home.fact.lead">thời gian giao, tùy sản phẩm</dd></div>
-<div class="facts__item" data-aos="fade-up" data-aos-delay="240"><dt id="fact-moq">từ 2</dt><dd data-t="home.fact.moq">sản phẩm: MOQ thấp nhất của xưởng</dd></div>
+<div class="stats__item" data-aos="fade-up" data-aos-delay="100">
+<dt data-i18n="t028">Nghệ nhân</dt>
+<dd data-count="120">120</dd>
+</div>
+<div class="stats__item" data-aos="fade-up" data-aos-delay="200">
+<dt data-i18n="t030">Diện tích xưởng</dt>
+<dd data-count="15000" data-suffix=" m²">15,000 m²</dd>
+</div>
+<div class="stats__item" data-aos="fade-up" data-aos-delay="300">
+<dt data-i18n="t032">Chất liệu đặc trưng</dt>
+<dd data-count="4">4</dd>
+</div>
 </dl>
 </section>
-
-<section id="collections" class="showcase" aria-labelledby="showcase-title">
-<h2 id="showcase-title" data-aos="fade-up" data-t="home.show.title">Bốn chất liệu</h2>
-<ul class="band">
-<li class="band__panel" style="--grow:5" data-aos="fade-up">
-<a href="products.html?cat=aluminum">
-<img src="assets/img/cat-aluminum.jpg" alt="Bàn tròn nhỏ mặt giả đá tối màu trên chân nhôm thanh mảnh" data-i18n-alt="t048" width="1100" height="733" loading="lazy">
-<span class="band__text">
-<strong data-t="cat.aluminum">Nhôm</strong>
-<span class="band__more"><span data-t="home.show.aluminum">Khung nhẹ, không gỉ, sơn tĩnh điện bền màu.</span><small class="band__meta" data-material="aluminum"></small></span>
-</span>
-</a>
-</li>
-<li class="band__panel" style="--grow:2" data-aos="fade-up">
-<a href="products.html?cat=teak">
-<img src="assets/img/g-teak-table.jpg" alt="Mặt bàn gỗ teak nguyên khối với vân gỗ rõ nét" data-i18n-alt="t044" width="496" height="694" loading="lazy">
-<span class="band__text">
-<strong data-t="cat.teak">Teak</strong>
-<span class="band__more"><span data-t="home.show.teak">Gỗ cứng đặc, giàu dầu tự nhiên, ngả bạc theo năm tháng.</span><small class="band__meta" data-material="teak"></small></span>
-</span>
-</a>
-</li>
-<li class="band__panel" style="--grow:3" data-aos="fade-up">
-<a href="products.html?cat=rope">
-<img src="assets/img/cat-rope.jpg" alt="Sofa dây thừng đan tay với đệm màu kem" data-i18n-alt="t052" width="1100" height="733" loading="lazy">
-<span class="band__text">
-<strong data-t="cat.rope">Dây thừng</strong>
-<span class="band__more"><span data-t="home.show.rope">Dây chống tia UV, đan tay mềm mại.</span><small class="band__meta" data-material="rope"></small></span>
-</span>
-</a>
-</li>
-<li class="band__panel" style="--grow:2" data-aos="fade-up">
-<a href="products.html?cat=wicker">
-<img src="assets/img/cat-wicker.jpg" alt="Tay vịn sofa teak với chi tiết mây nhựa đan" data-i18n-alt="t056" width="1100" height="733" loading="lazy">
-<span class="band__text">
-<strong data-t="cat.wicker">Mây nhựa</strong>
-<span class="band__more"><span data-t="home.show.wicker">Sợi nhựa bền như mây tự nhiên, không nứt, không phai.</span><small class="band__meta" data-material="wicker"></small></span>
-</span>
-</a>
-</li>
+<!-- ABOUT -->
+<section aria-labelledby="about-title" class="section about" id="about">
+<header class="section__head" data-aos="fade-up">
+<p class="eyebrow" data-i18n="t034">Về chúng tôi</p>
+<h2 data-i18n="t035" id="about-title">Một xưởng chế tác theo đuổi thiết kế Châu Âu vượt thời gian.</h2>
+</header>
+<article class="about__body">
+<figure class="about__media" data-aos="fade-right">
+<img alt="Thợ thủ công đang hoàn thiện khung ghế mây bằng tay" data-i18n-alt="t036" height="733" loading="lazy" src="assets/img/step-8.jpg" width="1100"/>
+</figure>
+<div class="about__text" data-aos="fade-left">
+<p data-i18n="t037">Ericss Furniture ra đời từ một ý tưởng giản dị: nội thất phải đẹp, chân thật và bền lâu. Từ năm 2008, xưởng của chúng tôi kết hợp máy móc chính xác với tay nghề truyền thống, mang đến những bộ sưu tập đáp ứng yêu cầu về hoàn thiện, an toàn và độ bền của các gia đình và dự án khách sạn Châu Âu.</p>
+<p data-i18n="t038">Mọi sản phẩm đều được sản xuất tại xưởng — từ nguyên liệu thô đến đóng gói — để chúng tôi kiểm soát chất lượng ở từng công đoạn và tùy chỉnh kích thước, lớp hoàn thiện, vải bọc theo dự án của bạn.</p>
+<ul class="ticks">
+<li data-i18n="t039">Sản xuất khép kín trong cùng một xưởng</li>
+<li data-i18n="t040">Tùy chỉnh kích thước, hoàn thiện và vải bọc</li>
+<li data-i18n="t041">Dành cho nhà ở và dự án khách sạn</li>
 </ul>
-<p class="showcase__caption" data-t="home.show.caption">Chọn một chất liệu để xem sản phẩm.</p>
-</section>
-
-<section id="process" class="process" aria-labelledby="process-title">
-<div class="process__head">
-<h2 id="process-title" data-aos="fade-up" data-t="home.proc.title">Quy trình tám bước</h2>
-<p data-aos="fade-up" data-aos-delay="100" data-t="home.proc.note">Máy móc cho độ chính xác, đôi tay cho cá tính. Cả hai cùng nằm trong một xưởng.</p>
 </div>
-<article class="slip" data-aos="fade-up" aria-labelledby="process-title">
-<h3 data-t="home.proc.g1">Gia công</h3>
-<ol class="slip__list">
-<li><span class="slip__what" data-t="home.proc.s1">Chọn lựa và cưa xẻ</span><span class="slip__dots" aria-hidden="true"></span><span class="slip__tag" data-t="cat.teak">Teak</span></li>
-<li><span class="slip__what" data-t="home.proc.s2">Gia công CNC</span><span class="slip__dots" aria-hidden="true"></span><span class="slip__tag" data-t="cat.teak">Teak</span></li>
-<li><span class="slip__what" data-t="home.proc.s3">Cắt laser tự động</span><span class="slip__dots" aria-hidden="true"></span><span class="slip__tag" data-t="cat.aluminum">Nhôm</span></li>
-<li><span class="slip__what" data-t="home.proc.s4">Uốn bằng máy</span><span class="slip__dots" aria-hidden="true"></span><span class="slip__tag" data-t="cat.aluminum">Nhôm</span></li>
-</ol>
-<h3 data-t="home.proc.g2">Khung và bề mặt</h3>
-<ol class="slip__list">
-<li><span class="slip__what" data-t="home.proc.s5">Hàn robot</span><span class="slip__dots" aria-hidden="true"></span><span class="slip__tag" data-t="cat.aluminum">Nhôm</span></li>
-<li><span class="slip__what" data-t="home.proc.s6">Sơn tĩnh điện và nướng</span><span class="slip__dots" aria-hidden="true"></span><span class="slip__tag" data-t="home.tag.aluwicker">Nhôm, mây nhựa</span></li>
-</ol>
-<h3 data-t="home.proc.g3">Đan và kiểm tra</h3>
-<ol class="slip__list">
-<li><span class="slip__what" data-t="home.proc.s7">Đan tay</span><span class="slip__dots" aria-hidden="true"></span><span class="slip__tag" data-t="home.tag.ropewicker">Dây thừng, mây nhựa</span></li>
-<li><span class="slip__what" data-t="home.proc.s8">Hoàn thiện và kiểm tra</span><span class="slip__dots" aria-hidden="true"></span><span class="slip__tag" data-t="home.tag.all">Mọi chất liệu</span></li>
-</ol>
-<p class="slip__result"><span data-t="home.proc.result">Đóng gói xuất khẩu, giao trong</span><strong id="proc-lead">14–40 ngày</strong></p>
 </article>
 </section>
-
-<section class="figures" aria-labelledby="figures-title">
-<h2 id="figures-title" data-aos="fade-up" data-t="home.stats.title">Con số</h2>
-<dl class="figures__list">
-<div class="figures__row" data-aos="fade-up"><dt data-count="2008" data-from="1970">2008</dt><dd data-t="home.stats.s1">Năm Ericss bắt đầu làm nội thất ngoài trời.</dd></div>
-<div class="figures__row" data-aos="fade-up"><dt data-count="120">120</dt><dd data-t="home.stats.s2">Nghệ nhân làm việc trong xưởng.</dd></div>
-<div class="figures__row" data-aos="fade-up"><dt data-count="15000" data-suffix=" m²">15.000 m²</dt><dd data-t="home.stats.s3">Diện tích xưởng, nơi diễn ra cả tám công đoạn.</dd></div>
-<div class="figures__row" data-aos="fade-up"><dt data-count="26">26</dt><dd data-t="home.stats.s4">Mẫu sản phẩm, mỗi mẫu có SKU và MOQ riêng.</dd></div>
-</dl>
-</section>
-
-<section id="gallery" class="frames" aria-labelledby="frames-title">
-<h2 id="frames-title" class="frames__title"><span data-t="home.gallery.title">Trong xưởng</span> <span data-t="home.gallery.count">8 ảnh</span></h2>
-<ul class="frames__row" tabindex="0" aria-label="Ảnh quy trình sản xuất" data-t-aria="home.gallery.label">
-<li class="frames__item"><img src="assets/img/step-1.jpg" alt="Công nhân đang cưa xẻ ván gỗ teak" data-i18n-alt="t077" width="1100" height="723" loading="lazy"></li>
-<li class="frames__item"><img src="assets/img/step-2.jpg" alt="Máy CNC đang cắt chi tiết gỗ" data-i18n-alt="t081" width="1100" height="825" loading="lazy"></li>
-<li class="frames__item"><img src="assets/img/step-3.jpg" alt="Máy cắt laser tự động cho tấm nhôm" data-i18n-alt="t085" width="1100" height="733" loading="lazy"></li>
-<li class="frames__item"><img src="assets/img/step-4.jpg" alt="Máy uốn ống nhôm" data-i18n-alt="t089" width="1100" height="733" loading="lazy"></li>
-<li class="frames__item"><img src="assets/img/step-5.jpg" alt="Cánh tay robot đang hàn khung nhôm" data-i18n-alt="t093" width="1100" height="733" loading="lazy"></li>
-<li class="frames__item"><img src="assets/img/step-6.jpg" alt="Dây chuyền sơn tĩnh điện trong nhà xưởng" data-i18n-alt="t097" width="1100" height="825" loading="lazy"></li>
-<li class="frames__item"><img src="assets/img/step-7.jpg" alt="Nghệ nhân đang đan dây thừng vào khung" data-i18n-alt="t101" width="1100" height="733" loading="lazy"></li>
-<li class="frames__item"><img src="assets/img/step-8.jpg" alt="Thợ thủ công hoàn thiện và kiểm tra chiếc ghế" data-i18n-alt="t105" width="1100" height="733" loading="lazy"></li>
+<!-- COLLECTIONS -->
+<section aria-labelledby="collections-title" class="section section--tint" id="collections">
+<header class="section__head" data-aos="fade-up">
+<p class="eyebrow" data-i18n="t042">Bộ sưu tập</p>
+<h2 data-i18n="t043" id="collections-title">Bốn chất liệu. Một tiêu chuẩn chất lượng.</h2>
+</header>
+<ul class="cards">
+<li data-aos="fade-up">
+<article class="card" tabindex="0">
+<figure class="card__media"><img alt="Mặt bàn gỗ teak nguyên khối với vân gỗ rõ nét" data-i18n-alt="t044" height="694" loading="lazy" src="assets/img/g-teak-table.jpg" width="496"/></figure>
+<div class="card__body">
+<h3 data-i18n="t045">Nội thất Teak</h3>
+<p data-i18n="t046">Bàn ăn, ghế dài và sofa bằng gỗ teak nguyên khối sấy khô, tự nhiên chống chịu thời tiết và thời gian.</p>
+<a class="card__link" data-i18n="t047" href="products.html?cat=teak">Tìm hiểu về Teak</a>
+</div>
+</article>
+</li>
+<li data-aos="fade-up" data-aos-delay="100">
+<article class="card" tabindex="0">
+<figure class="card__media"><img alt="Bàn tròn nhỏ mặt giả đá tối màu trên chân nhôm thanh mảnh" data-i18n-alt="t048" height="733" loading="lazy" src="assets/img/cat-aluminum.jpg" width="1100"/>
+</figure>
+<div class="card__body">
+<h3 data-i18n="t049">Nội thất Nhôm</h3>
+<p data-i18n="t050">Khung nhẹ, mảnh, không gỉ, cắt laser và hàn robot, hoàn thiện bằng sơn tĩnh điện bền màu.</p>
+<a class="card__link" data-i18n="t051" href="products.html?cat=aluminum">Tìm hiểu về Nhôm</a>
+</div>
+</article>
+</li>
+<li data-aos="fade-up" data-aos-delay="200">
+<article class="card" tabindex="0">
+<figure class="card__media"><img alt="Sofa dây thừng đan tay với đệm màu kem" data-i18n-alt="t052" height="733" loading="lazy" src="assets/img/cat-rope.jpg" width="1100"/></figure>
+<div class="card__body">
+<h3 data-i18n="t053">Nội thất Dây thừng</h3>
+<p data-i18n="t054">Dây thừng mềm mại, chống tia UV, được đan tay trên khung nhôm hoặc teak cho vẻ ấm áp, giàu cảm xúc.</p>
+<a class="card__link" data-i18n="t055" href="products.html?cat=rope">Tìm hiểu về Dây thừng</a>
+</div>
+</article>
+</li>
+<li data-aos="fade-up" data-aos-delay="300">
+<article class="card" tabindex="0">
+<figure class="card__media"><img alt="Tay vịn sofa teak với chi tiết mây nhựa đan" data-i18n-alt="t056" height="733" loading="lazy" src="assets/img/cat-wicker.jpg" width="1100"/></figure>
+<div class="card__body">
+<h3 data-i18n="t057">Nội thất Mây nhựa</h3>
+<p data-i18n="t058">Sợi nhựa ép đùn, nướng định hình, đan thành những dáng khối tinh tế và vẫn mềm dẻo ngoài trời.</p>
+<a class="card__link" data-i18n="t059" href="products.html?cat=wicker">Tìm hiểu về Mây nhựa</a>
+</div>
+</article>
+</li>
 </ul>
 </section>
-
-<section id="contact" class="verb" aria-label="Gửi yêu cầu báo giá" data-t-aria="home.cta.label">
-<a class="verb__link" href="contact.html#quote-form">
-<span class="verb__sentence" data-t="home.cta.sentence">Chọn sản phẩm, nhập số lượng của bạn, chúng tôi gửi báo giá chi tiết.</span>
-<svg class="verb__arrow" viewBox="0 0 48 48" width="48" height="48" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" d="M12 36 36 12M16 12h20v20"/></svg>
-<span class="verb__word" data-t="home.cta.word">Báo giá</span>
-</a>
+<!-- MATERIALS -->
+<section aria-labelledby="materials-title" class="section" id="materials">
+<header class="section__head" data-aos="fade-up">
+<p class="eyebrow" data-i18n="t060">Vật liệu</p>
+<h2 data-i18n="t061" id="materials-title">Chọn lựa vì vẻ đẹp, tiêu chuẩn hóa vì độ bền.</h2>
+</header>
+<ul class="materials">
+<li class="material" data-aos="fade-up">
+<h3 data-i18n="t062">Teak</h3>
+<p data-i18n="t063">Gỗ cứng đặc, giàu dầu tự nhiên, theo thời gian ngả màu bạc nhẹ hoặc giữ sắc vàng nếu được chăm sóc.</p>
+<p class="material__tag" data-i18n="t064">Gia công CNC · Cưa xẻ</p>
+</li>
+<li class="material" data-aos="fade-up" data-aos-delay="100">
+<h3 data-i18n="t065">Nhôm</h3>
+<p data-i18n="t066">Cấu trúc nhẹ, chống ăn mòn với đường nét hiện đại, sắc sảo và lớp sơn tĩnh điện bền lâu.</p>
+<p class="material__tag" data-i18n="t067">Cắt laser · Uốn · Hàn</p>
+</li>
+<li class="material" data-aos="fade-up" data-aos-delay="200">
+<h3 data-i18n="t068">Dây thừng</h3>
+<p data-i18n="t069">Dây thừng ngoài trời nhuộm nguyên sợi, chịu nắng mưa và nấm mốc nhưng vẫn mềm khi chạm vào.</p>
+<p class="material__tag" data-i18n="t070">Đan tay</p>
+</li>
+<li class="material" data-aos="fade-up" data-aos-delay="300">
+<h3 data-i18n="t071">Mây nhựa</h3>
+<p data-i18n="t072">Sợi tổng hợp cao cấp mô phỏng mây tự nhiên mà không nứt, phai màu hay sờn xơ.</p>
+<p class="material__tag" data-i18n="t073">Ép đùn · Nướng định hình · Đan tay</p>
+</li>
+</ul>
+</section>
+<!-- PROCESS -->
+<section aria-labelledby="process-title" class="section section--tint" id="process">
+<header class="section__head" data-aos="fade-up">
+<p class="eyebrow" data-i18n="t074">Quy trình sản xuất</p>
+<h2 data-i18n="t075" id="process-title">Từ nguyên liệu thô đến thành phẩm, qua tám bước.</h2>
+<p class="section__intro" data-i18n="t076">Mọi công đoạn diễn ra ngay trong xưởng của chúng tôi, nơi máy móc mang lại độ chính xác còn con người mang lại cá tính.</p>
+</header>
+<ol class="steps">
+<li class="step" data-aos="fade-up">
+<article>
+<figure><img alt="Công nhân đang cưa xẻ ván gỗ teak" data-i18n-alt="t077" height="723" loading="lazy" src="assets/img/step-1.jpg" width="1100"/></figure>
+<p class="step__no" data-i18n="t078">01 <span class="step__tag">Teak</span></p>
+<h3 data-i18n="t079">Chọn lựa &amp; Cưa xẻ</h3>
+<p data-i18n="t080">Gỗ teak được phân loại, sấy khô và cưa thành phôi chính xác.</p>
+</article>
+</li>
+<li class="step" data-aos="fade-up" data-aos-delay="100">
+<article>
+<figure><img alt="Máy CNC đang cắt chi tiết gỗ" data-i18n-alt="t081" height="825" loading="lazy" src="assets/img/step-2.jpg" width="1100"/></figure>
+<p class="step__no" data-i18n="t082">02 <span class="step__tag">Teak</span></p>
+<h3 data-i18n="t083">Gia công CNC</h3>
+<p data-i18n="t084">Máy phay điều khiển số tạo mộng và đường cong với độ chính xác lặp lại.</p>
+</article>
+</li>
+<li class="step" data-aos="fade-up" data-aos-delay="200">
+<article>
+<figure><img alt="Máy cắt laser tự động cho tấm nhôm" data-i18n-alt="t085" height="733" loading="lazy" src="assets/img/step-3.jpg" width="1100"/></figure>
+<p class="step__no" data-i18n="t086">03 <span class="step__tag">Nhôm</span></p>
+<h3 data-i18n="t087">Cắt laser tự động</h3>
+<p data-i18n="t088">Tấm và ống nhôm được cắt laser cho cạnh sạch, không ba via.</p>
+</article>
+</li>
+<li class="step" data-aos="fade-up">
+<article>
+<figure><img alt="Máy uốn ống nhôm" data-i18n-alt="t089" height="733" loading="lazy" src="assets/img/step-4.jpg" width="1100"/></figure>
+<p class="step__no" data-i18n="t090">04 <span class="step__tag">Nhôm</span></p>
+<h3 data-i18n="t091">Uốn bằng máy</h3>
+<p data-i18n="t092">Ống được uốn thành đường cong mượt, đồng đều, không biến dạng.</p>
+</article>
+</li>
+<li class="step" data-aos="fade-up" data-aos-delay="100">
+<article>
+<figure><img alt="Cánh tay robot đang hàn khung nhôm" data-i18n-alt="t093" height="825" loading="lazy" src="assets/img/step-5.jpg" width="1100"/></figure>
+<p class="step__no" data-i18n="t094">05 <span class="step__tag">Nhôm</span></p>
+<h3 data-i18n="t095">Hàn robot</h3>
+<p data-i18n="t096">Robot tạo ra các mối hàn đồng đều, chắc chắn trên mọi khung.</p>
+</article>
+</li>
+<li class="step" data-aos="fade-up" data-aos-delay="200">
+<article>
+<figure><img alt="Dây chuyền sơn tĩnh điện trong nhà xưởng" data-i18n-alt="t097" height="825" loading="lazy" src="assets/img/step-6.jpg" width="1100"/></figure>
+<p class="step__no" data-i18n="t098">06 <span class="step__tag">Nhôm &amp; Mây nhựa</span></p>
+<h3 data-i18n="t099">Sơn tĩnh điện &amp; Nướng</h3>
+<p data-i18n="t100">Khung được sơn tĩnh điện và nướng cho lớp hoàn thiện cứng, đều; sợi nhựa được ép đùn và nướng định hình.</p>
+</article>
+</li>
+<li class="step" data-aos="fade-up">
+<article>
+<figure><img alt="Nghệ nhân đang đan dây thừng vào khung" data-i18n-alt="t101" height="733" loading="lazy" src="assets/img/step-7.jpg" width="1100"/></figure>
+<p class="step__no" data-i18n="t102">07 <span class="step__tag">Dây thừng &amp; Mây nhựa</span></p>
+<h3 data-i18n="t103">Đan tay</h3>
+<p data-i18n="t104">Thợ lành nghề đan từng sợi dây thừng và mây, tạo nên kết cấu đặc trưng cho mỗi sản phẩm.</p>
+</article>
+</li>
+<li class="step" data-aos="fade-up" data-aos-delay="100">
+<article>
+<figure><img alt="Thợ thủ công hoàn thiện và kiểm tra chiếc ghế" data-i18n-alt="t105" height="733" loading="lazy" src="assets/img/step-8.jpg" width="1100"/></figure>
+<p class="step__no" data-i18n="t106">08 <span class="step__tag">Mọi chất liệu</span></p>
+<h3 data-i18n="t107">Hoàn thiện &amp; Kiểm tra</h3>
+<p data-i18n="t108">Chà nhám, lắp ráp, bọc đệm và kiểm tra chất lượng lần cuối trước khi đóng gói xuất khẩu cẩn thận.</p>
+</article>
+</li>
+</ol>
+</section>
+<!-- GALLERY -->
+<section aria-labelledby="gallery-title" class="section" id="gallery">
+<header class="section__head" data-aos="fade-up">
+<p class="eyebrow" data-i18n="t109">Thư viện ảnh</p>
+<h2 data-i18n="t110" id="gallery-title">Những chi tiết đáng để ngắm kỹ.</h2>
+</header>
+<div aria-label="Lọc thư viện theo chất liệu" class="filters" data-aos="fade-up" data-i18n-aria="t111" role="group">
+<button aria-pressed="true" class="filter is-active" data-filter="all" data-i18n="t112" type="button">Tất cả</button>
+<button aria-pressed="false" class="filter" data-filter="teak" data-i18n="t113" type="button">Teak</button>
+<button aria-pressed="false" class="filter" data-filter="aluminum" data-i18n="t114" type="button">Nhôm</button>
+<button aria-pressed="false" class="filter" data-filter="rope" data-i18n="t115" type="button">Dây thừng</button>
+<button aria-pressed="false" class="filter" data-filter="wicker" data-i18n="t116" type="button">Mây nhựa</button>
+</div>
+<ul class="gallery">
+<li class="gallery__item" data-aos="zoom-in" data-category="teak">
+<figure><img alt="Vân gỗ mặt bàn teak" data-i18n-alt="t117" height="694" loading="lazy" src="assets/img/g-teak-table.jpg" width="496"/>
+<figcaption data-i18n="t118">Mặt bàn teak</figcaption>
+</figure>
+</li>
+<li class="gallery__item" data-aos="zoom-in" data-aos-delay="100" data-category="aluminum">
+<figure><img alt="Bàn ăn nhôm với mặt giả đá" data-i18n-alt="t119" height="694" loading="lazy" src="assets/img/g-alu-table.jpg" width="496"/>
+<figcaption data-i18n="t120">Nhôm &amp; mặt giả đá</figcaption>
+</figure>
+</li>
+<li class="gallery__item" data-aos="zoom-in" data-aos-delay="200" data-category="rope">
+<figure><img alt="Ghế ăn dây thừng với chân gỗ teak" data-i18n-alt="t121" height="694" loading="lazy" src="assets/img/g-rope-chair.jpg" width="496"/>
+<figcaption data-i18n="t122">Ghế ăn dây thừng</figcaption>
+</figure>
+</li>
+<li class="gallery__item" data-aos="zoom-in" data-category="wicker">
+<figure><img alt="Góc sofa teak với tấm đan họa tiết hình học" data-i18n-alt="t123" height="694" loading="lazy" src="assets/img/g-wicker-detail.jpg" width="496"/>
+<figcaption data-i18n="t124">Chi tiết tấm đan</figcaption>
+</figure>
+</li>
+<li class="gallery__item" data-aos="zoom-in" data-aos-delay="100" data-category="wicker">
+<figure><img alt="Đôi tay đang đan mây nhựa tối màu lên mặt ghế" data-i18n-alt="t125" height="733" loading="lazy" src="assets/img/g-wicker-weave.jpg" width="1100"/>
+<figcaption data-i18n="t126">Mây nhựa đan tay</figcaption>
+</figure>
+</li>
+<li class="gallery__item" data-aos="zoom-in" data-aos-delay="200" data-category="rope">
+<figure><img alt="Dây thừng đang được đan qua khung" data-i18n-alt="t127" height="733" loading="lazy" src="assets/img/step-7.jpg" width="1100"/>
+<figcaption data-i18n="t128">Đan dây thừng</figcaption>
+</figure>
+</li>
+</ul>
+</section>
+<!-- CONTACT -->
+<section aria-labelledby="contact-title" class="section section--tint contact" id="contact">
+<header class="section__head" data-aos="fade-up">
+<p class="eyebrow" data-i18n="t129">Liên hệ</p>
+<h2 data-i18n="t130" id="contact-title">Cùng tạo nên bộ sưu tập tiếp theo của bạn.</h2>
+<p class="section__intro" data-i18n="t131">Hãy cho chúng tôi biết về dự án, chúng tôi sẽ phản hồi với các phương án, thời gian sản xuất và mẫu thử.</p>
+</header>
+<div class="contact__grid">
+<div class="contact__cta" data-aos="fade-right">
+<p class="contact__cta-text" data-t="home.cta.text">Chọn sản phẩm, thêm vào giỏ báo giá và gửi yêu cầu chỉ trong vài bước.</p>
+<p class="hero__actions">
+<a class="btn" href="products.html" data-t="home.cta.products">Xem sản phẩm</a>
+<a class="btn btn--ghost" href="estimator.html" data-t="home.cta.estimate">Ước tính giá</a>
+<a class="btn btn--ghost" href="contact.html#quote-form" data-t="home.cta.quote">Gửi yêu cầu báo giá</a>
+</p>
+</div>
+<aside aria-label="Thông tin công ty" class="contact__info" data-aos="fade-left" data-i18n-aria="t142">
+<address>
+<h3>Ericss Furniture</h3>
+<p data-i18n="t144">Biên Hòa,<br>Đồng Nai, Việt Nam</p>
+<p><a href="mailto:nguyendangphat1505@gmail.com">nguyendangphat1505@gmail.com</a></p>
+</address>
+<p><a class="card__link" data-i18n="t147" href="#home">Về đầu trang</a></p>
+</aside>
+</div>
 </section>
 </main>
 <footer class="site-footer">
@@ -258,6 +420,7 @@
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
 <script src="js/site-i18n.js"></script>
 <script src="js/site.js"></script>
 <!-- data tables, then the modules in dependency order (plain scripts: the page also opens from disk) -->
@@ -280,7 +443,6 @@
 <script src="js/catalog.js"></script>
 <script src="js/estimator.js"></script>
 <script src="js/history.js"></script>
-<script src="js/landing.js"></script>
 <script src="js/quote-form.js"></script>
 <script src="js/main.js"></script>
 </body>

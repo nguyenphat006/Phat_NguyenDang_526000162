@@ -58,7 +58,7 @@ PROMPT_LOG.md   README.md   .github/workflows/deploy.yml
 | `quote-form.js` | **Biểu mẫu báo giá duy nhất** dùng cho hộp thoại và trang Liên hệ | Một nơi sửa, hai nơi dùng |
 | `quotes.js`, `sheet.js` | Tạo yêu cầu, lưu, gửi lên Google Sheet | |
 | `history.js` | Lịch sử yêu cầu, xuất / nhập JSON | |
-| `estimator.js`, `landing.js` | Trang ước giá, trang chủ | |
+| `estimator.js` | Trang ước giá | |
 | `site.js`, `site-i18n.js` | Menu, đổi ngôn ngữ, hiệu ứng chung | |
 
 ### Chạy trên máy
@@ -122,7 +122,7 @@ Giải thích đơn giản để nói: *`map` biến mỗi phần tử thành th
 - `input` ở ô tìm kiếm kèm **debounce** (`js/ui.js`): chờ khách ngừng gõ 150 ms rồi mới lọc, tránh vẽ lại liên tục.
 - `submit` với `event.preventDefault()` để tự kiểm tra và gửi, không tải lại trang (`js/quote-form.js`).
 - **Event delegation** (ủy quyền sự kiện): thay vì gắn sự kiện cho từng nút của 26 thẻ, gắn **một** lắng nghe ở khung chứa rồi dùng `event.target.closest('[data-action]')` để biết nút nào được bấm (`js/catalog.js`, `js/cart-ui.js`). Nhanh hơn và vẫn chạy với thẻ được vẽ thêm về sau.
-- Bàn phím: Esc đóng hộp thoại/menu, mũi tên cuộn dãy ảnh; chuột: kéo để cuộn dãy ảnh (`js/landing.js`).
+- Bàn phím: Esc đóng hộp thoại/menu, lọc thư viện ảnh bằng nút bấm.
 - `IntersectionObserver` (đếm số khi cuộn tới, đánh dấu mục menu); `requestAnimationFrame` (thanh tiến trình).
 
 **d) Bất đồng bộ và xử lý lỗi**
