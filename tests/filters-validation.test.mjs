@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { filterProducts, normalize } from '../js/filters.js';
-import { isQuoteRecord, validateProductQuote, validateQuote } from '../js/validation.js';
+import { isQuoteRecord, validateProductQuote, validateQuote, validateRequest } from '../js/validation.js';
 
 const products = JSON.parse(readFileSync(new URL('../data/products.json', import.meta.url), 'utf8'));
 const ids = (list) => list.map((p) => p.id);
@@ -92,6 +92,22 @@ test('validateProductQuote checks the customer MOQ', () => {
   assert.equal(validateProductQuote({ ...ok, qty: '5' }, 4).qty, 'err.qty'); // custom cap
   // the note is optional on the product form
   assert.equal(validateProductQuote(ok).message, undefined);
+});
+
+test('validateRequest: the one quote form', () => {
+  const base = { name: 'An', email: 'an@mail.com', phone: '', qty: '', message: '' };
+  // with a product: the customer MOQ is required, the message is optional
+  assert.deepEqual(validateRequest({ ...base, qty: '40' }, { hasProduct: true }), {});
+  assert.equal(validateRequest(base, { hasProduct: true }).qty, 'err.qty');
+  assert.equal(validateRequest({ ...base, qty: '40' }, { hasProduct: true }).message, undefined);
+  // custom project (no product): a message is required, the quantity is ignored
+  assert.equal(validateRequest(base).message, 'err.message');
+  assert.deepEqual(validateRequest({ ...base, message: 'Cần báo giá dự án khách sạn.' }), {});
+  assert.equal(validateRequest(base).qty, undefined);
+  // no product but a quote cart is attached: no message needed
+  assert.deepEqual(validateRequest(base, { hasCart: true }), {});
+  // contact details are always checked
+  assert.deepEqual(Object.keys(validateRequest({ name: '', email: 'x', phone: 'abc', qty: '1' }, { hasProduct: true })).sort(), ['email', 'name', 'phone']);
 });
 
 test('isQuoteRecord guards imported JSON', () => {

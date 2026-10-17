@@ -5,8 +5,8 @@ import { initCartUI } from './cart-ui.js';
 import { initCatalog } from './catalog.js';
 import { initEstimator } from './estimator.js';
 import { initLang } from './lang.js';
-import { initProductQuote } from './product-quote.js';
-import { initQuote } from './quote.js';
+import { initHistory } from './history.js';
+import { initQuoteForm } from './quote-form.js';
 import { syncPending } from './quotes.js';
 import { toast } from './ui.js';
 
@@ -15,9 +15,10 @@ async function boot() {
   const [pricing, config] = await Promise.all([loadJSON('data/pricing.json'), loadJSON('data/config.json').catch(() => ({}))]);
   const cart = createCart(pricing);
   initCartUI(cart);
-  await initCatalog(cart, { openQuote: initProductQuote(pricing, config) });
+  const quoteForm = await initQuoteForm({ pricing, config, cart });
+  await initCatalog(cart, { openQuote: quoteForm });
   initEstimator(cart, pricing);
-  await initQuote(cart);
+  await initHistory();
   document.documentElement.dataset.ready = '1';
   syncPending(); // quotes saved earlier but not yet in the Google Sheet (offline, or endpoint added later)
 }

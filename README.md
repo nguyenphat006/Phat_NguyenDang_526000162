@@ -13,7 +13,7 @@ Website giới thiệu nhà sản xuất nội thất cao cấp phong cách Châ
 | `index.html` | Landing page: giới thiệu, bộ sưu tập, vật liệu, quy trình sản xuất, thư viện ảnh |
 | `products.html` | Danh sách 26 sản phẩm đọc từ `data/products.json`: tìm kiếm (tên, chất liệu, SKU), lọc theo chất liệu và giá, sắp xếp, phân trang "Xem thêm", yêu thích, xem chi tiết. **Mỗi sản phẩm có nút "Gửi báo giá"**: khách nhập số lượng đặt (MOQ của khách), thấy ngay MOQ của xưởng, tạm tính và gửi yêu cầu |
 | `estimator.html` | Ước giá: chọn loại, chất liệu, kích thước, lớp hoàn thiện, số lượng để xem giá, chiết khấu, VAT, thời gian sản xuất |
-| `contact.html` | Form yêu cầu báo giá có kiểm tra hợp lệ, đính kèm giỏ báo giá, lịch sử yêu cầu kèm trạng thái đồng bộ Google Sheet (gửi lại, xuất / nhập JSON) |
+| `contact.html` | **Cùng một biểu mẫu báo giá như hộp thoại** nhưng đặt sẵn trên trang: chọn sản phẩm (hoặc dự án tùy chỉnh), nhập MOQ, xem tạm tính, đính kèm giỏ báo giá; bên dưới là lịch sử yêu cầu kèm trạng thái đồng bộ Google Sheet (gửi lại, xuất / nhập JSON) |
 
 Giỏ báo giá (ngăn kéo bên phải) và ngôn ngữ Việt – Anh dùng chung trên mọi trang.
 
@@ -38,7 +38,7 @@ Website tĩnh gửi `POST` tới một Google Apps Script (`apps-script/Code.gs`
 4. VAT 10% tính trên số tiền còn lại. Mọi số tiền làm tròn đến đồng.
 
 ## Kiến trúc JavaScript (`js/`)
-`api.js` (fetch JSON) · `store.js` (localStorage JSON) · `lang.js` (song ngữ) · `ui.js` (DOM, định dạng) · `pricing.js`, `filters.js`, `validation.js` (hàm thuần, có test) · `sheet.js` (gửi lên Google Sheet) · `quotes.js` (tạo, lưu, đồng bộ yêu cầu) · `cart.js` · `cart-ui.js` · `catalog.js` · `product-quote.js` (hộp thoại báo giá + MOQ) · `estimator.js` · `quote.js` (trang liên hệ) · `main.js` (khởi tạo theo từng trang). Dùng ES Modules, `map` / `filter` / `reduce` / `forEach`, event delegation, `async/await`, `try/catch`.
+`api.js` (fetch JSON) · `store.js` (localStorage JSON) · `lang.js` (song ngữ) · `ui.js` (DOM, định dạng) · `pricing.js`, `filters.js`, `validation.js` (hàm thuần, có test) · `sheet.js` (gửi lên Google Sheet) · `quotes.js` (tạo, lưu, đồng bộ yêu cầu) · `cart.js` · `cart-ui.js` · `catalog.js` · `quote-form.js` (biểu mẫu báo giá duy nhất: chọn sản phẩm, MOQ, tạm tính; dùng trong hộp thoại và trang Liên hệ) · `success.js` · `history.js` (lịch sử, xuất/nhập JSON) · `estimator.js` · `main.js` (khởi tạo theo từng trang). Dùng ES Modules, `map` / `filter` / `reduce` / `forEach`, event delegation, `async/await`, `try/catch`.
 
 ## Chạy thử trên máy
 Vì trang đọc tệp JSON bằng `fetch`, **không mở trực tiếp file `.html` (địa chỉ `file://`)** vì trình duyệt sẽ chặn và danh sách sản phẩm không hiện ra. Hãy chạy một máy chủ web:
@@ -46,7 +46,7 @@ Vì trang đọc tệp JSON bằng `fetch`, **không mở trực tiếp file `.h
 Windows: bấm đúp  chay-website.bat      (tự mở http://localhost:8000)
 hoặc:    npm start                      (Node.js)
 hoặc:    python -m http.server 8000     (Python)
-npm test                                (27 unit test, Node 18+)
+npm test                                (28 unit test, Node 18+)
 ```
 Trên GitHub Pages thì không cần làm gì thêm.
 

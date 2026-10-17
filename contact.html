@@ -64,52 +64,75 @@
 <p class="section__intro animate__animated animate__fadeInUp animate__delay-1s" data-t="contact.intro">Điền thông tin, đính kèm giỏ báo giá nếu có. Yêu cầu được lưu trên thiết bị của bạn và có thể tải về dạng JSON.</p>
 </section>
 <section class="section section--flush" aria-label="Gửi yêu cầu" data-t-aria="contact.region">
-<div class="contact__grid">
-<form id="quote-form" class="form" novalidate aria-label="Yêu cầu báo giá" data-t-aria="contact.form">
-<p class="form__row">
-<label for="name" data-t="form.name">Họ và tên</label>
-<input id="name" name="name" type="text" autocomplete="name" required aria-describedby="err-name">
-<span id="err-name" class="form__error" role="alert"></span>
+<div id="quote-form" class="pq pq--inline">
+<div id="pq-summary" class="pq__summary"></div>
+<div class="pq__main">
+<form id="pq-form" class="pq__form form" novalidate aria-labelledby="pq-title">
+<header class="form__head form__row--full">
+<h2 id="pq-title" data-t="pq.title">Gửi yêu cầu báo giá</h2>
+<p data-t="pq.subtitle">Chọn sản phẩm và số lượng bạn muốn đặt, chúng tôi sẽ gửi báo giá chi tiết qua email.</p>
+</header>
+<p class="form__row form__row--full">
+<label for="pq-product" data-t="pq.product">Sản phẩm</label>
+<select id="pq-product" name="product"></select>
 </p>
 <p class="form__row">
-<label for="email" data-t="form.email">Email</label>
-<input id="email" name="email" type="email" autocomplete="email" required aria-describedby="err-email">
-<span id="err-email" class="form__error" role="alert"></span>
+<label for="pq-name"><span data-t="form.name">Họ và tên</span></label>
+<input id="pq-name" name="name" type="text" autocomplete="name" required aria-describedby="pq-err-name">
+<span id="pq-err-name" class="form__error" role="alert"></span>
 </p>
 <p class="form__row">
-<label for="phone"><span data-t="form.phone">Số điện thoại</span> <small data-t="form.optional">(không bắt buộc)</small></label>
-<input id="phone" name="phone" type="tel" autocomplete="tel" aria-describedby="err-phone">
-<span id="err-phone" class="form__error" role="alert"></span>
+<label for="pq-email"><span data-t="form.email">Email</span></label>
+<input id="pq-email" name="email" type="email" autocomplete="email" required aria-describedby="pq-err-email">
+<span id="pq-err-email" class="form__error" role="alert"></span>
 </p>
 <p class="form__row">
-<label for="interest" data-t="form.interest">Tôi quan tâm đến</label>
-<select id="interest" name="interest">
-<option value="teak" data-t="opt.teak">Nội thất Teak</option>
-<option value="aluminum" data-t="opt.aluminum">Nội thất Nhôm</option>
-<option value="rope" data-t="opt.rope">Nội thất Dây thừng</option>
-<option value="wicker" data-t="opt.wicker">Nội thất Mây nhựa</option>
-<option value="custom" data-t="opt.custom">Dự án tùy chỉnh</option>
-</select>
+<label for="pq-phone"><span data-t="form.phone">Số điện thoại</span> <small data-t="form.optional">(không bắt buộc)</small></label>
+<input id="pq-phone" name="phone" type="tel" autocomplete="tel" aria-describedby="pq-err-phone">
+<span id="pq-err-phone" class="form__error" role="alert"></span>
 </p>
 <p class="form__row">
-<label for="message" data-t="form.message">Lời nhắn</label>
-<textarea id="message" name="message" rows="4" required aria-describedby="err-message"></textarea>
-<span id="err-message" class="form__error" role="alert"></span>
+<label for="pq-company"><span data-t="form.company">Công ty</span> <small data-t="form.optional">(không bắt buộc)</small></label>
+<input id="pq-company" name="company" type="text" autocomplete="organization">
+</p>
+<div id="pq-qty-row" class="form__row form__row--full qty">
+<label for="pq-qty" data-t="pq.qty">Số lượng đặt (MOQ của bạn)</label>
+<div class="qty-field">
+<button type="button" class="qty-field__btn" data-step="-1" data-t-aria="qty.decrease" aria-label="Giảm số lượng">&minus;</button>
+<input id="pq-qty" name="qty" type="number" min="1" step="1" inputmode="numeric" aria-describedby="pq-moq-hint pq-err-qty">
+<button type="button" class="qty-field__btn" data-step="1" data-t-aria="qty.increase" aria-label="Tăng số lượng">+</button>
+</div>
+<p id="pq-presets" class="presets" role="group" aria-label="Gợi ý số lượng" data-t-aria="pq.presets"></p>
+<span id="pq-moq-hint" class="pq__hint" role="status"></span>
+<span id="pq-err-qty" class="form__error" role="alert"></span>
+</div>
+<p class="form__row form__row--full">
+<label for="pq-message" data-t="pq.message">Lời nhắn / ghi chú</label>
+<textarea id="pq-message" name="message" rows="3" aria-describedby="pq-err-message"></textarea>
+<span id="pq-err-message" class="form__error" role="alert"></span>
 </p>
 <p class="pq__website" aria-hidden="true"><label>Website <input name="website" type="text" tabindex="-1" autocomplete="off"></label></p>
-<p class="form__row form__row--check">
-<label class="check"><input id="attach-cart" name="attach" type="checkbox" checked> <span id="attach-label" data-t="form.attachEmpty">Giỏ báo giá đang trống</span></label>
+<p class="form__row form__row--full form__row--check">
+<label class="check"><input id="pq-attach" name="attach" type="checkbox" checked> <span id="pq-attach-label" data-t="form.attachEmpty">Giỏ báo giá đang trống</span></label>
 </p>
-<button class="btn" type="submit" data-t="form.submit">Gửi yêu cầu</button>
+<dl id="pq-estimate" class="totals form__row--full"></dl>
+<p class="pq__note form__row--full" data-t="pq.disclaimer">Giá chỉ mang tính tham khảo, báo giá chính thức sẽ được gửi qua email.</p>
+<button class="btn btn--block form__submit" type="submit"><span data-t="pq.submit">Gửi yêu cầu báo giá</span><svg class="btn__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg></button>
 </form>
-<aside aria-label="Thông tin công ty" class="contact__info" data-i18n-aria="t142">
-<address>
+<section id="pq-success" class="success" role="status" tabindex="-1" hidden></section>
+</div>
+</div>
+<template id="pq-summary-empty">
+<div class="pq__contact">
+<p class="eyebrow" data-t="contact.eyebrow">Liên hệ</p>
 <h3>Ericss Furniture</h3>
+<address>
 <p data-i18n="t144">Biên Hòa,<br>Đồng Nai, Việt Nam</p>
 <p><a href="mailto:nguyendangphat1505@gmail.com">nguyendangphat1505@gmail.com</a></p>
 </address>
-</aside>
+<p class="pq__hint-text" data-t="pq.pickHint">Chọn một sản phẩm ở khung bên phải để xem thông tin và giá tạm tính.</p>
 </div>
+</template>
 <section class="history" aria-labelledby="history-title">
 <header class="history__head">
 <h2 id="history-title" data-t="history.title">Yêu cầu đã gửi trên thiết bị này</h2>

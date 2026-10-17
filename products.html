@@ -109,20 +109,28 @@
 <div id="product-dialog-body" class="detail"></div>
 </article>
 </dialog>
-<dialog id="quote-dialog" class="dialog dialog--wide" aria-labelledby="pq-title">
+<dialog id="quote-dialog" class="dialog dialog--wide dialog--flush" aria-labelledby="pq-title">
 <article class="dialog__panel">
 <button class="dialog__close dialog__close--float" type="button" data-close-dialog data-t-aria="dialog.close" aria-label="Đóng">&times;</button>
 <div class="pq">
 <div id="pq-summary" class="pq__summary"></div>
-<form id="pq-form" class="pq__form" novalidate>
-<h2 id="pq-title" data-t="pq.title">Gửi báo giá cho sản phẩm này</h2>
+<div class="pq__main">
+<form id="pq-form" class="pq__form form" novalidate aria-labelledby="pq-title">
+<header class="form__head form__row--full">
+<h2 id="pq-title" data-t="pq.title">Gửi yêu cầu báo giá</h2>
+<p data-t="pq.subtitle">Chọn sản phẩm và số lượng bạn muốn đặt, chúng tôi sẽ gửi báo giá chi tiết qua email.</p>
+</header>
+<p class="form__row form__row--full">
+<label for="pq-product" data-t="pq.product">Sản phẩm</label>
+<select id="pq-product" name="product"></select>
+</p>
 <p class="form__row">
-<label for="pq-name" data-t="form.name">Họ và tên</label>
+<label for="pq-name"><span data-t="form.name">Họ và tên</span></label>
 <input id="pq-name" name="name" type="text" autocomplete="name" required aria-describedby="pq-err-name">
 <span id="pq-err-name" class="form__error" role="alert"></span>
 </p>
 <p class="form__row">
-<label for="pq-email" data-t="form.email">Email</label>
+<label for="pq-email"><span data-t="form.email">Email</span></label>
 <input id="pq-email" name="email" type="email" autocomplete="email" required aria-describedby="pq-err-email">
 <span id="pq-err-email" class="form__error" role="alert"></span>
 </p>
@@ -135,21 +143,29 @@
 <label for="pq-company"><span data-t="form.company">Công ty</span> <small data-t="form.optional">(không bắt buộc)</small></label>
 <input id="pq-company" name="company" type="text" autocomplete="organization">
 </p>
-<p class="form__row">
+<div id="pq-qty-row" class="form__row form__row--full qty">
 <label for="pq-qty" data-t="pq.qty">Số lượng đặt (MOQ của bạn)</label>
-<input id="pq-qty" name="qty" type="number" min="1" step="1" inputmode="numeric" required aria-describedby="pq-moq-hint pq-err-qty">
+<div class="qty-field">
+<button type="button" class="qty-field__btn" data-step="-1" data-t-aria="qty.decrease" aria-label="Giảm số lượng">&minus;</button>
+<input id="pq-qty" name="qty" type="number" min="1" step="1" inputmode="numeric" aria-describedby="pq-moq-hint pq-err-qty">
+<button type="button" class="qty-field__btn" data-step="1" data-t-aria="qty.increase" aria-label="Tăng số lượng">+</button>
+</div>
+<p id="pq-presets" class="presets" role="group" aria-label="Gợi ý số lượng" data-t-aria="pq.presets"></p>
 <span id="pq-moq-hint" class="pq__hint" role="status"></span>
 <span id="pq-err-qty" class="form__error" role="alert"></span>
-</p>
-<p class="form__row">
-<label for="pq-message" data-t="pq.note">Ghi chú</label>
-<textarea id="pq-message" name="message" rows="2"></textarea>
+</div>
+<p class="form__row form__row--full">
+<label for="pq-message" data-t="pq.message">Lời nhắn / ghi chú</label>
+<textarea id="pq-message" name="message" rows="3" aria-describedby="pq-err-message"></textarea>
+<span id="pq-err-message" class="form__error" role="alert"></span>
 </p>
 <p class="pq__website" aria-hidden="true"><label>Website <input name="website" type="text" tabindex="-1" autocomplete="off"></label></p>
-<dl id="pq-estimate" class="totals"></dl>
-<p class="pq__note" data-t="pq.disclaimer">Giá chỉ mang tính tham khảo, báo giá chính thức sẽ được gửi qua email.</p>
-<button class="btn" type="submit" data-t="pq.submit">Gửi báo giá</button>
+<dl id="pq-estimate" class="totals form__row--full"></dl>
+<p class="pq__note form__row--full" data-t="pq.disclaimer">Giá chỉ mang tính tham khảo, báo giá chính thức sẽ được gửi qua email.</p>
+<button class="btn btn--block form__submit" type="submit"><span data-t="pq.submit">Gửi yêu cầu báo giá</span><svg class="btn__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg></button>
 </form>
+<section id="pq-success" class="success" role="status" tabindex="-1" hidden></section>
+</div>
 </div>
 </article>
 </dialog>

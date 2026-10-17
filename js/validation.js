@@ -25,6 +25,18 @@ export function validateProductQuote(values, maxQty = 100000) {
   return errors;
 }
 
+/**
+ * The one quote form (dialog and contact page).
+ * With a product the customer's MOQ is required; without one (a custom project) a message is required,
+ * unless a quote cart is attached.
+ */
+export function validateRequest(values, { hasProduct = false, hasCart = false, maxQty = 100000 } = {}) {
+  if (hasProduct) return validateProductQuote(values, maxQty);
+  const errors = validateContact(values);
+  if (!hasCart && (values.message ?? '').trim().length < 10) errors.message = 'err.message';
+  return errors;
+}
+
 /** True for a saved quote object with the fields the history list needs. */
 export function isQuoteRecord(value) {
   return Boolean(value)
