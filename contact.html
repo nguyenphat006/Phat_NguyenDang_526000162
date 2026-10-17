@@ -71,6 +71,7 @@
 <header class="form__head form__row--full">
 <h2 id="pq-title" data-t="pq.title">Gửi yêu cầu báo giá</h2>
 <p data-t="pq.subtitle">Chọn sản phẩm và số lượng bạn muốn đặt, chúng tôi sẽ gửi báo giá chi tiết qua email.</p>
+<p id="pq-seats" class="pq__seats" role="status" hidden></p>
 </header>
 <p class="form__row form__row--full">
 <label for="pq-product" data-t="pq.product">Sản phẩm</label>
@@ -120,6 +121,7 @@
 <button class="btn btn--block form__submit" type="submit"><span data-t="pq.submit">Gửi yêu cầu báo giá</span><svg class="btn__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg></button>
 </form>
 <section id="pq-success" class="success" role="status" tabindex="-1" hidden></section>
+<section id="pq-closed" class="success" data-status="full" role="status" hidden></section>
 </div>
 </div>
 <template id="pq-summary-empty">
@@ -224,6 +226,28 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="js/site-i18n.js"></script>
 <script src="js/site.js"></script>
-<script type="module" src="js/main.js"></script>
+<!-- data tables, then the modules in dependency order (plain scripts: the page also opens from disk) -->
+<script src="data/products.js"></script>
+<script src="data/pricing.js"></script>
+<script src="data/ui.js"></script>
+<script src="data/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/store.js"></script>
+<script src="js/lang.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/pricing.js"></script>
+<script src="js/filters.js"></script>
+<script src="js/validation.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/sheet.js"></script>
+<script src="js/quotes.js"></script>
+<script src="js/success.js"></script>
+<script src="js/cart-ui.js"></script>
+<script src="js/catalog.js"></script>
+<script src="js/estimator.js"></script>
+<script src="js/history.js"></script>
+<script src="js/landing.js"></script>
+<script src="js/quote-form.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

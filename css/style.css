@@ -44,6 +44,9 @@
 *::before,
 *::after { box-sizing: border-box; }
 
+/* the hidden attribute must win over class rules that set display: grid / flex */
+[hidden] { display: none !important; }
+
 html { scroll-behavior: smooth; scroll-padding-top: var(--header-h); }
 
 body {

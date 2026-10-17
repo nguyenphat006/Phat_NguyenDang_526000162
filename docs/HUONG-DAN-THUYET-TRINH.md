@@ -12,8 +12,8 @@ Tài liệu này cho bạn biết **website làm gì, chạy thế nào, và t�
 
 Đây là website **tĩnh** (HTML, CSS, JavaScript thuần, đặt trên GitHub Pages), không có máy chủ riêng. Mọi "logic" nằm ở JavaScript trong trình duyệt:
 
-- dữ liệu sản phẩm và bảng giá nằm trong các tệp **JSON**;
-- JavaScript đọc JSON bằng `fetch`, vẽ giao diện, tính tiền;
+- dữ liệu sản phẩm và bảng giá nằm trong các bảng dữ liệu có **cấu trúc JSON** (tệp `data/*.js`);
+- JavaScript đọc các bảng đó, vẽ giao diện, tính tiền;
 - dữ liệu của khách (giỏ, yêu thích, lịch sử) lưu bằng `localStorage`;
 - yêu cầu báo giá gửi lên Google Sheet qua **Google Apps Script**.
 
@@ -36,10 +36,10 @@ Dùng chung mọi trang: menu, **giỏ báo giá** (ngăn kéo bên phải), nú
 index.html  products.html  estimator.html  contact.html    4 trang
 css/    style.css (nền tảng, biến màu/font)   features.css (các trang dữ liệu)   landing.css (trang chủ)
 js/     các module JavaScript (xem bên dưới)
-data/   products.json  pricing.json  ui.json  config.json     dữ liệu dạng JSON
+data/   products.js  pricing.js  ui.js  config.js            bảng dữ liệu (cấu trúc JSON)
 assets/ img/ (ảnh), favicon.svg
 apps-script/  Code.gs  (đoạn mã dán vào Google Apps Script để ghi Sheet)
-tests/  3 tệp unit test      tools/ serve.mjs (máy chủ chạy thử)      docs/ (tài liệu này)
+docs/   HUONG-DAN-THUYET-TRINH.md (tài liệu này)
 PROMPT_LOG.md   README.md   .github/workflows/deploy.yml
 ```
 
@@ -48,7 +48,7 @@ PROMPT_LOG.md   README.md   .github/workflows/deploy.yml
 | Tệp | Làm gì | Nói ngắn gọn |
 |---|---|---|
 | `main.js` | Khởi động | Mỗi trang chỉ chạy phần nào có sẵn trên trang đó |
-| `api.js` | `fetch` JSON, có nhớ đệm | "Lấy dữ liệu từ tệp JSON" |
+| `api.js` | Lấy bảng dữ liệu từ `Ericss.data` | "Đưa dữ liệu cho các module khác" |
 | `store.js` | Đọc/ghi `localStorage` dạng JSON, không bao giờ làm sập trang | "Lưu dữ liệu của khách trên máy họ" |
 | `pricing.js` | **Hàm tính tiền** (chiết khấu, mã giảm giá, VAT, ước giá, MOQ) | Hàm thuần: cùng đầu vào cho cùng kết quả, dễ test |
 | `filters.js` | Tìm kiếm, lọc, sắp xếp sản phẩm | Hàm thuần, bỏ dấu tiếng Việt khi tìm |
@@ -62,9 +62,9 @@ PROMPT_LOG.md   README.md   .github/workflows/deploy.yml
 | `site.js`, `site-i18n.js` | Menu, đổi ngôn ngữ, hiệu ứng chung | |
 
 ### Chạy trên máy
-Bấm đúp `chay-website.bat` (hoặc `node tools/serve.mjs`) rồi mở `http://localhost:8000`.
-**Đừng mở thẳng file `.html`** (địa chỉ `file://`): trình duyệt chặn `fetch` nên sản phẩm không hiện. Trên GitHub Pages thì không bị.
-Chạy test: `node --test "tests/*.test.mjs"` (28 test).
+**Mở thẳng `index.html` bằng Chrome hoặc Edge là chạy**, không cần máy chủ. Có thể dùng link GitHub Pages thay thế.
+
+> Vì sao mở thẳng file được? Website dùng **script thường** và dữ liệu nằm trong `data/*.js`. Hai thứ trình duyệt chặn khi mở bằng `file://` là `fetch` đọc tệp `.json` và `import`/`export` của ES Modules, nên dự án không dùng chúng.
 
 ---
 
@@ -126,17 +126,17 @@ Giải thích đơn giản để nói: *`map` biến mỗi phần tử thành th
 - `IntersectionObserver` (đếm số khi cuộn tới, đánh dấu mục menu); `requestAnimationFrame` (thanh tiến trình).
 
 **d) Bất đồng bộ và xử lý lỗi**
-- `async/await` + `fetch` để đọc JSON (`js/api.js`).
-- `try/catch` ở mọi chỗ có thể hỏng: JSON không tải được, `localStorage` bị chặn, mạng mất khi gửi Google Sheet. Khi lỗi, trang **báo rõ nguyên nhân** thay vì treo (ví dụ mở bằng `file://` sẽ có hướng dẫn chạy máy chủ).
+- `async/await` + `fetch` để gửi yêu cầu lên Google Sheet (`js/sheet.js`); dữ liệu sản phẩm đã có sẵn trong trang nên không cần chờ tải.
+- `try/catch` ở mọi chỗ có thể hỏng: `localStorage` bị chặn, dữ liệu nhập vào là JSON sai, mạng mất khi gửi Google Sheet. Khi lỗi, trang không sập: yêu cầu vẫn được lưu và ghi trạng thái "chờ đồng bộ".
 
 **e) Chia module khoa học**
-- ES Modules (`import` / `export`), mỗi tệp một trách nhiệm (bảng ở mục 2).
-- **Tách hàm thuần khỏi giao diện:** `pricing.js`, `filters.js`, `validation.js` không đụng DOM nên có thể test độc lập (28 unit test).
+- Mỗi tệp là một **module kiểu IIFE** (hàm tự gọi, biến bên trong không lọt ra ngoài) và chỉ "xuất" những hàm cần thiết vào đối tượng chung `Ericss` (ví dụ `Ericss.pricing.calcQuote`); mỗi tệp một trách nhiệm (bảng ở mục 2). Các trang nạp tệp theo thứ tự phụ thuộc.
+- **Tách hàm thuần khỏi giao diện:** `pricing.js`, `filters.js`, `validation.js` không đụng DOM nên đọc, kiểm tra và tái sử dụng độc lập rất dễ.
 - Một biểu mẫu báo giá duy nhất (`quote-form.js`) thay vì hai bản sao: sửa một nơi, áp dụng cho cả hộp thoại và trang Liên hệ.
 
 **f) Không lỗi console:** đã kiểm tra tự động bằng trình duyệt thật ở mọi trang (không có lỗi hay request thất bại).
 
-**Cách nói:** "Phần cốt lõi em tách thành hàm thuần để test: lọc dùng nối `filter`, giỏ hàng dùng `reduce`, danh sách thẻ dùng `map`. Với 26 thẻ em dùng event delegation để chỉ có một trình lắng nghe."
+**Cách nói:** "Phần cốt lõi em tách thành hàm thuần, không đụng giao diện: lọc dùng nối `filter`, giỏ hàng dùng `reduce`, danh sách thẻ dùng `map`. Với 26 thẻ em dùng event delegation để chỉ có một trình lắng nghe."
 
 ---
 
@@ -144,7 +144,7 @@ Giải thích đơn giản để nói: *`map` biến mỗi phần tử thành th
 
 **Mức cao nhất:** cấu trúc dữ liệu tối ưu, bao quát mọi trường hợp; các hàm tính toán (GPA, học phí, tiền...) chính xác tuyệt đối.
 
-**Cấu trúc JSON** (mở `data/products.json` ra chỉ):
+**Cấu trúc JSON** (mở `data/products.js` ra chỉ):
 
 ```json
 {
@@ -161,7 +161,7 @@ Giải thích đơn giản để nói: *`map` biến mỗi phần tử thành th
   "tags": ["chair", "dining", "handmade"]
 }
 ```
-- `pricing.json`: `vatRate`, `volumeDiscounts` (bậc 5 / 10 / 20 sản phẩm → 3% / 5% / 8%), `coupons` (mã, tỷ lệ, đơn tối thiểu), `estimator` (bảng giá theo loại, chất liệu, kích thước, lớp hoàn thiện).
+- `data/pricing.js`: `vatRate`, `volumeDiscounts` (bậc 5 / 10 / 20 sản phẩm → 3% / 5% / 8%), `coupons` (mã, tỷ lệ, đơn tối thiểu), `estimator` (bảng giá theo loại, chất liệu, kích thước, lớp hoàn thiện).
 - Tách dữ liệu khỏi mã: muốn đổi giá hay thêm sản phẩm chỉ sửa JSON, không động tới JavaScript.
 
 **Công thức tính tiền** (`js/pricing.js` → `calcQuote`), theo đúng thứ tự:
@@ -172,7 +172,7 @@ Giải thích đơn giản để nói: *`map` biến mỗi phần tử thành th
 4. VAT = (sau chiết khấu và mã) × 10%
 5. Tổng = sau chiết khấu và mã + VAT. Mọi số làm tròn đến đồng.
 
-**Ví dụ tính tay để trình bày** (có trong `tests/pricing.test.mjs`):
+**Ví dụ tính tay để trình bày** (bạn tự bấm trên trang Sản phẩm: ghế dây thừng Cordé, số lượng 50, sẽ ra đúng con số này):
 - 50 ghế × 6.800.000 ₫ = **340.000.000 ₫**
 - Đặt 50 (≥ 20) nên giảm 8% = 27.200.000 → còn 312.800.000 ₫
 - VAT 10% = 31.280.000 → **Tổng 344.080.000 ₫**
@@ -180,13 +180,13 @@ Giải thích đơn giản để nói: *`map` biến mỗi phần tử thành th
 **Các trường hợp biên đã xử lý (nói để ăn điểm "bao quát mọi trường hợp")**
 - Giỏ trống → tổng 0.
 - Mã sai → báo "không hợp lệ"; mã chưa đủ đơn tối thiểu → báo "cần đơn từ ..." và không áp dụng; gõ hoa/thường hay có khoảng trắng đều nhận.
-- **Sai số số thực:** `14.662.499,999…` thay vì `14.662.500` làm giá lệch 1.000 ₫. Đã sửa bằng `toPrecision(12)` trước khi làm tròn, và có test giữ kết quả.
+- **Sai số số thực:** `14.662.499,999…` thay vì `14.662.500` làm giá lệch 1.000 ₫. Đã sửa bằng `toPrecision(12)` trước khi làm tròn.
 - Tìm kiếm không phân biệt dấu tiếng Việt: gõ "day thung" ra "dây thừng", cả chữ "Đ" hoa.
 - MOQ khách nhập thấp hơn MOQ xưởng → vẫn cho gửi nhưng cảnh báo "giá có thể thay đổi".
 - Số lượng không hợp lệ (0, âm, số lẻ, chữ, quá giới hạn) → báo lỗi.
 - Nhập JSON lịch sử: bỏ qua bản ghi sai cấu trúc, không ghi trùng `id`.
 
-**Cách nói:** "Dữ liệu em để trong JSON, giá lưu bằng số nguyên đồng để không bị sai số thập phân. Hàm tính tiền tách riêng và có 28 unit test, trong đó test bắt được lỗi làm tròn ở biên .5."
+**Cách nói:** "Dữ liệu em để trong JSON, giá lưu bằng số nguyên đồng để không bị sai số thập phân. Hàm tính tiền tách riêng nên em kiểm tra được bằng số tính tay, và em đã bắt được lỗi làm tròn ở biên .5."
 
 ---
 
@@ -197,8 +197,8 @@ Giải thích đơn giản để nói: *`map` biến mỗi phần tử thành th
 > **Đây là phần bạn phải tự làm, tôi (AI) không làm thay được và bạn cũng không nên làm giả.** Rubric chấm cả **Kanban** và **số thành viên có commit**. Lịch sử commit hiện tại chỉ có tài khoản của bạn.
 
 **Đã có sẵn**
-- Commit rõ ràng, bằng tiếng Việt, theo tiền tố chuẩn: `feat:` (tính năng), `fix:` (sửa lỗi), `docs:` (tài liệu), `test:` (kiểm thử), `refactor:` (dọn mã), `ci:` (tự động hóa). Xem bằng `git log --oneline`.
-- CI: GitHub Actions chạy 28 unit test **trước khi** deploy; test hỏng thì không deploy.
+- Commit rõ ràng, bằng tiếng Việt, theo tiền tố chuẩn: `feat:` (tính năng), `fix:` (sửa lỗi), `docs:` (tài liệu), `refactor:` (dọn mã), `ci:` (tự động hóa). Xem bằng `git log --oneline`.
+- Tự động deploy: mỗi lần push lên `main`, GitHub Actions đưa website lên GitHub Pages (`.github/workflows/deploy.yml`).
 
 **Bạn cần làm cho nhóm**
 1. Tạo **GitHub Projects** (loại Board / Kanban) với các cột *Backlog → Đang làm → Review → Xong*.
@@ -207,7 +207,7 @@ Giải thích đơn giản để nói: *`map` biến mỗi phần tử thành th
    - Danh sách sản phẩm và bộ lọc (`catalog.js`, `filters.js`)
    - Giỏ báo giá và tính tiền (`cart.js`, `pricing.js`)
    - Biểu mẫu báo giá và Google Sheet (`quote-form.js`, `sheet.js`, `apps-script/`)
-   - Trang ước giá (`estimator.js`) và kiểm thử (`tests/`)
+   - Trang ước giá (`estimator.js`) và tài liệu
 3. Mỗi người làm trên **nhánh riêng**, mở **Pull Request**, người khác review rồi mới gộp vào `main`. Như vậy lịch sử có commit của nhiều người, đều đặn theo thời gian.
 4. Cập nhật thẻ Kanban khi làm (kéo sang cột tiếp theo) để bảng "cập nhật đều".
 
@@ -221,16 +221,16 @@ Giải thích đơn giản để nói: *`map` biến mỗi phần tử thành th
 
 **Bằng chứng**
 - `README.md` có mô tả dự án, kiến trúc, cách chạy, công thức, và **bảng "Các prompt tiêu biểu"** (prompt, vấn đề, cách điều khiển AI).
-- `PROMPT_LOG.md` ghi 17 vòng làm việc, mỗi vòng có: prompt đã dùng, AI tạo ra gì, thách thức gặp phải, cách sửa prompt.
+- `PROMPT_LOG.md` ghi 19 vòng làm việc, mỗi vòng có: prompt đã dùng, AI tạo ra gì, thách thức gặp phải, cách sửa prompt.
 
 **Những ví dụ "điều khiển AI" mạnh nhất, nên kể**
-1. **AI làm sai, mình bắt được bằng test:** AI viết hàm làm tròn tiền, em yêu cầu viết test với số tính tay; test lộ lỗi biên .5 → sửa bằng `toPrecision(12)`. *Bài học: đừng tin kết quả AI, hãy kiểm chứng.*
+1. **AI làm sai, mình bắt được bằng số tính tay:** AI viết hàm làm tròn tiền, em đối chiếu với số tính tay và lộ lỗi biên .5 → sửa bằng `toPrecision(12)`. *Bài học: đừng tin kết quả AI, hãy kiểm chứng.*
 2. **Chẩn đoán đúng nguyên nhân:** hiệu ứng mở ảnh không chạy; AI đoán lung tung, em chỉ ra `IntersectionObserver` coi phần tử bị `clip-path` cắt hết là "không nhìn thấy" → quan sát phần tử cha.
 3. **Ràng buộc kiến trúc:** yêu cầu AI không dùng `<div>` vô nghĩa; gộp hai biểu mẫu thành một module thay vì sao chép.
 4. **Hạn chế của AI:** AI không thể tự triển khai Google Apps Script thay em (cần tài khoản Google), nên em yêu cầu AI viết sẵn mã và hướng dẫn, em tự triển khai.
 5. **Dùng công cụ để kiểm soát chất lượng:** cài skill thiết kế, để công cụ đo trang trong trình duyệt thật (cỡ chữ, đường kẻ, màu, độ phủ) rồi sửa tới khi hết lỗi, thay vì "cảm tính".
 
-**Cách nói:** "AI giúp em nhanh ở khung HTML/CSS và các đoạn lặp, nhưng logic tiền bạc em bắt AI viết test trước và kiểm bằng số tính tay. Em coi AI như một lập trình viên cần được review."
+**Cách nói:** "AI giúp em nhanh ở khung HTML/CSS và các đoạn lặp, nhưng logic tiền bạc em luôn kiểm bằng số tính tay. Em coi AI như một lập trình viên cần được review."
 
 ---
 
@@ -246,8 +246,8 @@ Giải thích đơn giản để nói: *`map` biến mỗi phần tử thành th
 | 6 | **Gửi báo giá** ở một sản phẩm; nhập số lượng thấp hơn MOQ rồi bấm gợi ý ×2, ×5 | Cảnh báo MOQ; chiết khấu tự đổi; tạm tính cập nhật tức thì |
 | 7 | Thêm vài món vào giỏ, nhập mã `ERICSS10` | `reduce`; mã chỉ áp dụng khi đủ điều kiện |
 | 8 | Sang Liên hệ: gửi khi để trống (cho thấy lỗi), rồi gửi đúng | Kiểm tra form; **cùng một biểu mẫu** với hộp thoại |
-| 9 | Mở Google Sheet, cho thấy dòng mới (cột `factoryMoq`, `customerMoq`, `meetsMoq`) | Cầu nối Apps Script; lưu cục bộ trước, mất mạng vẫn không mất yêu cầu |
-| 10 | Mở `tests/` và chạy `node --test "tests/*.test.mjs"`; mở tab Actions trên GitHub | 28 test; CI chạy test trước khi deploy |
+| 9 | Sau khi gửi: chỉ ra **mã QR** và dòng "Còn X/50 lượt"; mở Google Sheet cho thấy dòng mới (cột MOQ xưởng, MOQ khách đặt, Đạt MOQ, Tổng cộng); mở email cảm ơn của khách | Cầu nối Apps Script; lưu cục bộ trước, mất mạng vẫn không mất yêu cầu |
+| 10 | Mở `js/pricing.js` và chỉ hàm `calcQuote`; mở tab Actions trên GitHub | Công thức đúng thứ tự; push là tự deploy |
 | 11 | Mở `PROMPT_LOG.md` và bảng prompt trong README | Tư duy điều khiển AI |
 
 **Mẹo:** trước khi demo, mở sẵn các tab và gửi thử một yêu cầu để chắc Sheet đang nhận. Chạy bằng link GitHub Pages hoặc `chay-website.bat`, không mở file trực tiếp.
@@ -256,14 +256,23 @@ Giải thích đơn giản để nói: *`map` biến mỗi phần tử thành th
 
 ## 5. Câu hỏi giảng viên có thể hỏi
 
-**Vì sao dùng `fetch` mà không viết thẳng dữ liệu vào JavaScript?**
-Tách dữ liệu khỏi mã: đổi giá hay thêm sản phẩm chỉ sửa JSON, và đúng yêu cầu "có file JSON dữ liệu".
+**Vì sao dữ liệu nằm riêng trong `data/*.js` mà không viết thẳng vào mã xử lý?**
+Tách dữ liệu khỏi logic: đổi giá hay thêm sản phẩm chỉ sửa bảng dữ liệu, không động tới mã tính toán. Nội dung bảng vẫn là cấu trúc JSON; đặt trong tệp `.js` để trang mở thẳng từ ổ đĩa được (trình duyệt không cho `fetch` đọc `.json` ở chế độ `file://`). Nếu giảng viên đòi tệp `.json` thật, bạn trả lời được rõ lý do này.
 
 **Dữ liệu khách lưu ở đâu? Mất khi nào?**
 Giỏ, yêu thích, lịch sử lưu ở `localStorage` của trình duyệt, nên theo từng máy và sẽ mất khi khách xóa dữ liệu trình duyệt. Yêu cầu báo giá thì **gửi thêm lên Google Sheet** nên không mất.
 
 **Không có máy chủ thì ghi Google Sheet bằng cách nào?**
 Dùng Google Apps Script làm "web app" nhận `POST` rồi ghi dòng vào Sheet (`apps-script/Code.gs`).
+
+**Email cảm ơn gửi bằng cách nào? Có bị lạm dụng không?**
+Apps Script dùng `MailApp.sendEmail` gửi từ tài khoản Google của chủ website, ngay sau khi ghi dòng vào Sheet. Vì link web app công khai nên em chống lạm dụng: mỗi địa chỉ chỉ nhận 1 email mỗi giờ (lưu bằng `CacheService`), dừng khi hạn mức thư trong ngày sắp hết, chỉ gửi nội dung khách đã nhập và có câu "nếu không phải bạn, hãy bỏ qua".
+
+**Mã QR lấy ở đâu, chứa gì?**
+Gọi API QuickChart (`quickchart.io/qr?text=...`) với nội dung là họ tên và mã yêu cầu; ảnh hiện ngay trong màn hình xác nhận và nằm trong email. Cần nói thật: họ tên và mã được gửi tới quickchart.io để vẽ ảnh.
+
+**Giới hạn 50 lượt làm thế nào, có bị vượt khi hai người gửi cùng lúc không?**
+Website hỏi Apps Script số dòng hiện có để hiện "Còn X/50" và đóng form khi đủ. Nhưng việc **từ chối thật sự nằm ở Apps Script** (đếm dòng rồi mới ghi, có khóa `LockService`), nên dù ai đó mở form trước khi hết chỗ rồi bấm gửi sau, hoặc hai người gửi cùng lúc, vẫn không vượt 50.
 
 **Làm sao tránh ghi trùng một yêu cầu?**
 Mỗi yêu cầu có `id` duy nhất; script kiểm tra `id` đã có trong Sheet thì bỏ qua. Nhờ đó website gửi lại nhiều lần cũng không trùng.
@@ -282,11 +291,11 @@ Gắn một lắng nghe ở phần tử cha thay vì từng phần tử con; dù
 **Debounce là gì?**
 Chờ người dùng ngừng thao tác một khoảng ngắn mới chạy, để không lọc lại sau mỗi phím.
 
-**Hàm thuần là gì, vì sao dễ test?**
+**Hàm thuần là gì, vì sao dễ kiểm tra?**
 Cùng đầu vào luôn cho cùng kết quả, không đụng DOM hay lưu trữ. Nên chỉ cần gọi hàm với số và so sánh kết quả.
 
-**ES Module khác script thường chỗ nào?**
-Có `import` / `export`, phạm vi riêng cho từng tệp, tránh trùng tên biến toàn cục. Vì vậy cần máy chủ web (không chạy từ `file://`).
+**ES Module khác script thường chỗ nào, vì sao em chọn script thường?**
+ES Module có `import` / `export` và phạm vi riêng cho từng tệp, nhưng không chạy được khi mở bằng `file://`. Em dùng script thường và tự tạo phạm vi riêng bằng IIFE, chỉ đưa ra những hàm cần dùng qua `Ericss`, nên vẫn tránh trùng tên biến toàn cục mà mở thẳng file là chạy. Đổi lại phải nạp tệp đúng thứ tự (em ghi rõ ở cuối mỗi trang).
 
 **MOQ là gì, hệ thống xử lý ra sao?**
 MOQ là số lượng đặt tối thiểu. Mỗi sản phẩm có MOQ của xưởng; khách nhập số lượng của họ, hệ thống báo đạt hay chưa và lưu cả hai con số cùng cột `meetsMoq` vào Sheet.
@@ -316,7 +325,7 @@ Xem 3.5. Bạn nên tự đọc `pricing.js`, `filters.js`, `quote-form.js` và 
 
 - [ ] Mở link GitHub Pages, thử cả 4 trang và đổi ngôn ngữ
 - [ ] Gửi thử một yêu cầu, thấy dòng mới trong Google Sheet (xóa dòng thử sau đó)
-- [ ] Chạy `node --test "tests/*.test.mjs"` được 28 test đạt
+- [ ] Tự bấm một ví dụ trên trang Sản phẩm và đối chiếu với số tính tay trong mục 3.3
 - [ ] Tab **Actions** trên GitHub có dấu xanh
 - [ ] Bảng **Kanban** có thẻ và có commit của các thành viên (xem 3.4)
 - [ ] Đọc lại `PROMPT_LOG.md` để kể được ít nhất 3 lần bạn sửa AI

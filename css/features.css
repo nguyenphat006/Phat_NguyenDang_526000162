@@ -104,7 +104,6 @@
 
 .catalog__empty { margin-top: var(--space-3); }
 
-.products__message.is-error { padding: var(--space-3); background: var(--color-tint); border-left: 3px solid #b3402f; color: var(--color-ink); }
 
 .product {
   height: 100%; display: flex; flex-direction: column; overflow: hidden;
@@ -355,7 +354,7 @@
 
 .badge--sent { background: #e7f3ea; border-color: #bfdcc6; color: #2f6b3a; }
 
-.badge--failed { background: #fbe9e5; border-color: #efc4bb; color: #b3402f; }
+.badge--full, .badge--failed { background: #fbe9e5; border-color: #efc4bb; color: #b3402f; }
 
 .badge--pending { background: #fdf3df; border-color: #ecd8a8; color: #8a5a10; }
 
@@ -546,6 +545,17 @@
 .dialog--flush .pq__main { padding: clamp(1.4rem, 3vw, 2.2rem); }
 
 .dialog--flush .pq__main .success { border: 0; box-shadow: none; padding-top: 3rem; }
+
+/* ---------- Slots left, QR code, closed state ---------- */
+.pq__seats { display: inline-block; width: fit-content; margin: 0.6rem 0 0; padding: 0.3rem 0.9rem; border-radius: 99px; background: var(--color-tint); color: var(--color-primary-dark); font-size: 0.8125rem; font-weight: 500; }
+.pq__seats[hidden] { display: none; }
+.pq__seats.is-low { background: #fbe9e5; color: #b3402f; }
+.success__mail { margin: 0.2rem 0 0; max-width: 40ch; color: var(--color-muted); font-size: var(--fs-sm); }
+.success__qr { display: grid; justify-items: center; gap: 0.5rem; margin: 1rem 0 0; }
+.success__qr img { width: 180px; height: 180px; padding: 8px; background: #fff; border: 1px solid var(--color-line); }
+.success__qr figcaption { max-width: 34ch; color: var(--color-muted); font-size: 0.8125rem; }
+.success[data-status="full"] .success__icon { background: #fbe9e5; }
+.success[data-status="full"] .success__icon::after { content: "×"; left: 0; top: 0; width: 100%; height: 100%; border: 0; transform: none; display: grid; place-items: center; color: #b3402f; font-size: 2.6rem; line-height: 1; animation: none; }
 
 /* ---------- Responsive ---------- */
 

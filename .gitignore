@@ -7,3 +7,4 @@ image.png
 .claude/
 .taste-skill/
 node_modules/
+!docs/*.pdf

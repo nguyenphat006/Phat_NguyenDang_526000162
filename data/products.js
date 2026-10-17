@@ -1,4 +1,7 @@
-[
+// Data table "products" (JSON structure). Loaded with a plain <script> tag so the site also opens from disk.
+window.Ericss = window.Ericss || {};
+Ericss.data = Ericss.data || {};
+Ericss.data.products = [
   {
     "id": "teak-haven-dining",
     "sku": "ERC-TK-001",
@@ -624,4 +627,4 @@
     ],
     "featured": false
   }
-]
+];

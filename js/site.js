@@ -46,7 +46,6 @@ function setLang(next) {
   setNav(nav.classList.contains('is-open'));
   // lets the data-driven modules (js/) re-render in the new language
   document.dispatchEvent(new CustomEvent('ericss:lang', { detail: { lang: next } }));
-  if (document.querySelector('[data-loading].is-error')) showDataHelp(); // keep the help text in the chosen language
   try { localStorage.setItem('ericss-lang', next); } catch (e) { /* storage unavailable */ }
 }
 
@@ -161,25 +160,4 @@ if (!reduceMotion && window.gsap && window.ScrollTrigger) {
       btn.addEventListener('pointerleave', () => { x(0); y(0); });
     });
   }
-}
-
-// ---------- Data features need a web server ----------
-// The product list etc. are read from JSON files with fetch(), which browsers block on file:// pages.
-// Never leave the visitor staring at "Loading…": explain what to do instead.
-const DATA_HELP = {
-  vi: 'Không tải được dữ liệu sản phẩm. Nếu bạn đang mở file trực tiếp trên máy, hãy chạy máy chủ web: bấm đúp file chay-website.bat (hoặc chạy "node tools/serve.mjs") rồi mở http://localhost:8000.',
-  en: 'The product data could not be loaded. If you opened the file directly from disk, start a web server: double-click chay-website.bat (or run "node tools/serve.mjs") and open http://localhost:8000.',
-};
-function showDataHelp() {
-  document.querySelectorAll('[data-loading]').forEach((el) => {
-    el.removeAttribute('data-t'); // stop the language module from replacing the text
-    el.textContent = DATA_HELP[lang];
-    el.classList.add('is-error');
-  });
-}
-document.addEventListener('ericss:data-error', showDataHelp);
-if (location.protocol === 'file:') {
-  showDataHelp();
-} else {
-  setTimeout(() => { if (document.documentElement.dataset.ready !== '1') showDataHelp(); }, 8000);
 }

@@ -163,6 +163,28 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="js/site-i18n.js"></script>
 <script src="js/site.js"></script>
-<script type="module" src="js/main.js"></script>
+<!-- data tables, then the modules in dependency order (plain scripts: the page also opens from disk) -->
+<script src="data/products.js"></script>
+<script src="data/pricing.js"></script>
+<script src="data/ui.js"></script>
+<script src="data/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/store.js"></script>
+<script src="js/lang.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/pricing.js"></script>
+<script src="js/filters.js"></script>
+<script src="js/validation.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/sheet.js"></script>
+<script src="js/quotes.js"></script>
+<script src="js/success.js"></script>
+<script src="js/cart-ui.js"></script>
+<script src="js/catalog.js"></script>
+<script src="js/estimator.js"></script>
+<script src="js/history.js"></script>
+<script src="js/landing.js"></script>
+<script src="js/quote-form.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

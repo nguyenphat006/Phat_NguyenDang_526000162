@@ -1,4 +1,7 @@
-{
+// Data table "ui" (JSON structure). Loaded with a plain <script> tag so the site also opens from disk.
+window.Ericss = window.Ericss || {};
+Ericss.data = Ericss.data || {};
+Ericss.data.ui = {
   "vi": {
     "dialog.close": "Đóng",
     "loading": "Đang tải sản phẩm…",
@@ -189,7 +192,15 @@
     "home.gallery.label": "Ảnh quy trình sản xuất",
     "home.cta.label": "Gửi yêu cầu báo giá",
     "home.cta.sentence": "Chọn sản phẩm, nhập số lượng của bạn, chúng tôi gửi báo giá chi tiết.",
-    "home.cta.word": "Báo giá"
+    "home.cta.word": "Báo giá",
+    "seats.left": "Còn {left}/{limit} lượt nhận báo giá",
+    "seats.full.title": "Hết chỗ",
+    "seats.full.text": "Đã nhận đủ {limit} yêu cầu báo giá nên biểu mẫu tạm đóng. Bạn vui lòng quay lại sau hoặc liên hệ trực tiếp qua email.",
+    "toast.quote.full": "Rất tiếc, đã hết chỗ nhận báo giá nên yêu cầu {id} chỉ được lưu trên thiết bị này.",
+    "sync.full": "Hết chỗ",
+    "success.email": "Email xác nhận sẽ được gửi đến {email}.",
+    "success.qrAlt": "Mã QR check-in của {name}",
+    "success.qrNote": "Mã QR chứa họ tên và mã yêu cầu của bạn. Hãy giữ lại để đối chiếu khi làm việc với xưởng."
   },
   "en": {
     "dialog.close": "Close",
@@ -381,6 +392,14 @@
     "home.gallery.label": "Production process photos",
     "home.cta.label": "Request a quote",
     "home.cta.sentence": "Choose a product, enter your quantity and we send a detailed quote.",
-    "home.cta.word": "Quote"
+    "home.cta.word": "Quote",
+    "seats.left": "{left} of {limit} quote slots left",
+    "seats.full.title": "Fully booked",
+    "seats.full.text": "We have received all {limit} quote requests, so the form is closed for now. Please come back later or contact us by email.",
+    "toast.quote.full": "Sorry, all quote slots are taken, so request {id} is only saved on this device.",
+    "sync.full": "Fully booked",
+    "success.email": "A confirmation email will be sent to {email}.",
+    "success.qrAlt": "Check-in QR code for {name}",
+    "success.qrNote": "This QR code holds your name and request code. Keep it to check in when you deal with the workshop."
   }
-}
+};
