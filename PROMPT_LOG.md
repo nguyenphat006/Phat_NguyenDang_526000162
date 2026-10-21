@@ -144,6 +144,12 @@
 - **Thách thức gặp phải:** Bài đã vượt đề ở nhiều chỗ nên thêm nữa có thể thành gánh nặng khi thuyết trình.
 - **Cách sửa prompt (Debug prompt):** "Chỉ chọn 2-3 tính năng dùng lại dữ liệu có sẵn, mỗi tính năng phải giải thích được trong một phút, và ghi rõ giới hạn khi bị hỏi."
 
+### Lần 23: Modal xem ảnh lớn cho landing và footer có thông tin, pháp lý
+- **Prompt đã dùng:** "Mấy phần ảnh trong landing page thì thêm giúp tôi phần gallery modal image. Cải thiện footer xịn hơn, có thông tin rồi có pháp lý rõ ràng."
+- **Kết quả AI tạo ra:** `js/lightbox.js` dựng một `<dialog>` xem ảnh lớn cho thư viện ảnh, 8 bước quy trình, 4 thẻ chất liệu và ảnh giới thiệu: nút trước / sau, phím mũi tên và Esc, vuốt trên điện thoại, chú thích kèm số thứ tự, thư viện chỉ lật qua các ảnh đang hiện sau khi lọc. Footer mới có bốn cột (giới thiệu, khám phá, liên hệ, pháp lý), hai hộp thoại Chính sách bảo mật và Điều khoản sử dụng song ngữ, dòng tuyên bố thương hiệu là giả định.
+- **Thách thức gặp phải:** (1) Nội dung pháp lý phải đúng với cách website thực sự xử lý dữ liệu (localStorage, Google Sheet, QuickChart, bộ nhớ đệm chống spam), không được viết cho đẹp. (2) Không được bịa mã số thuế, giấy phép hay địa chỉ doanh nghiệp vì đây là thương hiệu giả định. (3) Các liên kết `#about`... trong footer cũ hỏng khi đứng ở trang khác.
+- **Cách sửa prompt (Debug prompt):** "Mỗi mục pháp lý phải đối chiếu được với mã nguồn; ghi rõ thương hiệu giả định, không bán hàng, không nhận thanh toán; liên kết footer dùng `index.html#...` để chạy ở mọi trang; viết kiểm thử cho từng hộp thoại ở cả bốn trang."
+
 ---
 
 ## 3. Đánh giá cá nhân về quá trình Vibe Coding

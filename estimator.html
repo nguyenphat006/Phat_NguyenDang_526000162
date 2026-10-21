@@ -89,19 +89,45 @@
 </section>
 </main>
 <footer class="site-footer">
+<div class="site-footer__top">
+<section class="site-footer__about" aria-label="Ericss Furniture">
 <p class="site-footer__brand"><span class="brand__mark">Ericss</span> Furniture</p>
-<nav aria-label="Chân trang" data-i18n-aria="t149">
-<ul class="site-footer__nav">
-<li><a data-i18n="t150" href="#about">Về chúng tôi</a></li>
-<li><a data-i18n="t151" href="#collections">Bộ sưu tập</a></li>
-<li><a data-i18n="t152" href="#process">Quy trình</a></li>
-<li><a data-i18n="t153" href="#contact">Liên hệ</a></li>
-<li><button class="footer-github" type="button" aria-haspopup="dialog" aria-controls="github-dialog" data-open-dialog="github-dialog">
+<p class="site-footer__about-text" data-i18n="f01">Xưởng nội thất ngoài trời cao cấp theo tiêu chuẩn châu Âu: teak, nhôm, dây thừng và mây nhựa.</p>
+<button class="footer-github" type="button" aria-haspopup="dialog" aria-controls="github-dialog" data-open-dialog="github-dialog">
 <svg class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-<span data-i18n="t201">GitHub</span></button></li>
+<span data-i18n="t201">GitHub</span></button>
+</section>
+<nav class="site-footer__col" aria-label="Chân trang" data-i18n-aria="t149">
+<h2 class="site-footer__title" data-i18n="f02">Khám phá</h2>
+<ul class="site-footer__list">
+<li><a data-i18n="t150" href="index.html#about">Về chúng tôi</a></li>
+<li><a data-i18n="t151" href="index.html#collections">Bộ sưu tập</a></li>
+<li><a data-i18n="t152" href="index.html#process">Quy trình</a></li>
+<li><a data-i18n="t011" href="products.html">Sản phẩm</a></li>
+<li><a data-i18n="t012" href="estimator.html">Ước giá</a></li>
 </ul>
 </nav>
+<section class="site-footer__col" aria-label="Liên hệ" data-i18n-aria="t153">
+<h2 class="site-footer__title" data-i18n="t015">Liên hệ</h2>
+<address class="site-footer__address">
+<span data-i18n="f04">Biên Hòa, Đồng Nai, Việt Nam</span>
+<a href="mailto:nguyendangphat1505@gmail.com">nguyendangphat1505@gmail.com</a>
+</address>
+<p class="site-footer__cta"><a class="btn btn--small btn--ghost-light" data-i18n="t016" href="contact.html">Yêu cầu báo giá</a></p>
+</section>
+<nav class="site-footer__col" aria-label="Pháp lý">
+<h2 class="site-footer__title" data-i18n="f05">Pháp lý</h2>
+<ul class="site-footer__list">
+<li><button class="site-footer__link" type="button" aria-haspopup="dialog" aria-controls="privacy-dialog" data-open-dialog="privacy-dialog"><span data-i18n="f06">Chính sách bảo mật</span></button></li>
+<li><button class="site-footer__link" type="button" aria-haspopup="dialog" aria-controls="terms-dialog" data-open-dialog="terms-dialog"><span data-i18n="f07">Điều khoản sử dụng</span></button></li>
+<li><a href="https://github.com/nguyenphat006/Phat_NguyenDang_526000162/blob/main/PROMPT_LOG.md" target="_blank" rel="noopener" data-i18n="t207">Nhật ký Prompt</a></li>
+</ul>
+</nav>
+</div>
+<div class="site-footer__legal">
 <p class="site-footer__copy" data-i18n="t154">© <time datetime="2026">2026</time> Ericss Furniture. Bài kiểm tra giữa kỳ môn Thiết kế Web — Nguyễn Đăng Phát · 526000162 · Trường Đại học Lạc Hồng.</p>
+<p class="site-footer__disclaimer" data-i18n="f08">Ericss Furniture là thương hiệu giả định, được xây dựng cho bài kiểm tra môn Thiết kế Web và không phải doanh nghiệp đang hoạt động. Sản phẩm, giá và hình ảnh chỉ mang tính minh họa; website không bán hàng và không nhận thanh toán.</p>
+</div>
 </footer>
 
 <button class="to-top" type="button" aria-label="Về đầu trang" data-i18n-aria="t303">
@@ -156,6 +182,55 @@
 </a>
 </li>
 </ul>
+</article>
+</dialog>
+
+<dialog id="privacy-dialog" class="dialog dialog--legal" aria-labelledby="privacy-title">
+<article class="dialog__panel">
+<header class="dialog__head">
+<h2 id="privacy-title" data-i18n="f09">Chính sách bảo mật</h2>
+<button class="dialog__close" type="button" data-close-dialog aria-label="Đóng" data-i18n-aria="t203">&times;</button>
+</header>
+<p class="dialog__lead" data-i18n="f10">Cách website này xử lý thông tin bạn gửi.</p>
+<div class="legal">
+<h3 class="legal__h" data-i18n="f11">1. Chúng tôi thu thập gì</h3>
+<p data-i18n="f12">Chỉ những thông tin bạn tự nhập khi gửi yêu cầu báo giá hoặc liên hệ:</p>
+<ul class="legal__list"><li><span data-i18n="f13">Họ tên, email (bắt buộc), số điện thoại và công ty (không bắt buộc).</span></li><li><span data-i18n="f14">Sản phẩm, số lượng đặt và lời nhắn của bạn.</span></li></ul>
+<h3 class="legal__h" data-i18n="f15">2. Dùng để làm gì</h3>
+<p data-i18n="f16">Để phản hồi yêu cầu báo giá và gửi email xác nhận cho bạn. Chúng tôi không bán, không cho thuê dữ liệu và không dùng để quảng cáo.</p>
+<h3 class="legal__h" data-i18n="f17">3. Dữ liệu được lưu ở đâu</h3>
+<ul class="legal__list"><li><span data-i18n="f18">Trên thiết bị của bạn (localStorage của trình duyệt): giỏ báo giá, mục yêu thích, lịch sử yêu cầu và ngôn ngữ đã chọn. Bấm "Xóa lịch sử" ở trang Liên hệ để xóa.</span></li><li><span data-i18n="f19">Trên Google Sheet của chủ website, khi bạn bấm gửi yêu cầu.</span></li><li><span data-i18n="f20">Trong hộp thư của bạn: email xác nhận gửi qua Google Apps Script.</span></li></ul>
+<p data-i18n="f21">Website không dùng cookie theo dõi, không có công cụ phân tích hay quảng cáo.</p>
+<h3 class="legal__h" data-i18n="f22">4. Bên thứ ba</h3>
+<ul class="legal__list"><li><span data-i18n="f23">Google: Google Sheet, Apps Script và Google Fonts (phông chữ).</span></li><li><span data-i18n="f24">QuickChart (quickchart.io): vẽ mã QR, nhận họ tên và mã yêu cầu của bạn.</span></li><li><span data-i18n="f25">cdnjs, unpkg: tải thư viện hiệu ứng và Excel; các máy chủ này thấy địa chỉ IP của bạn như mọi trang web.</span></li></ul>
+<h3 class="legal__h" data-i18n="f26">5. Chống spam</h3>
+<p data-i18n="f27">Để chặn gửi hàng loạt, địa chỉ email bạn nhập được ghi nhớ tạm trong bộ nhớ đệm của Google tối đa 1 giờ để đếm số lần gửi (tối đa 3 yêu cầu mỗi email mỗi giờ).</p>
+<h3 class="legal__h" data-i18n="f28">6. Quyền của bạn</h3>
+<p data-i18n="f29">Bạn có thể yêu cầu xem, sửa hoặc xóa dữ liệu đã gửi bằng cách viết đến nguyendangphat1505@gmail.com. Chúng tôi sẽ xử lý trong thời gian sớm nhất.</p>
+</div>
+</article>
+</dialog>
+<dialog id="terms-dialog" class="dialog dialog--legal" aria-labelledby="terms-title">
+<article class="dialog__panel">
+<header class="dialog__head">
+<h2 id="terms-title" data-i18n="f30">Điều khoản sử dụng</h2>
+<button class="dialog__close" type="button" data-close-dialog aria-label="Đóng" data-i18n-aria="t203">&times;</button>
+</header>
+<p class="dialog__lead" data-i18n="f31">Vui lòng đọc trước khi dùng website hoặc gửi yêu cầu báo giá.</p>
+<div class="legal">
+<h3 class="legal__h" data-i18n="f32">1. Về website này</h3>
+<p data-i18n="f33">Ericss Furniture là thương hiệu giả định, website được làm cho bài kiểm tra giữa kỳ môn Thiết kế Web (Trường Đại học Lạc Hồng). Đây không phải doanh nghiệp đang hoạt động: không có mã số thuế hay giấy phép kinh doanh, website không bán hàng và không nhận thanh toán.</p>
+<h3 class="legal__h" data-i18n="f34">2. Sản phẩm, giá và báo giá</h3>
+<ul class="legal__list"><li><span data-i18n="f35">Sản phẩm, giá, MOQ, thời gian giao và số liệu xưởng là dữ liệu mẫu để minh họa.</span></li><li><span data-i18n="f36">Số tiền "tạm tính" và "ước giá" chỉ để tham khảo, không phải báo giá chính thức hay lời chào hàng.</span></li><li><span data-i18n="f37">Gửi yêu cầu báo giá không tạo ra hợp đồng hay nghĩa vụ mua bán nào.</span></li></ul>
+<h3 class="legal__h" data-i18n="f38">3. Hình ảnh và nội dung</h3>
+<p data-i18n="f39">Hình ảnh chỉ mang tính minh họa cho mục đích học tập. Nếu bạn là chủ sở hữu một hình ảnh và muốn gỡ, hãy viết đến nguyendangphat1505@gmail.com, chúng tôi sẽ gỡ ngay. Mã nguồn của website công khai trên GitHub.</p>
+<h3 class="legal__h" data-i18n="f40">4. Sử dụng hợp lý</h3>
+<p data-i18n="f41">Vui lòng không gửi thông tin giả mạo, không gửi hàng loạt hay dùng công cụ tự động để gửi biểu mẫu. Hệ thống giới hạn tần suất gửi và có thể từ chối yêu cầu vi phạm.</p>
+<h3 class="legal__h" data-i18n="f42">5. Trách nhiệm</h3>
+<p data-i18n="f43">Website được cung cấp "như hiện có". Chúng tôi không đảm bảo website luôn hoạt động liên tục và không chịu trách nhiệm về nội dung của các trang bên ngoài mà website liên kết tới.</p>
+<h3 class="legal__h" data-i18n="f44">6. Luật áp dụng</h3>
+<p data-i18n="f45">Các điều khoản này tuân theo pháp luật Việt Nam. Cập nhật lần cuối: tháng 10/2026.</p>
+</div>
 </article>
 </dialog>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
