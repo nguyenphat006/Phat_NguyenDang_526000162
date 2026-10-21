@@ -12,6 +12,7 @@
 
   const CATEGORIES = ['teak', 'aluminum', 'rope', 'wicker'];
   const PAGE_SIZE = 12;
+  const MAX_COMPARE = 3;
 
   async function initCatalog(cart, { openQuote } = {}) {
     const grid = $('#product-grid');
@@ -26,6 +27,7 @@
     }
 
     const wishlist = new Set(store.read('wishlist', []));
+    let compare = store.read('compare', []).filter((id) => products.some((product) => product.id === id)).slice(0, MAX_COMPARE);
     const prices = products.map((product) => product.price);
     const priceCap = Math.ceil(Math.max(...prices) / 500000) * 500000;
     const params = new URLSearchParams(location.search);
@@ -51,6 +53,13 @@
     const dialog = $('#product-dialog');
     const dialogBody = $('#product-dialog-body');
     let openProductId = null;
+    const compareBar = $('#compare-bar');
+    const compareChips = $('#compare-chips');
+    const compareHint = $('#compare-hint');
+    const compareOpen = $('#compare-open');
+    const compareDialog = $('#compare-dialog');
+    const compareTable = $('#compare-table');
+    const diffOnly = $('#compare-diff');
 
     range.min = Math.floor(Math.min(...prices) / 500000) * 500000;
     range.max = priceCap;
@@ -80,9 +89,88 @@
       openQuote?.open(product);
     }
 
+    // ---------- compare up to three products side by side ----------
+    const byId = (id) => products.find((product) => product.id === id);
+
+    function toggleCompare(id) {
+      if (compare.includes(id)) {
+        compare = compare.filter((entry) => entry !== id);
+      } else if (compare.length >= MAX_COMPARE) {
+        toast(t('compare.max', { n: MAX_COMPARE }));
+        return;
+      } else {
+        compare = [...compare, id];
+      }
+      store.write('compare', compare);
+      render();
+      renderCompareBar();
+      if (compareDialog.open) {
+        if (compare.length < 2) compareDialog.close();
+        else renderCompareTable();
+      }
+    }
+
+    function renderCompareBar() {
+      compareBar.hidden = compare.length === 0;
+      document.body.classList.toggle('has-compare-bar', compare.length > 0);
+      compareChips.replaceChildren(...compare.map((id) => {
+        const product = byId(id);
+        return h('li', { class: 'compare-chip' },
+          h('img', { src: product.image, alt: '', width: 40, height: 40 }),
+          h('span', {}, pick(product.name)),
+          h('button', { type: 'button', 'data-remove': id, 'aria-label': t('compare.removeOne', { name: pick(product.name) }) }, '×'));
+      }));
+      compareOpen.textContent = t('compare.open', { n: compare.length });
+      compareOpen.disabled = compare.length < 2;
+      compareHint.textContent = compare.length < 2 ? t('compare.need') : '';
+    }
+
+    /** The rows of the comparison table. `best`: which product gets a badge (lowest value). */
+    const COMPARE_ROWS = [
+      { label: 'compare.row.category', raw: (p) => p.category, show: (p) => categoryLabel(p.category) },
+      { label: 'detail.price', raw: (p) => p.price, show: (p) => formatMoney(p.price), best: 'compare.best.price' },
+      { label: 'detail.dimensions', raw: (p) => p.dimensions, show: (p) => p.dimensions },
+      { label: 'detail.moq', raw: (p) => p.moq, show: (p) => t('pq.pieces', { n: p.moq }), best: 'compare.best.moq' },
+      { label: 'detail.lead', raw: (p) => p.leadTimeDays, show: (p) => t('days', { n: p.leadTimeDays }), best: 'compare.best.lead' },
+      { label: 'compare.row.description', raw: (p) => pick(p.description), show: (p) => pick(p.description) },
+    ];
+
+    function renderCompareTable() {
+      const items = compare.map(byId).filter(Boolean);
+      const rows = COMPARE_ROWS.filter((row) => !diffOnly.checked || new Set(items.map(row.raw)).size > 1);
+      const head = h('tr', {},
+        h('th', { scope: 'col' }, h('span', { class: 'sr-only' }, t('compare.criteria'))),
+        ...items.map((product) => h('th', { scope: 'col', class: 'compare__product' },
+          h('img', { src: product.image, alt: pick(product.name), width: 300, height: 240 }),
+          h('span', { class: 'product__cat' }, product.sku),
+          h('strong', {}, pick(product.name)))));
+      const body = rows.map((row) => {
+        const values = items.map(row.raw);
+        const best = row.best && new Set(values).size > 1 ? Math.min(...values) : null;
+        return h('tr', {},
+          h('th', { scope: 'row' }, t(row.label)),
+          ...items.map((product, i) => h('td', { class: values[i] === best ? 'is-best' : null },
+            row.show(product),
+            values[i] === best ? h('span', { class: 'compare__badge' }, t(row.best)) : null)));
+      });
+      const actions = h('tr', { class: 'compare__actions' },
+        h('td', {}),
+        ...items.map((product) => h('td', {},
+          h('button', { type: 'button', class: 'btn btn--small', onClick: () => { compareDialog.close(); quoteProduct(product); } }, t('card.quote')),
+          h('button', { type: 'button', class: 'btn btn--small btn--ghost', onClick: () => addToCart(product) }, t('card.add')),
+          h('button', { type: 'button', class: 'link-btn', onClick: () => toggleCompare(product.id) }, t('compare.remove')))));
+      compareTable.replaceChildren(
+        h('table', { class: 'compare' },
+          h('caption', { class: 'sr-only' }, t('compare.title')),
+          h('thead', {}, head),
+          h('tbody', {}, ...body, rows.length === 0 ? h('tr', {}, h('td', { colspan: items.length + 1, class: 'compare__same' }, t('compare.same'))) : null),
+          h('tfoot', {}, actions)));
+    }
+
     function renderCard(product) {
       const name = pick(product.name);
       const wished = wishlist.has(product.id);
+      const comparing = compare.includes(product.id);
       return h('li', { dataset: { id: product.id } },
         h('article', { class: 'product' },
           h('figure', { class: 'product__media' },
@@ -99,6 +187,10 @@
             h('p', { class: 'product__meta' }, `${product.dimensions} · ${t('days', { n: product.leadTimeDays })}`),
             h('p', { class: 'product__meta product__moq' }, t('card.moq', { n: product.moq })),
             h('p', { class: 'product__price' }, formatMoney(product.price)),
+            h('p', { class: 'product__compare' },
+              h('button', { type: 'button', class: 'compare-toggle', 'data-action': 'compare', 'aria-pressed': String(comparing) },
+                h('span', { class: 'compare-toggle__box', 'aria-hidden': 'true' }),
+                comparing ? t('compare.added') : t('compare.add'))),
             h('p', { class: 'product__actions' },
               h('button', { type: 'button', class: 'btn btn--small btn--ghost', 'data-action': 'details' }, t('card.details')),
               h('button', { type: 'button', class: 'btn btn--small', 'data-action': 'quote' }, t('card.quote'))))));
@@ -155,6 +247,7 @@
       const product = products.find((entry) => entry.id === card.dataset.id);
       const actions = {
         wish: () => toggleWish(product.id),
+        compare: () => toggleCompare(product.id),
         add: () => addToCart(product),
         quote: () => quoteProduct(product),
         details: () => { renderDialog(product.id); dialog.showModal(); },
@@ -162,6 +255,23 @@
       actions[button.dataset.action]?.();
     });
     dialog.addEventListener('close', () => { openProductId = null; });
+
+    compareChips.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-remove]');
+      if (button) toggleCompare(button.dataset.remove);
+    });
+    compareOpen.addEventListener('click', () => {
+      if (compare.length < 2) return;
+      renderCompareTable();
+      compareDialog.showModal();
+    });
+    $('#compare-clear').addEventListener('click', () => {
+      compare = [];
+      store.write('compare', compare);
+      render();
+      renderCompareBar();
+    });
+    diffOnly.addEventListener('change', renderCompareTable);
 
     search.addEventListener('input', debounce(() => refilter({ query: search.value }), 150));
     sortSelect.addEventListener('change', () => refilter({ sort: sortSelect.value }));
@@ -177,8 +287,9 @@
       refilter({ query: '', category: 'all', maxPrice: priceCap, sort: 'default', wishOnly: false });
     });
 
-    onLangChange(() => { render(); if (openProductId) renderDialog(openProductId); });
+    onLangChange(() => { render(); renderCompareBar(); if (compareDialog.open) renderCompareTable(); if (openProductId) renderDialog(openProductId); });
     render();
+    renderCompareBar();
   }
 
   E.catalog = { initCatalog };

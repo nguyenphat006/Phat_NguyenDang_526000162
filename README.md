@@ -11,7 +11,7 @@ Website nhà sản xuất nội thất ngoài trời cao cấp: giới thiệu x
 | Trang | Nội dung |
 |---|---|
 | `index.html` | Landing page: tên thương hiệu cỡ lớn, bốn chất liệu, quy trình 8 bước, con số, ảnh trong xưởng |
-| `products.html` | 26 sản phẩm: tìm theo tên / chất liệu / SKU, lọc theo chất liệu và giá, sắp xếp, "Xem thêm", yêu thích, chi tiết, **nút "Gửi báo giá"** trên từng sản phẩm |
+| `products.html` | 26 sản phẩm: tìm theo tên / chất liệu / SKU, lọc theo chất liệu và giá, sắp xếp, "Xem thêm", yêu thích, **so sánh tối đa 3 sản phẩm**, chi tiết, **nút "Gửi báo giá"** trên từng sản phẩm |
 | `estimator.html` | Ước giá theo loại, chất liệu, kích thước, lớp hoàn thiện, số lượng (có chiết khấu, VAT, thời gian sản xuất) |
 | `contact.html` | **Cùng một biểu mẫu báo giá như hộp thoại**: chọn sản phẩm hoặc dự án tùy chỉnh, nhập MOQ, đính kèm giỏ báo giá; bên dưới là lịch sử yêu cầu kèm trạng thái Google Sheet |
 

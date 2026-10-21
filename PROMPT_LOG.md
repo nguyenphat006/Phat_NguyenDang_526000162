@@ -150,6 +150,12 @@
 - **Thách thức gặp phải:** (1) Nội dung pháp lý phải đúng với cách website thực sự xử lý dữ liệu (localStorage, Google Sheet, QuickChart, bộ nhớ đệm chống spam), không được viết cho đẹp. (2) Không được bịa mã số thuế, giấy phép hay địa chỉ doanh nghiệp vì đây là thương hiệu giả định. (3) Các liên kết `#about`... trong footer cũ hỏng khi đứng ở trang khác.
 - **Cách sửa prompt (Debug prompt):** "Mỗi mục pháp lý phải đối chiếu được với mã nguồn; ghi rõ thương hiệu giả định, không bán hàng, không nhận thanh toán; liên kết footer dùng `index.html#...` để chạy ở mọi trang; viết kiểm thử cho từng hộp thoại ở cả bốn trang."
 
+### Lần 24: So sánh sản phẩm
+- **Prompt đã dùng:** "Thêm tính năng so sánh sản phẩm đi."
+- **Kết quả AI tạo ra:** Mỗi thẻ sản phẩm có ô "So sánh"; chọn tối đa 3 mẫu, thanh so sánh cố định ở cuối màn hình (ảnh nhỏ, nút bỏ, nút mở), hộp thoại bảng so sánh có chất liệu, giá, kích thước, MOQ, thời gian giao, mô tả. Ô tốt nhất được tô xanh kèm nhãn (giá thấp nhất, MOQ thấp nhất, giao nhanh nhất); có công tắc "Chỉ hiện điểm khác nhau"; từ bảng có thể gửi báo giá, thêm vào giỏ hoặc bỏ khỏi so sánh. Lựa chọn lưu trong localStorage và có tiếng Anh.
+- **Thách thức gặp phải:** (1) Ảnh các cột bị lệch kích thước vì bảng tự chia cột (sửa bằng `table-layout: fixed`). (2) Thanh so sánh cố định che nút lên đầu trang và thông báo nhỏ, phải đẩy chúng lên. (3) Trên điện thoại bảng rộng hơn màn hình nên cột tiêu chí được ghim và bảng cuộn ngang.
+- **Cách sửa prompt (Debug prompt):** "Giới hạn 3 sản phẩm và báo rõ khi vượt; chỉ tô nổi giá trị tốt nhất khi các sản phẩm thực sự khác nhau; mọi chuỗi đều qua bảng song ngữ; kiểm thử đủ luồng chọn, bỏ, tải lại, đổi ngôn ngữ và điện thoại."
+
 ---
 
 ## 3. Đánh giá cá nhân về quá trình Vibe Coding

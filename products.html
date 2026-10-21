@@ -103,6 +103,24 @@
 </p>
 <p class="catalog__more"><button id="load-more" class="btn btn--ghost" type="button" hidden></button></p>
 </section>
+<aside id="compare-bar" class="compare-bar" aria-label="Sản phẩm đang so sánh" data-t-aria="compare.bar" hidden>
+<ul id="compare-chips" class="compare-bar__items"></ul>
+<p id="compare-hint" class="compare-bar__hint"></p>
+<p class="compare-bar__actions">
+<button id="compare-clear" class="compare-bar__clear" type="button" data-t="compare.clear">Xóa tất cả</button>
+<button id="compare-open" class="btn btn--small" type="button"></button>
+</p>
+</aside>
+<dialog id="compare-dialog" class="dialog dialog--compare" aria-labelledby="compare-title">
+<article class="dialog__panel">
+<header class="dialog__head">
+<h2 id="compare-title" data-t="compare.title">So sánh sản phẩm</h2>
+<button class="dialog__close" type="button" data-close-dialog data-t-aria="dialog.close" aria-label="Đóng">&times;</button>
+</header>
+<p class="compare__tools"><label class="compare__diff"><input id="compare-diff" type="checkbox"> <span data-t="compare.diffOnly">Chỉ hiện điểm khác nhau</span></label></p>
+<div id="compare-table" class="compare__scroll"></div>
+</article>
+</dialog>
 <dialog id="product-dialog" class="dialog dialog--wide" aria-labelledby="product-dialog-title">
 <article class="dialog__panel">
 <button class="dialog__close dialog__close--float" type="button" data-close-dialog data-t-aria="dialog.close" aria-label="Đóng">&times;</button>
