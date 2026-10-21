@@ -132,6 +132,18 @@
 - **Thách thức gặp phải:** Chặn spam mà không chặn nhầm khách thật (khách điền sai rồi gửi lại, nhiều người dùng chung mạng). Link công khai nên mọi kiểm tra ở trình duyệt đều bỏ qua được, chỉ phần trong Apps Script là chắc chắn.
 - **Cách sửa prompt (Debug prompt):** "Mọi giới hạn quyết định phải nằm trong Apps Script, giới hạn ở trình duyệt chỉ để khách thật biết lý do; yêu cầu bị từ chối không được ghi dòng và không gửi email; viết bài test cho từng quy tắc."
 
+### Lần 21: Sửa lỗi hiển thị, đưa trang chủ về bản cũ, kết nối bản Apps Script mới
+- **Prompt đã dùng:** "Xem lại trang chủ tôi thấy làm như đang bị lỗi ấy" rồi "Đưa lại trang landing như cũ đi nhé". Kèm đường link triển khai Apps Script mới để kiểm tra bản có email.
+- **Kết quả AI tạo ra:** Chụp trang chủ bằng trình duyệt tự động và so với bản đã deploy, thấy dấu chấm chữ "i" của chữ "ericss" nằm lạc trên ảnh hero nên đã cho chữ đè lên mép ảnh. Sau đó khôi phục hẳn landing cũ từ lịch sử Git (hero hình vòm, băng số liệu, bộ sưu tập, quy trình, thư viện ảnh có lọc): viết lại `landing.css` từ các luật CSS cũ, thêm lại lọc ảnh, hiệu ứng hiện ảnh, parallax và nghiêng thẻ vào `site.js`, bổ sung khóa song ngữ còn thiếu, xóa `landing.js`. Gọi thử link Apps Script mới, xác nhận đã là bản có email, rồi đổi `data/config.js`.
+- **Thách thức gặp phải:** (1) Thuộc tính `hidden` bị luật CSS `display: grid` ghi đè nên form vẫn hiện khi đã ẩn, và lỗi chỉ lộ ra khi xem ảnh chụp. (2) Landing cũ dùng CSS, JS và khóa i18n đã bị dọn ở các lần trước nên không thể chỉ chép lại `index.html`.
+- **Cách sửa prompt (Debug prompt):** "Thêm `[hidden] { display: none !important }` vào CSS nền; so sánh luật CSS của bản cũ với bản hiện tại để lấy lại đúng phần bị xóa; kiểm tra mọi khóa `data-i18n` và `data-t` của trang đều có chuỗi dịch."
+
+### Lần 22: Tư vấn nối với ERP và các tính năng nâng cao
+- **Prompt đã dùng:** "Tôi đang làm ERP cho phần nội thất này; sau này nối với trang landing thì làm được gì thêm? Landing có thể thêm tính năng nào cao siêu vượt yêu cầu đề bài không?"
+- **Kết quả AI tạo ra:** Phân tích hướng nối (báo giá thành lead và phiếu báo giá trong ERP, giá và MOQ lấy từ ERP, tồn kho và thời gian giao thật, trang theo dõi bằng mã QR, báo giá PDF) và lưu ý nên có lớp API trung gian thay vì để trình duyệt gọi thẳng ERP. Đề xuất tính năng thêm theo thứ tự ưu tiên: xuất báo giá PDF, so sánh sản phẩm, PWA chạy offline, xem 3D/AR, chia sẻ danh sách, tối ưu Lighthouse.
+- **Thách thức gặp phải:** Bài đã vượt đề ở nhiều chỗ nên thêm nữa có thể thành gánh nặng khi thuyết trình.
+- **Cách sửa prompt (Debug prompt):** "Chỉ chọn 2-3 tính năng dùng lại dữ liệu có sẵn, mỗi tính năng phải giải thích được trong một phút, và ghi rõ giới hạn khi bị hỏi."
+
 ---
 
 ## 3. Đánh giá cá nhân về quá trình Vibe Coding
