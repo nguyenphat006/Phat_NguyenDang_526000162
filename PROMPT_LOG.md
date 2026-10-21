@@ -156,6 +156,12 @@
 - **Thách thức gặp phải:** (1) Ảnh các cột bị lệch kích thước vì bảng tự chia cột (sửa bằng `table-layout: fixed`). (2) Thanh so sánh cố định che nút lên đầu trang và thông báo nhỏ, phải đẩy chúng lên. (3) Trên điện thoại bảng rộng hơn màn hình nên cột tiêu chí được ghim và bảng cuộn ngang.
 - **Cách sửa prompt (Debug prompt):** "Giới hạn 3 sản phẩm và báo rõ khi vượt; chỉ tô nổi giá trị tốt nhất khi các sản phẩm thực sự khác nhau; mọi chuỗi đều qua bảng song ngữ; kiểm thử đủ luồng chọn, bỏ, tải lại, đổi ngôn ngữ và điện thoại."
 
+### Lần 25: Bộ slide báo cáo giữa kỳ và cập nhật theo tính năng mới
+- **Prompt đã dùng:** "Giúp tôi làm 1 file báo cáo cho môn thiết kế website: đề tài, nội dung, tính năng và kỹ thuật, cấu trúc, kế hoạch, phân chia công việc, bảng prompt log sơ bộ. Thầy bảo dùng gì cũng được nên làm slide PPT khoảng 15 slide, tập trung nội dung chính và hình ảnh website." Sau đó: "Xem có cần cập nhật pptx không, và nhớ nội dung log."
+- **Kết quả AI tạo ra:** Bộ slide 18 trang (`docs/Ericss-Furniture-BaoCao.pptx`) dùng ảnh chụp thật của website, có ghi chú diễn thuyết. Khi thêm modal ảnh, chân trang pháp lý và so sánh sản phẩm, AI rà lại bộ slide, thấy các chỗ lỗi thời (slide cuối còn ghi so sánh là hướng phát triển, bảng prompt log dừng ở lần 22, ảnh trang sản phẩm chưa có so sánh) nên chụp lại ảnh, thêm hai slide, sửa bảng kỹ thuật, kế hoạch và prompt log, thêm Lần 25 vào PROMPT_LOG.
+- **Thách thức gặp phải:** (1) Slide phải nói đúng sự thật (dự án cá nhân, AI viết mã, hạn chế về link Apps Script công khai và mã QR). (2) Ảnh chụp phải không ghi dữ liệu thử vào Google Sheet thật nên dùng máy chủ giả. (3) Bộ slide dễ lệch khỏi website mỗi khi thêm tính năng.
+- **Cách sửa prompt (Debug prompt):** "Mỗi lần thêm tính năng, rà lại slide và PROMPT_LOG; chụp ảnh từ bản chạy thật; kiểm tra từng slide bằng ảnh xuất ra để bắt chữ tràn và ảnh lệch."
+
 ---
 
 ## 3. Đánh giá cá nhân về quá trình Vibe Coding
