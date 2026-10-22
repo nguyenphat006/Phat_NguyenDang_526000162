@@ -191,7 +191,7 @@ window.I18N = {
     "f36": "The \"estimate\" and \"indicative total\" are for reference only, not an official quote or an offer.",
     "f37": "Sending a quote request creates no contract or obligation to buy or sell.",
     "f38": "3. Images and content",
-    "f39": "Images are illustrative and used for study purposes. If you own an image and want it removed, write to nguyendangphat1505@gmail.com and we will take it down. The source code is public on GitHub.",
+    "f39": "Images are illustrative and used for study purposes; the product photos come from Pexels (free licence) and their sources are listed in assets/img/CREDITS.md in the source code. If you own an image and want it removed, write to nguyendangphat1505@gmail.com and we will take it down. The source code is public on GitHub.",
     "f40": "4. Fair use",
     "f41": "Please do not send false information, mass submissions or use automated tools on the forms. The system limits how often you can send and may refuse requests that break these rules.",
     "f42": "5. Liability",

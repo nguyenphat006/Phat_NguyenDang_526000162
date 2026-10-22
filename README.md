@@ -6,6 +6,7 @@ Website nhà sản xuất nội thất ngoài trời cao cấp: giới thiệu x
 - **Xem trực tiếp:** https://nguyenphat006.github.io/Phat_NguyenDang_526000162/
 - **Nhật ký Prompt:** [PROMPT_LOG.md](PROMPT_LOG.md)
 - **Tài liệu để thuyết trình:** [docs/HUONG-DAN-THUYET-TRINH.md](docs/HUONG-DAN-THUYET-TRINH.md)
+- **Logic xử lý các tính năng và nghiệp vụ** (chặn spam, tính giá, luồng gửi báo giá, so sánh, song ngữ...): [docs/LOGIC-XU-LY.md](docs/LOGIC-XU-LY.md)
 
 ## Các trang
 | Trang | Nội dung |
@@ -18,6 +19,9 @@ Website nhà sản xuất nội thất ngoài trời cao cấp: giới thiệu x
 Dùng chung mọi trang: **menu ở đầu trang chỉ gồm các trang** (Trang chủ, Sản phẩm, Ước giá, Liên hệ), giỏ báo giá (ngăn kéo bên phải), ngôn ngữ Việt / Anh (mặc định tiếng Việt), và **chân trang bốn cột** (giới thiệu, khám phá, liên hệ, pháp lý) với hộp thoại **Chính sách bảo mật**, **Điều khoản sử dụng** và hộp thoại GitHub.
 
 Trang chủ có thêm **chấm điều hướng cố định ở mép phải** (Trang chủ, Về chúng tôi, Bộ sưu tập, Quy trình, Thư viện ảnh, Liên hệ): rê chuột hoặc Tab vào chấm sẽ hiện nhãn, chấm của mục đang xem tự sáng lên. Bấm vào ảnh ở thư viện, quy trình, bộ sưu tập hoặc phần giới thiệu sẽ mở **modal xem ảnh lớn** (nút trước / sau, phím mũi tên, vuốt trên điện thoại).
+
+## Ảnh
+Ảnh sản phẩm `assets/img/p-*.jpg` (12 ảnh) lấy từ [Pexels](https://www.pexels.com/license/) (giấy phép miễn phí), cắt về tỉ lệ 5:4 và nén lại; nguồn từng ảnh nằm trong [`assets/img/CREDITS.md`](assets/img/CREDITS.md). Đây là ảnh minh họa kiểu dáng, không phải sản phẩm thật. 26 sản phẩm dùng 19 ảnh khác nhau.
 
 ## Dữ liệu (cấu trúc JSON)
 Các bảng dữ liệu nằm trong `data/*.js`: nội dung là JSON, đặt trong một tệp `.js` thường để trang chạy được cả khi mở thẳng từ ổ đĩa (trình duyệt không cho `fetch` đọc tệp `.json` ở chế độ này).

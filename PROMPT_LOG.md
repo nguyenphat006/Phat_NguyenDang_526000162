@@ -168,6 +168,18 @@
 - **Thách thức gặp phải:** (1) Bản thanh mục đầu tiên dùng biến CSS `--m` đã không còn trong `landing.css` nên chữ sát lề trái, phát hiện nhờ ảnh chụp. (2) Mã theo dõi vị trí cuộn trước đây đánh dấu các mục trong menu đầu trang nên phải trỏ sang thanh mới. (3) Chấm phải nhìn thấy được trên cả nền sáng lẫn nền tối nên có viền đậm và quầng trắng mờ.
 - **Cách sửa prompt (Debug prompt):** "Menu đầu trang chỉ chứa trang đích; mục trong trang là chấm cố định bên phải, có nhãn khi rê chuột hoặc Tab; kiểm tra bằng trình duyệt rằng bấm vào chấm thì tiêu đề không bị che và chấm tương ứng sáng lên."
 
+### Lần 27: Ảnh sản phẩm miễn phí bản quyền cho trang sản phẩm
+- **Prompt đã dùng:** "Vào các website nội thất mà tôi từng đưa, crawl ảnh về cho phần sản phẩm phong phú hơn." AI từ chối lấy ảnh từ website bán hàng (ảnh có bản quyền) và đề xuất ảnh miễn phí; sau đó: "Ok, lấy ảnh miễn phí thử tôi xem."
+- **Kết quả AI tạo ra:** Tìm và tải 13 ảnh ứng viên từ Pexels, xem từng ảnh rồi chọn 11 ảnh hợp với bốn chất liệu (bàn teak ngoài vườn, ghế tắm nắng, sofa hiên, ghế kim loại, bộ bistro, sofa và ghế mây, ghế treo hình tổ). Cắt về tỉ lệ 5:4 quanh chủ thể (một ảnh cắt hai vùng thành hai sản phẩm), nén còn khoảng 70-150 KB mỗi ảnh, gán cho 12 sản phẩm đúng loại. 26 sản phẩm giờ dùng 19 ảnh khác nhau thay vì 8. Ghi nguồn trong `assets/img/CREDITS.md`, README và mục Hình ảnh trong Điều khoản.
+- **Thách thức gặp phải:** (1) Tìm ảnh đúng chất liệu: không có ảnh "dây thừng" phù hợp nên các sản phẩm dây thừng giữ ảnh cũ. (2) Ảnh dọc phải cắt sao cho chủ thể không mất. (3) Ảnh stock chỉ minh họa kiểu dáng nên phải ghi rõ không phải sản phẩm thật.
+- **Cách sửa prompt (Debug prompt):** "Chỉ dùng ảnh có giấy phép cho phép dùng lại; xem từng ảnh trước khi chọn; ghi nguồn từng ảnh; nói rõ trên website là ảnh minh họa."
+
+### Lần 28: Tài liệu logic xử lý các tính năng và nghiệp vụ
+- **Prompt đã dùng:** "Cập nhật lại README kèm một file nói chi tiết về logic xử lý các tính năng và nghiệp vụ để tôi nắm, ví dụ như xử lý phần chặn spam như thế nào."
+- **Kết quả AI tạo ra:** `docs/LOGIC-XU-LY.md` giải thích 12 phần: dữ liệu đi đâu, luồng gửi báo giá, chặn spam hai lớp (từng kiểm tra, từng con số, cách đếm bằng CacheService, ví dụ 5 yêu cầu liên tiếp), email và mã QR, công thức giá có ví dụ tính tay, ước giá, giỏ và Excel, tìm kiếm không dấu, so sánh sản phẩm, song ngữ, modal ảnh và chấm điều hướng, bảng tra "muốn đổi tham số nào thì sửa ở đâu". README có liên kết tới tài liệu này.
+- **Thách thức gặp phải:** (1) Tài liệu phải đúng với mã nguồn, không viết theo trí nhớ nên AI đọc lại `pricing.js`, `validation.js`, `Code.gs`... trước khi viết và tự tính lại các ví dụ. (2) Phải nói thật điểm yếu của chặn spam: không có IP nên chặn theo email có thể bị né, trần toàn hệ thống có thể làm khách thật bị từ chối tạm thời, kiểm tra ở trình duyệt chỉ giúp khách thật.
+- **Cách sửa prompt (Debug prompt):** "Mỗi quy tắc ghi kèm con số và tệp chứa nó; có ví dụ tính tay; có mục 'chặn được gì, không chặn được gì' để trả lời khi bị hỏi vặn."
+
 ---
 
 ## 3. Đánh giá cá nhân về quá trình Vibe Coding

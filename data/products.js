@@ -18,7 +18,7 @@ Ericss.data.products = [
     "moq": 4,
     "dimensions": "220 × 100 × 75 cm",
     "leadTimeDays": 30,
-    "image": "assets/img/g-teak-table.jpg",
+    "image": "assets/img/p-teak-table-garden.jpg",
     "tags": [
       "dining",
       "outdoor",
@@ -42,7 +42,7 @@ Ericss.data.products = [
     "moq": 2,
     "dimensions": "240 × 95 × 78 cm",
     "leadTimeDays": 40,
-    "image": "assets/img/g-wicker-detail.jpg",
+    "image": "assets/img/p-teak-sofa-veranda.jpg",
     "tags": [
       "sofa",
       "lounge",
@@ -66,7 +66,7 @@ Ericss.data.products = [
     "moq": 20,
     "dimensions": "54 × 58 × 82 cm",
     "leadTimeDays": 20,
-    "image": "assets/img/g-teak-table.jpg",
+    "image": "assets/img/p-teak-chairs-patio.jpg",
     "tags": [
       "chair",
       "dining",
@@ -90,7 +90,7 @@ Ericss.data.products = [
     "moq": 10,
     "dimensions": "200 × 70 × 35 cm",
     "leadTimeDays": 25,
-    "image": "assets/img/g-wicker-detail.jpg",
+    "image": "assets/img/p-teak-lounger.jpg",
     "tags": [
       "lounger",
       "pool",
@@ -210,7 +210,7 @@ Ericss.data.products = [
     "moq": 10,
     "dimensions": "Ø60 / Ø45 × 45 cm",
     "leadTimeDays": 20,
-    "image": "assets/img/cat-aluminum.jpg",
+    "image": "assets/img/p-alu-bistro-iron.jpg",
     "tags": [
       "side",
       "table",
@@ -234,7 +234,7 @@ Ericss.data.products = [
     "moq": 30,
     "dimensions": "52 × 56 × 84 cm",
     "leadTimeDays": 16,
-    "image": "assets/img/cat-aluminum.jpg",
+    "image": "assets/img/p-alu-bistro-green.jpg",
     "tags": [
       "chair",
       "dining",
@@ -475,7 +475,7 @@ Ericss.data.products = [
     "moq": 2,
     "dimensions": "210 × 92 × 74 cm",
     "leadTimeDays": 35,
-    "image": "assets/img/cat-wicker.jpg",
+    "image": "assets/img/p-wicker-sofa.jpg",
     "tags": [
       "sofa",
       "lounge",
@@ -499,7 +499,7 @@ Ericss.data.products = [
     "moq": 8,
     "dimensions": "78 × 82 × 76 cm",
     "leadTimeDays": 25,
-    "image": "assets/img/g-wicker-weave.jpg",
+    "image": "assets/img/p-wicker-armchair.jpg",
     "tags": [
       "chair",
       "armchair",
@@ -523,7 +523,7 @@ Ericss.data.products = [
     "moq": 2,
     "dimensions": "200 × 100 × 75 cm",
     "leadTimeDays": 38,
-    "image": "assets/img/cat-wicker.jpg",
+    "image": "assets/img/p-wicker-balcony-set.jpg",
     "tags": [
       "dining",
       "set",
@@ -571,7 +571,7 @@ Ericss.data.products = [
     "moq": 4,
     "dimensions": "Ø110 × 195 cm",
     "leadTimeDays": 30,
-    "image": "assets/img/cat-wicker.jpg",
+    "image": "assets/img/p-wicker-nest.jpg",
     "tags": [
       "swing",
       "hanging",
@@ -595,7 +595,7 @@ Ericss.data.products = [
     "moq": 2,
     "dimensions": "260 × 95 × 74 cm",
     "leadTimeDays": 36,
-    "image": "assets/img/g-wicker-weave.jpg",
+    "image": "assets/img/p-wicker-rattan-chair.jpg",
     "tags": [
       "sofa",
       "lounge",
@@ -619,7 +619,7 @@ Ericss.data.products = [
     "moq": 20,
     "dimensions": "Ø50 × 52 cm",
     "leadTimeDays": 16,
-    "image": "assets/img/cat-wicker.jpg",
+    "image": "assets/img/p-wicker-chair-side.jpg",
     "tags": [
       "side",
       "table",
