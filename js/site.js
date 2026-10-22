@@ -64,8 +64,8 @@ toggle.addEventListener('click', () => setNav(!nav.classList.contains('is-open')
 nav.addEventListener('click', (e) => { if (e.target.closest('a')) setNav(false); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setNav(false); });
 
-// Highlight the current section in the in-page section menu (landing page only; the header holds pages)
-const links = document.querySelectorAll('.page-nav a');
+// Highlight the current section in the dot navigation (landing page only; the header holds pages)
+const links = document.querySelectorAll('.dot-nav a');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (!entry.isIntersecting) return;

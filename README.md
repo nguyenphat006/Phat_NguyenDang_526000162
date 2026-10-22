@@ -17,7 +17,7 @@ Website nhà sản xuất nội thất ngoài trời cao cấp: giới thiệu x
 
 Dùng chung mọi trang: **menu ở đầu trang chỉ gồm các trang** (Trang chủ, Sản phẩm, Ước giá, Liên hệ), giỏ báo giá (ngăn kéo bên phải), ngôn ngữ Việt / Anh (mặc định tiếng Việt), và **chân trang bốn cột** (giới thiệu, khám phá, liên hệ, pháp lý) với hộp thoại **Chính sách bảo mật**, **Điều khoản sử dụng** và hộp thoại GitHub.
 
-Trang chủ có thêm **thanh mục trong trang** (Về chúng tôi, Bộ sưu tập, Quy trình, Thư viện ảnh) dính dưới menu, tự đánh dấu mục đang xem. Bấm vào ảnh ở thư viện, quy trình, bộ sưu tập hoặc phần giới thiệu sẽ mở **modal xem ảnh lớn** (nút trước / sau, phím mũi tên, vuốt trên điện thoại).
+Trang chủ có thêm **chấm điều hướng cố định ở mép phải** (Trang chủ, Về chúng tôi, Bộ sưu tập, Quy trình, Thư viện ảnh, Liên hệ): rê chuột hoặc Tab vào chấm sẽ hiện nhãn, chấm của mục đang xem tự sáng lên. Bấm vào ảnh ở thư viện, quy trình, bộ sưu tập hoặc phần giới thiệu sẽ mở **modal xem ảnh lớn** (nút trước / sau, phím mũi tên, vuốt trên điện thoại).
 
 ## Dữ liệu (cấu trúc JSON)
 Các bảng dữ liệu nằm trong `data/*.js`: nội dung là JSON, đặt trong một tệp `.js` thường để trang chạy được cả khi mở thẳng từ ổ đĩa (trình duyệt không cho `fetch` đọc tệp `.json` ở chế độ này).
