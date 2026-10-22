@@ -64,12 +64,16 @@ toggle.addEventListener('click', () => setNav(!nav.classList.contains('is-open')
 nav.addEventListener('click', (e) => { if (e.target.closest('a')) setNav(false); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setNav(false); });
 
-// Highlight current section in the menu
-const links = document.querySelectorAll('.site-nav__list a');
+// Highlight the current section in the in-page section menu (landing page only; the header holds pages)
+const links = document.querySelectorAll('.page-nav a');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (!entry.isIntersecting) return;
-    links.forEach((a) => a.classList.toggle('is-current', a.getAttribute('href').endsWith('#' + entry.target.id)));
+    links.forEach((a) => {
+      const current = a.getAttribute('href') === '#' + entry.target.id;
+      a.classList.toggle('is-current', current);
+      if (current) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current');
+    });
   });
 }, { rootMargin: '-45% 0px -50% 0px' });
 

@@ -9,7 +9,7 @@
 
 ## 1. Yêu cầu ban đầu (System/Initial Prompt)
 
-> *Tôi có buổi kiểm tra giữa kỳ môn Thiết kế Web (đề nằm trong file PDF đính kèm). Hãy đọc kỹ nội dung và thang điểm để làm đáp ứng đúng 100% đề. Chủ đề: website sản xuất đồ nội thất Châu Âu cao cấp, có đầy đủ menu, danh mục và phần trình bày quy trình sản xuất. Phong cách tinh gọn, hiện đại, cao cấp; tông màu thiên về light mode, không đại trà. Bắt buộc: Semantic HTML5 (header, nav, main, section/article, footer), CSS Variables + Flexbox/Grid, Animate.css, AOS, hiệu ứng :hover/:focus tự viết. Repo đặt tên Ten_Ho_MSSV, có PROMPT_LOG.md và deploy bằng GitHub Actions lên GitHub Pages.*
+> *Tôi có bài thi môn Thiết kế Web (đề nằm trong file PDF đính kèm). Hãy đọc kỹ nội dung và thang điểm để làm đáp ứng đúng 100% đề. Chủ đề: website sản xuất đồ nội thất Châu Âu cao cấp, có đầy đủ menu, danh mục và phần trình bày quy trình sản xuất. Phong cách tinh gọn, hiện đại, cao cấp; tông màu thiên về light mode, không đại trà. Bắt buộc: Semantic HTML5 (header, nav, main, section/article, footer), CSS Variables + Flexbox/Grid, Animate.css, AOS, hiệu ứng :hover/:focus tự viết. Repo đặt tên Ten_Ho_MSSV, có PROMPT_LOG.md và deploy bằng GitHub Actions lên GitHub Pages.*
 
 ---
 
@@ -156,11 +156,17 @@
 - **Thách thức gặp phải:** (1) Ảnh các cột bị lệch kích thước vì bảng tự chia cột (sửa bằng `table-layout: fixed`). (2) Thanh so sánh cố định che nút lên đầu trang và thông báo nhỏ, phải đẩy chúng lên. (3) Trên điện thoại bảng rộng hơn màn hình nên cột tiêu chí được ghim và bảng cuộn ngang.
 - **Cách sửa prompt (Debug prompt):** "Giới hạn 3 sản phẩm và báo rõ khi vượt; chỉ tô nổi giá trị tốt nhất khi các sản phẩm thực sự khác nhau; mọi chuỗi đều qua bảng song ngữ; kiểm thử đủ luồng chọn, bỏ, tải lại, đổi ngôn ngữ và điện thoại."
 
-### Lần 25: Bộ slide báo cáo giữa kỳ và cập nhật theo tính năng mới
+### Lần 25: Bộ slide báo cáo bài thi và cập nhật theo tính năng mới
 - **Prompt đã dùng:** "Giúp tôi làm 1 file báo cáo cho môn thiết kế website: đề tài, nội dung, tính năng và kỹ thuật, cấu trúc, kế hoạch, phân chia công việc, bảng prompt log sơ bộ. Thầy bảo dùng gì cũng được nên làm slide PPT khoảng 15 slide, tập trung nội dung chính và hình ảnh website." Sau đó: "Xem có cần cập nhật pptx không, và nhớ nội dung log."
 - **Kết quả AI tạo ra:** Bộ slide 18 trang (`docs/Ericss-Furniture-BaoCao.pptx`) dùng ảnh chụp thật của website, có ghi chú diễn thuyết. Khi thêm modal ảnh, chân trang pháp lý và so sánh sản phẩm, AI rà lại bộ slide, thấy các chỗ lỗi thời (slide cuối còn ghi so sánh là hướng phát triển, bảng prompt log dừng ở lần 22, ảnh trang sản phẩm chưa có so sánh) nên chụp lại ảnh, thêm hai slide, sửa bảng kỹ thuật, kế hoạch và prompt log, thêm Lần 25 vào PROMPT_LOG.
 - **Thách thức gặp phải:** (1) Slide phải nói đúng sự thật (dự án cá nhân, AI viết mã, hạn chế về link Apps Script công khai và mã QR). (2) Ảnh chụp phải không ghi dữ liệu thử vào Google Sheet thật nên dùng máy chủ giả. (3) Bộ slide dễ lệch khỏi website mỗi khi thêm tính năng.
 - **Cách sửa prompt (Debug prompt):** "Mỗi lần thêm tính năng, rà lại slide và PROMPT_LOG; chụp ảnh từ bản chạy thật; kiểm tra từng slide bằng ảnh xuất ra để bắt chữ tràn và ảnh lệch."
+
+### Lần 26: Tách menu trang khỏi các mục trong trang, đổi cách gọi "bài thi"
+- **Prompt đã dùng:** "Sửa lại phần menu header chỉ hiển thị các redirect thôi, còn sections thì có thể bỏ hoặc xem cách nào khác, đừng để chung." và "Đổi lại bài kiểm tra giữa kỳ thành bài thi."
+- **Kết quả AI tạo ra:** Menu ở đầu trang chỉ còn bốn trang (Trang chủ, Sản phẩm, Ước giá, Liên hệ) trên cả bốn trang. Các mục của trang chủ (Về chúng tôi, Bộ sưu tập, Quy trình, Thư viện ảnh) chuyển thành một thanh mục trong trang dính ngay dưới menu, chỉ có ở trang chủ, tự đánh dấu mục đang xem, cuộn ngang được trên điện thoại, có tiếng Anh và không bị header che tiêu đề khi nhảy tới. Cụm "bài kiểm tra giữa kỳ" đổi thành "bài thi" ở chân trang, điều khoản, bản tiếng Anh, nhật ký và slide.
+- **Thách thức gặp phải:** (1) Thanh mục mới dùng biến CSS `--m` đã không còn trong `landing.css` nên chữ sát lề trái, phát hiện nhờ ảnh chụp và đổi sang `--gutter` dùng chung. (2) Mã theo dõi vị trí cuộn trước đây đánh dấu các mục trong menu đầu trang nên phải trỏ sang thanh mới. (3) Khi nhảy tới một mục, tiêu đề bị hai thanh dính che, phải tăng `scroll-padding-top`.
+- **Cách sửa prompt (Debug prompt):** "Menu đầu trang chỉ chứa trang đích; mục trong trang đi riêng, chỉ ở trang có mục đó; kiểm tra bằng trình duyệt rằng bấm vào mục thì tiêu đề không bị che và mục tương ứng sáng lên."
 
 ---
 

@@ -26,7 +26,7 @@ Tài liệu này cho bạn biết **website làm gì, chạy thế nào, và t�
 | `estimator.html` | Chọn loại, chất liệu, kích thước, lớp hoàn thiện, số lượng và xem giá ngay |
 | `contact.html` | Gửi báo giá bằng đúng biểu mẫu đó; xem lịch sử yêu cầu và trạng thái đã vào Google Sheet chưa |
 
-Dùng chung mọi trang: menu, **giỏ báo giá** (ngăn kéo bên phải), nút đổi ngôn ngữ **Việt / Anh**, hộp thoại GitHub ở chân trang.
+Dùng chung mọi trang: menu (chỉ gồm các trang; các phần của trang chủ nằm ở thanh mục riêng), **giỏ báo giá** (ngăn kéo bên phải), nút đổi ngôn ngữ **Việt / Anh**, chân trang có thông tin liên hệ, chính sách bảo mật, điều khoản sử dụng và hộp thoại GitHub.
 
 ---
 

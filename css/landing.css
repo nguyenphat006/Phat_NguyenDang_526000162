@@ -266,3 +266,26 @@
   .lightbox__next { right: 16px; }
 }
 @media (prefers-reduced-motion: reduce) { .lightbox[open] { animation: none; } }
+
+/* ---------- In-page section menu (the header only holds pages) ---------- */
+html { scroll-padding-top: calc(var(--header-h) + 3.25rem); }
+
+.page-nav {
+  position: sticky; top: var(--header-h); z-index: 90;
+  padding: 0 var(--gutter); background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-line);
+}
+.page-nav__list { display: flex; gap: clamp(1rem, 3vw, 2.5rem); margin: 0; padding: 0; list-style: none; overflow-x: auto; scrollbar-width: none; }
+.page-nav__list::-webkit-scrollbar { display: none; }
+.page-nav a {
+  position: relative; display: block; padding: 0.85rem 0; white-space: nowrap; text-decoration: none;
+  font-size: 0.8125rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-muted);
+  transition: color 0.3s var(--ease);
+}
+.page-nav a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--color-primary);
+  transform: scaleX(0); transform-origin: left; transition: transform 0.4s var(--ease);
+}
+.page-nav a:hover, .page-nav a:focus-visible, .page-nav a.is-current { color: var(--color-ink); }
+.page-nav a:hover::after, .page-nav a:focus-visible::after, .page-nav a.is-current::after { transform: scaleX(1); }
+.page-nav a:focus-visible { outline: 2px solid var(--color-primary); outline-offset: -2px; }

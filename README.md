@@ -15,7 +15,9 @@ Website nhà sản xuất nội thất ngoài trời cao cấp: giới thiệu x
 | `estimator.html` | Ước giá theo loại, chất liệu, kích thước, lớp hoàn thiện, số lượng (có chiết khấu, VAT, thời gian sản xuất) |
 | `contact.html` | **Cùng một biểu mẫu báo giá như hộp thoại**: chọn sản phẩm hoặc dự án tùy chỉnh, nhập MOQ, đính kèm giỏ báo giá; bên dưới là lịch sử yêu cầu kèm trạng thái Google Sheet |
 
-Giỏ báo giá (ngăn kéo bên phải), ngôn ngữ Việt / Anh (mặc định tiếng Việt) và hộp thoại GitHub ở chân trang dùng chung mọi trang.
+Dùng chung mọi trang: **menu ở đầu trang chỉ gồm các trang** (Trang chủ, Sản phẩm, Ước giá, Liên hệ), giỏ báo giá (ngăn kéo bên phải), ngôn ngữ Việt / Anh (mặc định tiếng Việt), và **chân trang bốn cột** (giới thiệu, khám phá, liên hệ, pháp lý) với hộp thoại **Chính sách bảo mật**, **Điều khoản sử dụng** và hộp thoại GitHub.
+
+Trang chủ có thêm **thanh mục trong trang** (Về chúng tôi, Bộ sưu tập, Quy trình, Thư viện ảnh) dính dưới menu, tự đánh dấu mục đang xem. Bấm vào ảnh ở thư viện, quy trình, bộ sưu tập hoặc phần giới thiệu sẽ mở **modal xem ảnh lớn** (nút trước / sau, phím mũi tên, vuốt trên điện thoại).
 
 ## Dữ liệu (cấu trúc JSON)
 Các bảng dữ liệu nằm trong `data/*.js`: nội dung là JSON, đặt trong một tệp `.js` thường để trang chạy được cả khi mở thẳng từ ổ đĩa (trình duyệt không cho `fetch` đọc tệp `.json` ở chế độ này).
