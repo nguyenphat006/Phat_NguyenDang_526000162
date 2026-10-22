@@ -3,12 +3,14 @@
 Tài liệu này cho bạn biết **website làm gì, chạy thế nào, và từng tiêu chí chấm điểm cần bạn hiểu / nói gì**. Đọc theo thứ tự: phần 1 và 2 để nắm tổng quan, phần 3 là trọng tâm (từng tiêu chí), phần 4 là kịch bản demo, phần 5 là câu hỏi thường gặp.
 
 > Mọi tên tệp và hàm trong tài liệu đều có thật trong dự án, bạn có thể mở ra và chỉ cho giảng viên.
+>
+> Muốn hiểu sâu **logic xử lý từng tính năng** (đặc biệt là chặn spam, công thức giá, luồng gửi báo giá, so sánh sản phẩm) thì đọc thêm [LOGIC-XU-LY.md](LOGIC-XU-LY.md). Tài liệu này là bản tóm tắt để thuyết trình, tài liệu kia là bản giải thích chi tiết.
 
 ---
 
 ## 1. Website này là gì (nói được trong 30 giây)
 
-**Ericss Furniture** là website của một xưởng nội thất ngoài trời cao cấp (teak, nhôm, dây thừng, mây nhựa). Khách xem giới thiệu và quy trình, duyệt 26 sản phẩm, ước giá, rồi **gửi yêu cầu báo giá kèm MOQ (số lượng đặt tối thiểu) của chính họ**. Yêu cầu được lưu vào **Google Sheet**.
+**Ericss Furniture** là website của một xưởng nội thất ngoài trời cao cấp (teak, nhôm, dây thừng, mây nhựa). Khách xem giới thiệu và quy trình, duyệt 26 sản phẩm (có thể **so sánh tối đa 3 mẫu**), ước giá, rồi **gửi yêu cầu báo giá kèm MOQ (số lượng đặt tối thiểu) của chính họ**. Yêu cầu được lưu vào **Google Sheet**, khách nhận email cảm ơn và mã QR. Website là sản phẩm của **bài thi** môn Thiết kế Web; Ericss Furniture là thương hiệu giả định.
 
 Đây là website **tĩnh** (HTML, CSS, JavaScript thuần, đặt trên GitHub Pages), không có máy chủ riêng. Mọi "logic" nằm ở JavaScript trong trình duyệt:
 
@@ -21,10 +23,10 @@ Tài liệu này cho bạn biết **website làm gì, chạy thế nào, và t�
 
 | Trang | Khách làm gì |
 |---|---|
-| `index.html` (trang chủ) | Xem tên thương hiệu cỡ lớn, bốn chất liệu, quy trình 8 bước, con số, ảnh xưởng |
-| `products.html` | Tìm, lọc, sắp xếp 26 sản phẩm; yêu thích; xem chi tiết; bấm **Gửi báo giá** trên từng sản phẩm |
+| `index.html` (trang chủ) | Xem hero, băng số liệu, bốn chất liệu, quy trình 8 bước, thư viện ảnh; bấm ảnh để **xem lớn (modal)**; nhảy giữa các phần bằng **chấm điều hướng** bên phải |
+| `products.html` | Tìm, lọc, sắp xếp 26 sản phẩm; yêu thích; **so sánh tối đa 3 mẫu**; xem chi tiết; bấm **Gửi báo giá** trên từng sản phẩm |
 | `estimator.html` | Chọn loại, chất liệu, kích thước, lớp hoàn thiện, số lượng và xem giá ngay |
-| `contact.html` | Gửi báo giá bằng đúng biểu mẫu đó; xem lịch sử yêu cầu và trạng thái đã vào Google Sheet chưa |
+| `contact.html` | Gửi báo giá bằng đúng biểu mẫu đó; xem lịch sử yêu cầu và trạng thái gửi; **tải lịch sử dạng Excel** |
 
 Dùng chung mọi trang: menu (chỉ gồm các trang; các phần của trang chủ nằm ở chấm điều hướng cố định bên phải), **giỏ báo giá** (ngăn kéo bên phải), nút đổi ngôn ngữ **Việt / Anh**, chân trang có thông tin liên hệ, chính sách bảo mật, điều khoản sử dụng và hộp thoại GitHub.
 
@@ -37,9 +39,9 @@ index.html  products.html  estimator.html  contact.html    4 trang
 css/    style.css (nền tảng, biến màu/font)   features.css (các trang dữ liệu)   landing.css (trang chủ)
 js/     các module JavaScript (xem bên dưới)
 data/   products.js  pricing.js  ui.js  config.js            bảng dữ liệu (cấu trúc JSON)
-assets/ img/ (ảnh), favicon.svg
+assets/ img/ (ảnh; p-*.jpg là ảnh sản phẩm từ Pexels, nguồn trong CREDITS.md), favicon.svg
 apps-script/  Code.gs  (đoạn mã dán vào Google Apps Script để ghi Sheet)
-docs/   HUONG-DAN-THUYET-TRINH.md (tài liệu này)
+docs/   HUONG-DAN-THUYET-TRINH.md (tài liệu này)   LOGIC-XU-LY.md (logic chi tiết)   slide báo cáo .pptx
 PROMPT_LOG.md   README.md   .github/workflows/deploy.yml
 ```
 
@@ -54,12 +56,13 @@ PROMPT_LOG.md   README.md   .github/workflows/deploy.yml
 | `filters.js` | Tìm kiếm, lọc, sắp xếp sản phẩm | Hàm thuần, bỏ dấu tiếng Việt khi tìm |
 | `validation.js` | Kiểm tra biểu mẫu | Hàm thuần |
 | `cart.js`, `cart-ui.js` | Giỏ báo giá và giao diện của nó | |
-| `catalog.js` | Trang sản phẩm | |
+| `catalog.js` | Trang sản phẩm: tìm, lọc, yêu thích, **so sánh 3 mẫu** | Chọn tối đa 3, bảng so sánh tô giá trị tốt nhất |
 | `quote-form.js` | **Biểu mẫu báo giá duy nhất** dùng cho hộp thoại và trang Liên hệ | Một nơi sửa, hai nơi dùng |
 | `quotes.js`, `sheet.js` | Tạo yêu cầu, lưu, gửi lên Google Sheet | |
-| `history.js` | Lịch sử yêu cầu, xuất Excel | |
+| `history.js` | Lịch sử yêu cầu, xuất Excel (SheetJS) | Cột tiếng Việt giống Google Sheet |
+| `lightbox.js` | Modal xem ảnh lớn ở trang chủ | Lật ảnh bằng nút, phím mũi tên, vuốt |
 | `estimator.js` | Trang ước giá | |
-| `site.js`, `site-i18n.js` | Menu, đổi ngôn ngữ, hiệu ứng chung | |
+| `site.js`, `site-i18n.js` | Menu, đổi ngôn ngữ, chấm điều hướng, hiệu ứng chung | |
 
 ### Chạy trên máy
 **Mở thẳng `index.html` bằng Chrome hoặc Edge là chạy**, không cần máy chủ. Có thể dùng link GitHub Pages thay thế.
@@ -81,13 +84,16 @@ Ghi chú trong rubric: "đúng chuẩn LHU (màu sắc/logo)".
 
 **Bằng chứng**
 - **Bố cục rõ ràng, nhất quán:** màu, font, khoảng cách khai báo một lần bằng **CSS Variables** ở `:root` trong `css/style.css` (`--color-primary`, `--font-body`, `--space-*`…). Đổi một biến là đổi cả site.
-- **Trang chủ có ý tưởng:** tên "ericss" cỡ khổng lồ cắt ngang ảnh (hướng thiết kế "tên là kiến trúc"), thay vì bố cục "chữ trái, ảnh phải" quen thuộc. Các khối sau đó nhỏ và yên tĩnh để tên nổi bật.
+- **Trang chủ:** hero có tiêu đề lớn và ảnh hình vòm, băng số liệu nền nâu, bốn chất liệu, quy trình 8 bước, thư viện ảnh có lọc, phần liên hệ. (Em đã thử hướng "tên là kiến trúc" bằng skill thiết kế rồi quay lại bản này vì thấy hợp hơn.)
+- **Điều hướng tách bạch:** menu đầu trang chỉ chứa các **trang**; các **phần của trang chủ** là sáu chấm cố định ở mép phải, rê chuột hoặc Tab vào thì hiện nhãn, chấm của phần đang xem tự sáng lên.
+- **Modal xem ảnh lớn** cho thư viện, quy trình, chất liệu, giới thiệu (nút trước/sau, phím mũi tên, vuốt).
+- **Chân trang chuyên nghiệp:** bốn cột (giới thiệu, khám phá, liên hệ, pháp lý) với **Chính sách bảo mật** và **Điều khoản sử dụng** song ngữ, nói rõ thương hiệu giả định.
 - **Responsive:** `Grid` và `Flexbox`, breakpoint ở 960px, 760px, 560px. Trên điện thoại: menu thu gọn, băng ảnh chất liệu thành lưới 2×2, dãy ảnh xưởng cuộn ngang bằng ngón tay. Đã kiểm tra không có cuộn ngang ở mọi trang.
 - **Trải nghiệm:** thanh tiến trình cuộn, header đổi trạng thái khi cuộn, nút về đầu trang, hộp thoại và ngăn kéo có hiệu ứng, trạng thái "đang gửi", màn hình xác nhận thành công, thông báo lỗi ngay cạnh ô nhập.
 - **Truy cập (accessibility):** liên kết "Chuyển đến nội dung", `aria-label`, focus nhìn thấy được, tôn trọng `prefers-reduced-motion`.
-- **Thư viện hiệu ứng đúng đề:** Animate.css (tiêu đề, nút ở hero), AOS (các khối khi cuộn tới), GSAP (chữ "ericss" thu nhỏ nhẹ khi cuộn, nút "từ tính").
+- **Thư viện hiệu ứng đúng đề:** Animate.css (tiêu đề, nút ở hero), AOS (các khối khi cuộn tới), GSAP (parallax ở hero, nút "từ tính"), vanilla-tilt (thẻ chất liệu nghiêng nhẹ).
 
-**Cách nói:** "Em quản lý màu và font bằng biến CSS nên giao diện nhất quán. Trang chủ lấy chính tên thương hiệu làm điểm nhấn thị giác. Em kiểm tra responsive ở ba độ rộng 1440, 768 và 390."
+**Cách nói:** "Em quản lý màu và font bằng biến CSS nên giao diện nhất quán. Menu chỉ chứa các trang, còn các phần của trang chủ có chấm điều hướng riêng nên không bị lẫn. Em kiểm tra responsive ở ba độ rộng 1440, 768 và 390."
 
 **Lưu ý "chuẩn LHU":** website này mang thương hiệu riêng (Ericss) và có ghi tên Trường Đại học Lạc Hồng ở chân trang. Nếu giảng viên hỏi về "màu sắc/logo LHU", hãy hỏi lại rõ yêu cầu (đề tài chọn tự do hay phải theo nhận diện của trường). Đừng tự nhận là đã dùng màu của LHU.
 
@@ -110,6 +116,7 @@ Ghi chú trong rubric: "đúng chuẩn LHU (màu sắc/logo)".
 | `sort` | Sắp xếp giá tăng/giảm, tên A–Z | `js/filters.js` → `sorters` |
 | `flatMap` | Dựng các dòng "nhãn / giá trị" của bảng tổng | `js/cart-ui.js` |
 | `forEach` | Gắn sự kiện cho nhiều nút, kiểm tra từng ô | `js/quote-form.js`, `js/site.js` |
+| `Set` + `Math.min` | Tìm giá trị tốt nhất khi so sánh, và hàng nào các mẫu giống nhau | `js/catalog.js` (bảng so sánh) |
 
 Giải thích đơn giản để nói: *`map` biến mỗi phần tử thành thứ khác (sản phẩm → thẻ HTML); `filter` giữ lại phần tử thỏa điều kiện; `reduce` gom cả mảng về một giá trị (cộng ra tổng tiền).*
 
@@ -122,8 +129,8 @@ Giải thích đơn giản để nói: *`map` biến mỗi phần tử thành th
 - `input` ở ô tìm kiếm kèm **debounce** (`js/ui.js`): chờ khách ngừng gõ 150 ms rồi mới lọc, tránh vẽ lại liên tục.
 - `submit` với `event.preventDefault()` để tự kiểm tra và gửi, không tải lại trang (`js/quote-form.js`).
 - **Event delegation** (ủy quyền sự kiện): thay vì gắn sự kiện cho từng nút của 26 thẻ, gắn **một** lắng nghe ở khung chứa rồi dùng `event.target.closest('[data-action]')` để biết nút nào được bấm (`js/catalog.js`, `js/cart-ui.js`). Nhanh hơn và vẫn chạy với thẻ được vẽ thêm về sau.
-- Bàn phím: Esc đóng hộp thoại/menu, lọc thư viện ảnh bằng nút bấm.
-- `IntersectionObserver` (đếm số khi cuộn tới, đánh dấu mục menu); `requestAnimationFrame` (thanh tiến trình).
+- Bàn phím và cảm ứng: Esc đóng hộp thoại/menu; ở modal ảnh có phím mũi tên và vuốt ngang (`touchstart`/`touchend`); ảnh vào được bằng Tab và Enter (`js/lightbox.js`).
+- `IntersectionObserver` (đếm số khi cuộn tới, đánh dấu chấm điều hướng của phần đang xem); `requestAnimationFrame` (thanh tiến trình).
 
 **d) Bất đồng bộ và xử lý lỗi**
 - `async/await` + `fetch` để gửi yêu cầu lên Google Sheet (`js/sheet.js`); dữ liệu sản phẩm đã có sẵn trong trang nên không cần chờ tải.
@@ -220,14 +227,15 @@ Giải thích đơn giản để nói: *`map` biến mỗi phần tử thành th
 
 **Bằng chứng**
 - `README.md` có mô tả dự án, kiến trúc, cách chạy, công thức, và **bảng "Các prompt tiêu biểu"** (prompt, vấn đề, cách điều khiển AI).
-- `PROMPT_LOG.md` ghi 19 vòng làm việc, mỗi vòng có: prompt đã dùng, AI tạo ra gì, thách thức gặp phải, cách sửa prompt.
+- `PROMPT_LOG.md` ghi 28 vòng làm việc, mỗi vòng có: prompt đã dùng, AI tạo ra gì, thách thức gặp phải, cách sửa prompt.
 
 **Những ví dụ "điều khiển AI" mạnh nhất, nên kể**
 1. **AI làm sai, mình bắt được bằng số tính tay:** AI viết hàm làm tròn tiền, em đối chiếu với số tính tay và lộ lỗi biên .5 → sửa bằng `toPrecision(12)`. *Bài học: đừng tin kết quả AI, hãy kiểm chứng.*
 2. **Chẩn đoán đúng nguyên nhân:** hiệu ứng mở ảnh không chạy; AI đoán lung tung, em chỉ ra `IntersectionObserver` coi phần tử bị `clip-path` cắt hết là "không nhìn thấy" → quan sát phần tử cha.
 3. **Ràng buộc kiến trúc:** yêu cầu AI không dùng `<div>` vô nghĩa; gộp hai biểu mẫu thành một module thay vì sao chép.
 4. **Hạn chế của AI:** AI không thể tự triển khai Google Apps Script thay em (cần tài khoản Google), nên em yêu cầu AI viết sẵn mã và hướng dẫn, em tự triển khai.
-5. **Dùng công cụ để kiểm soát chất lượng:** cài skill thiết kế, để công cụ đo trang trong trình duyệt thật (cỡ chữ, đường kẻ, màu, độ phủ) rồi sửa tới khi hết lỗi, thay vì "cảm tính".
+5. **Biết khi nào AI nên từ chối:** khi em muốn lấy ảnh từ website bán hàng khác, AI từ chối vì ảnh có bản quyền và đề xuất ảnh miễn phí; kết quả là ảnh sản phẩm lấy từ Pexels, có ghi nguồn.
+6. **Dùng công cụ để kiểm soát chất lượng:** cài skill thiết kế, để công cụ đo trang trong trình duyệt thật (cỡ chữ, đường kẻ, màu, độ phủ) rồi sửa tới khi hết lỗi, thay vì "cảm tính".
 
 **Cách nói:** "AI giúp em nhanh ở khung HTML/CSS và các đoạn lặp, nhưng logic tiền bạc em luôn kiểm bằng số tính tay. Em coi AI như một lập trình viên cần được review."
 
@@ -237,19 +245,20 @@ Giải thích đơn giản để nói: *`map` biến mỗi phần tử thành th
 
 | Bước | Làm gì | Nói gì |
 |---|---|---|
-| 1 | Mở trang chủ, kéo xuống | Ý tưởng "tên là kiến trúc"; con số ở phần "Tự làm, tự kiểm soát" **lấy từ `products.json`** (14–40 ngày, MOQ từ 2) |
-| 2 | Rê chuột qua băng bốn chất liệu | Bảng giá "Từ ... / giao từ ... / MOQ" cũng tính từ dữ liệu bằng `filter` và `Math.min` |
+| 1 | Mở trang chủ, kéo xuống; rê chuột vào các chấm bên phải rồi bấm một chấm | Menu chỉ chứa trang, các phần có chấm điều hướng riêng với nhãn |
+| 2 | Lọc thư viện ảnh theo chất liệu rồi bấm một ảnh | Modal xem ảnh lớn, lật bằng mũi tên; chỉ lật qua các ảnh đang lọc |
 | 3 | Bấm EN rồi VI | Song ngữ, nhớ lựa chọn, tiền tệ đổi định dạng theo ngôn ngữ |
 | 4 | Vào Sản phẩm: gõ "day thung", lọc Teak, kéo thanh giá, sắp xếp | `filter` nối tiếp; tìm không dấu; "Xem thêm" phân trang |
-| 5 | Bấm tim một sản phẩm, tải lại trang | `localStorage` lưu yêu thích |
+| 5 | Bấm tim một sản phẩm, tải lại trang; tick "So sánh" ở 3 mẫu rồi bấm So sánh | `localStorage` lưu yêu thích; bảng so sánh tô giá thấp nhất, MOQ thấp nhất, giao nhanh nhất |
 | 6 | **Gửi báo giá** ở một sản phẩm; nhập số lượng thấp hơn MOQ rồi bấm gợi ý ×2, ×5 | Cảnh báo MOQ; chiết khấu tự đổi; tạm tính cập nhật tức thì |
 | 7 | Thêm vài món vào giỏ, nhập mã `ERICSS10` | `reduce`; mã chỉ áp dụng khi đủ điều kiện |
 | 8 | Sang Liên hệ: gửi khi để trống (cho thấy lỗi), rồi gửi đúng | Kiểm tra form; **cùng một biểu mẫu** với hộp thoại |
 | 9 | Sau khi gửi: chỉ ra thông báo "đã nhận, sẽ liên hệ sớm nhất" và **mã QR**; mở Google Sheet cho thấy dòng mới (cột MOQ xưởng, MOQ khách đặt, Đạt MOQ, Tổng cộng); mở email cảm ơn của khách | Cầu nối Apps Script; lưu cục bộ trước, mất mạng vẫn không mất yêu cầu |
-| 10 | Mở `js/pricing.js` và chỉ hàm `calcQuote`; mở tab Actions trên GitHub | Công thức đúng thứ tự; push là tự deploy |
-| 11 | Mở `PROMPT_LOG.md` và bảng prompt trong README | Tư duy điều khiển AI |
+| 10 | Mở chân trang, bấm Chính sách bảo mật; tải Excel lịch sử ở trang Liên hệ | Pháp lý khớp với cách xử lý dữ liệu thật; Excel có cột tiếng Việt |
+| 11 | Mở `js/pricing.js` và chỉ hàm `calcQuote`; mở tab Actions trên GitHub | Công thức đúng thứ tự; push là tự deploy |
+| 12 | Mở `PROMPT_LOG.md` và bảng prompt trong README | Tư duy điều khiển AI |
 
-**Mẹo:** trước khi demo, mở sẵn các tab và gửi thử một yêu cầu để chắc Sheet đang nhận. Chạy bằng link GitHub Pages hoặc `chay-website.bat`, không mở file trực tiếp.
+**Mẹo:** trước khi demo, mở sẵn các tab và gửi thử một yêu cầu để chắc Sheet đang nhận. Chạy bằng link GitHub Pages (hoặc mở thẳng `index.html`). Khi tự thử gửi nhiều lần sẽ gặp giới hạn spam (3 yêu cầu mỗi email mỗi giờ, nghỉ 30 giây giữa hai lần), nên dùng email khác nhau.
 
 ---
 
@@ -279,8 +288,17 @@ Mỗi yêu cầu có `id` duy nhất; script kiểm tra `id` đã có trong Shee
 **Nếu mất mạng lúc gửi thì sao?**
 Yêu cầu đã lưu cục bộ ở trạng thái "chờ đồng bộ", tự gửi lại khi tải trang hoặc bấm "Gửi lại".
 
-**Có chống spam không?**
-Có ô ẩn (honeypot): người thật không thấy nên không điền, bot điền thì bị bỏ qua. Script cũng chặn ô bắt đầu bằng `=`, `+`, `-`, `@` để Google Sheet không coi là công thức.
+**Có chống "công thức độc hại" trong Google Sheet không?**
+Có. Script thêm dấu `'` phía trước ô bắt đầu bằng `=`, `+`, `-`, `@` để Google Sheet không coi là công thức (chống formula injection). Chặn spam xem câu "Làm sao chặn spam báo giá?" ở trên.
+
+**Chặn spam có hoàn hảo không?**
+Không, và em nói rõ giới hạn: Apps Script không biết địa chỉ IP nên không chặn theo IP được; giới hạn theo email có thể bị né bằng nhiều email, nên em thêm trần toàn hệ thống (6 mỗi phút, 60 mỗi giờ). Kẻ gọi thẳng link có thể bỏ trường `fillMs`. Với hệ thống thật cần thêm CAPTCHA hoặc máy chủ riêng chặn theo IP. Chi tiết ở `LOGIC-XU-LY.md`, mục 3.
+
+**So sánh sản phẩm hoạt động thế nào?**
+Chọn tối đa 3 sản phẩm bằng ô "So sánh" (lưu `localStorage`), bảng so sánh có 6 hàng; ba hàng giá, MOQ, thời gian giao được tô xanh ở mẫu tốt nhất, chỉ khi các mẫu thật sự khác nhau. Có công tắc "Chỉ hiện điểm khác nhau".
+
+**Ảnh sản phẩm lấy ở đâu? Có vấn đề bản quyền không?**
+Ảnh sản phẩm `p-*.jpg` lấy từ Pexels (giấy phép cho phép dùng miễn phí), có ghi nguồn trong `assets/img/CREDITS.md` và trong Điều khoản sử dụng. Đây là ảnh minh họa kiểu dáng, không phải sản phẩm thật. Em không lấy ảnh từ website bán hàng khác vì ảnh đó có bản quyền.
 
 **Event delegation là gì, vì sao dùng?**
 Gắn một lắng nghe ở phần tử cha thay vì từng phần tử con; dùng `event.target.closest()` để biết con nào được bấm. Nhẹ hơn và chạy cả với phần tử vẽ thêm sau.
@@ -316,9 +334,10 @@ Xem 3.5. Bạn nên tự đọc `pricing.js`, `filters.js`, `quote-form.js` và 
 ## 6. Phải trung thực khi thuyết trình
 
 - Số liệu "thành lập 2008, 120 nghệ nhân, 15.000 m²", tên Ericss và dữ liệu 26 sản phẩm là **nội dung mẫu** cho bài làm, không phải doanh nghiệp thật.
-- Ảnh trong `assets/img` là ảnh quy trình sản xuất và cận cảnh vật liệu; ảnh sản phẩm dùng lại nhiều lần. Nếu cần bản quyền rõ ràng, thay bằng ảnh bạn có quyền dùng.
-- **Hạn chế đã biết:** `localStorage` là theo từng máy; đường dẫn Google Apps Script nằm trong mã công khai nên ai có link cũng gửi được (chấp nhận được cho bài tập, hệ thống thật cần xác thực); chưa có trang quản trị để xem yêu cầu (xem trong Google Sheet).
-- Phần trang chủ do AI thiết kế dưới sự hướng dẫn của bạn; bạn nên nắm được ý tưởng thiết kế và các công cụ kiểm tra đã dùng.
+- Ảnh sản phẩm `p-*.jpg` (12 ảnh) lấy từ Pexels, có nguồn trong `assets/img/CREDITS.md`; 26 sản phẩm dùng 19 ảnh khác nhau, riêng sản phẩm dây thừng vẫn dùng ảnh cũ. Ảnh xưởng, quy trình và vật liệu là ảnh minh họa cho mục đích học tập: nếu cần bản quyền rõ ràng, thay bằng ảnh bạn có quyền dùng.
+- Website ghi rõ ở chân trang và Điều khoản rằng **thương hiệu là giả định, không bán hàng, không nhận thanh toán**; phần pháp lý được viết đúng với cách website thật sự xử lý dữ liệu, không có mã số thuế hay giấy phép bịa ra.
+- **Hạn chế đã biết:** `localStorage` là theo từng máy; đường dẫn Google Apps Script nằm trong mã công khai nên ai có link cũng gửi được (đã có chặn spam hai lớp nhưng không chặn theo IP được; hệ thống thật cần xác thực hoặc CAPTCHA); chưa có trang quản trị để xem yêu cầu (xem trong Google Sheet); mã QR được vẽ nhờ quickchart.io nên họ tên và mã yêu cầu được gửi tới dịch vụ đó.
+- Giao diện do AI dựng dưới sự hướng dẫn của bạn và đã đổi hướng vài lần theo yêu cầu (thử thiết kế "tên là kiến trúc" rồi quay lại hero hình vòm; đổi menu thành chấm điều hướng); bạn nên nắm được lý do mỗi lần đổi.
 
 ## 7. Danh sách kiểm tra trước giờ thuyết trình
 
@@ -329,3 +348,5 @@ Xem 3.5. Bạn nên tự đọc `pricing.js`, `filters.js`, `quote-form.js` và 
 - [ ] Bảng **Kanban** có thẻ và có commit của các thành viên (xem 3.4)
 - [ ] Đọc lại `PROMPT_LOG.md` để kể được ít nhất 3 lần bạn sửa AI
 - [ ] Tự giải thích được `calcQuote`, `filterProducts` và `quote-form.js`
+- [ ] Thử so sánh 3 sản phẩm, modal xem ảnh và chấm điều hướng ở trang chủ
+- [ ] Đọc `LOGIC-XU-LY.md` mục 3 (chặn spam) để trả lời được câu hỏi vặn về giới hạn
