@@ -657,6 +657,6 @@
   .compare { min-width: 600px; }
 }
 
-@media (prefers-reduced-motion: reduce) { .compare-bar { animation: none; } }
+@media (prefers-reduced-motion: reduce) { html:not([data-motion="on"]) .compare-bar { animation: none; } }
 
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

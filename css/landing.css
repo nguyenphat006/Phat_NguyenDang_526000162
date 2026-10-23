@@ -229,7 +229,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal { clip-path: none; }
+  html:not([data-motion="on"]) .reveal { clip-path: none; }
 }
 
 /* ---------- Photo viewer (gallery modal) ---------- */
@@ -265,7 +265,7 @@
   .lightbox__prev { left: 16px; }
   .lightbox__next { right: 16px; }
 }
-@media (prefers-reduced-motion: reduce) { .lightbox[open] { animation: none; } }
+@media (prefers-reduced-motion: reduce) { html:not([data-motion="on"]) .lightbox[open] { animation: none; } }
 
 /* ---------- Section dots: fixed on the right edge, with a tooltip label (the header only holds pages) ---------- */
 .dot-nav { position: fixed; top: 50%; right: clamp(8px, 1.4vw, 24px); z-index: 80; transform: translateY(-50%); }
@@ -290,4 +290,4 @@
   .dot-nav a { width: 22px; height: 28px; }
   .dot-nav__dot { width: 9px; height: 9px; }
 }
-@media (prefers-reduced-motion: reduce) { .dot-nav__dot, .dot-nav__label { transition-duration: 0.01ms; } }
+@media (prefers-reduced-motion: reduce) { html:not([data-motion="on"]) .dot-nav__dot, html:not([data-motion="on"]) .dot-nav__label { transition-duration: 0.01ms; } }

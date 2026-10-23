@@ -294,6 +294,10 @@ address { font-style: normal; }
 
 .site-footer__copy { margin: 0; font-size: 0.8125rem; color: #aaa396; }
 
+.site-footer__motion { margin: 0; font-size: 0.8125rem; color: #aaa396; }
+.site-footer__motion[hidden] { display: none; }
+.site-footer__motion .site-footer__link { font-size: 0.8125rem; color: #d9c7ae; text-decoration: underline; text-underline-offset: 3px; }
+
 .site-footer__disclaimer { max-width: 90ch; margin: 0; font-size: 0.8125rem; line-height: 1.6; color: #8f897c; }
 
 /* ---------- Language switch ---------- */
@@ -430,9 +434,10 @@ address { font-style: normal; }
   .form { padding: var(--space-3); }
 }
 
+/* Reduced motion follows the system setting, unless the visitor chose "turn effects on" (html[data-motion="on"]) */
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *,
-*::before,
-*::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  html:not([data-motion="on"]) { scroll-behavior: auto; }
+  html:not([data-motion="on"]) *,
+  html:not([data-motion="on"]) *::before,
+  html:not([data-motion="on"]) *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }

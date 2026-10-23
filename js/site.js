@@ -103,7 +103,21 @@ document.querySelectorAll('dialog').forEach((dlg) => {
 });
 
 // ---------- Modern touches ----------
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// The system can ask for reduced motion. The visitor may still turn the effects on for this site (kept in localStorage, applied early by a script in <head>).
+const systemReducesMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const motionOptIn = document.documentElement.dataset.motion === 'on';
+const reduceMotion = systemReducesMotion && !motionOptIn;
+
+if (systemReducesMotion) {
+  const note = document.getElementById(motionOptIn ? 'motion-back' : 'motion-note');
+  if (note) note.hidden = false;
+  const choose = (value) => {
+    try { if (value) localStorage.setItem('ericss-motion', value); else localStorage.removeItem('ericss-motion'); } catch (e) { /* storage blocked: nothing to remember */ }
+    location.reload(); // GSAP, tilt and counters are set up once at load
+  };
+  document.getElementById('motion-on')?.addEventListener('click', () => choose('on'));
+  document.getElementById('motion-off')?.addEventListener('click', () => choose(null));
+}
 const progressBar = document.querySelector('.progress');
 const header = document.querySelector('.site-header');
 const toTop = document.querySelector('.to-top');
