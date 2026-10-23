@@ -326,6 +326,9 @@ Số thập phân trong máy tính có sai số (ví dụ `0.1 + 0.2 ≠ 0.3`). 
 **Hiệu ứng có làm khó người dùng nhạy cảm chuyển động không?**
 Có `prefers-reduced-motion`: khi bật, các hiệu ứng chuyển động tự tắt, nội dung vẫn đầy đủ.
 
+**Dự án sẽ phát triển tiếp thế nào?**
+Website hiện là đầu vào của quy trình. Bước tiếp theo em định hướng xây một **ứng dụng quản lý nội bộ** có ba phân hệ: **Báo giá** (nhận yêu cầu từ website, lập báo giá PDF, theo dõi trạng thái), **Bán hàng** (chốt đơn, khách hàng, thanh toán, giao hàng) và **Sản xuất** (lệnh sản xuất theo 8 công đoạn, vật tư, tồn kho, tiến độ). Em làm theo thứ tự đó vì báo giá là phần đã có sẵn dữ liệu đầu vào. Việc cần thay đầu tiên là thay Google Sheet và link Apps Script công khai bằng một API có xác thực và cơ sở dữ liệu. Đây là định hướng, chưa triển khai.
+
 **Bạn dùng AI ở đâu, và bạn tự hiểu code chứ?**
 Xem 3.5. Bạn nên tự đọc `pricing.js`, `filters.js`, `quote-form.js` và giải thích được từng hàm.
 
@@ -349,4 +352,5 @@ Xem 3.5. Bạn nên tự đọc `pricing.js`, `filters.js`, `quote-form.js` và 
 - [ ] Đọc lại `PROMPT_LOG.md` để kể được ít nhất 3 lần bạn sửa AI
 - [ ] Tự giải thích được `calcQuote`, `filterProducts` và `quote-form.js`
 - [ ] Thử so sánh 3 sản phẩm, modal xem ảnh và chấm điều hướng ở trang chủ
+- [ ] Chuẩn bị 1 phút nói về định hướng ứng dụng quản lý báo giá, bán hàng, sản xuất (slide 18 và 19)
 - [ ] Đọc `LOGIC-XU-LY.md` mục 3 (chặn spam) để trả lời được câu hỏi vặn về giới hạn

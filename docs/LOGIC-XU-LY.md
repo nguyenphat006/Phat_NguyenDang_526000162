@@ -323,6 +323,8 @@ Ngôn ngữ mặc định là tiếng Việt; lựa chọn lưu ở `ericss-lang
 
 **Chấm điều hướng bên phải** (trang chủ): sáu chấm cố định, mỗi chấm là liên kết `#phần`. Mã theo dõi vị trí cuộn (`IntersectionObserver` trong `site.js`, vùng quan sát hẹp quanh giữa màn hình) đánh dấu phần đang xem bằng lớp `is-current` và `aria-current="location"`. Nhãn hiện khi rê chuột hoặc Tab vào chấm. Menu đầu trang chỉ chứa các trang, không chứa các phần.
 
+**Giảm chuyển động (trợ năng):** nếu hệ điều hành bật "giảm chuyển động" (trên Windows là khi *Hiệu ứng động* bị tắt), trình duyệt báo `prefers-reduced-motion: reduce`. Khi đó CSS rút mọi `animation` và `transition` xuống 0,01 ms (trang hiển thị đầy đủ nhưng không có hiệu ứng) và `site.js` không khởi tạo GSAP, vanilla-tilt, hiệu ứng đếm số. Chân trang hiện một dòng giải thích kèm nút "Bật hiệu ứng cho website này": bấm thì lưu `ericss-motion = on` vào `localStorage` rồi tải lại trang. Một đoạn script nhỏ trong `<head>` của mỗi trang đọc khóa này **trước khi vẽ** và đặt `data-motion="on"` lên thẻ `<html>`; các luật giảm chuyển động trong CSS đều có điều kiện `html:not([data-motion="on"])` nên bị vô hiệu, còn `reduceMotion` trong JavaScript thành `false`. Nút "Theo cài đặt của máy" xóa lựa chọn để quay lại hành vi theo hệ thống. Người dùng bình thường (không bật giảm chuyển động) không thấy dòng này.
+
 **Hiệu ứng:** Animate.css (tiêu đề, nút hero), AOS (khối hiện dần khi cuộn), GSAP + ScrollTrigger (nút "từ tính", parallax hero và ảnh giới thiệu), vanilla-tilt (thẻ chất liệu nghiêng nhẹ). Tất cả tắt khi trình duyệt đặt `prefers-reduced-motion: reduce`; hiệu ứng chỉ được thêm bằng JavaScript nên khi JavaScript tắt thì nội dung vẫn hiện đầy đủ.
 
 ---

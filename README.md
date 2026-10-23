@@ -20,6 +20,20 @@ Dùng chung mọi trang: **menu ở đầu trang chỉ gồm các trang** (Trang
 
 Trang chủ có thêm **chấm điều hướng cố định ở mép phải** (Trang chủ, Về chúng tôi, Bộ sưu tập, Quy trình, Thư viện ảnh, Liên hệ): rê chuột hoặc Tab vào chấm sẽ hiện nhãn, chấm của mục đang xem tự sáng lên. Bấm vào ảnh ở thư viện, quy trình, bộ sưu tập hoặc phần giới thiệu sẽ mở **modal xem ảnh lớn** (nút trước / sau, phím mũi tên, vuốt trên điện thoại).
 
+## Định hướng phát triển tiếp theo
+Website hiện là **đầu vào** của quy trình: khách xem sản phẩm, ước giá và gửi yêu cầu báo giá kèm MOQ. Bước tiếp theo (chưa làm) là xây một **ứng dụng quản lý nội bộ** cho xưởng gồm ba phân hệ nối tiếp nhau:
+
+| Phân hệ | Làm gì | Đã có nền sẵn trong website |
+|---|---|---|
+| **Báo giá** | Nhận yêu cầu từ website, lập báo giá chính thức (PDF, email), theo dõi trạng thái | Hàm tính giá `calcQuote`, dữ liệu sản phẩm có SKU và MOQ, các trạng thái yêu cầu (Mới, Đã liên hệ, Đã báo giá, Đã chốt, Hủy) |
+| **Bán hàng** | Chốt báo giá thành đơn hàng, quản lý khách hàng, thanh toán, giao hàng, báo cáo doanh số | Mã yêu cầu, thông tin khách, loại yêu cầu |
+| **Sản xuất** | Lệnh sản xuất theo công đoạn, vật tư và tồn kho, tiến độ, tra cứu cho khách bằng mã QR | Quy trình 8 công đoạn, thời gian giao theo sản phẩm |
+
+Lộ trình đề xuất: giai đoạn 1 phân hệ Báo giá (dựng API và cơ sở dữ liệu, nối website vào API thay cho Google Sheet), giai đoạn 2 Bán hàng, giai đoạn 3 Sản xuất. Cần thêm: API trung gian có xác thực (thay link Apps Script công khai), cơ sở dữ liệu, phân quyền người dùng, chặn spam mạnh hơn (theo IP, CAPTCHA).
+
+## Hiệu ứng chuyển động và cài đặt "giảm chuyển động"
+Website tôn trọng cài đặt trợ năng `prefers-reduced-motion` của hệ điều hành: khi máy tắt hiệu ứng (Windows: *Cài đặt → Trợ năng → Hiệu ứng hình ảnh → Hiệu ứng động*), các hiệu ứng AOS, Animate.css, GSAP và chuyển cảnh chạy gần như tức thì nên trang trông "tĩnh". Nội dung vẫn hiển thị đầy đủ. Ở **chân trang** có dòng báo tình trạng này kèm nút **"Bật hiệu ứng cho website này"**; lựa chọn lưu trong `localStorage` (khóa `ericss-motion`) và có nút "Theo cài đặt của máy" để quay lại.
+
 ## Ảnh
 Ảnh sản phẩm `assets/img/p-*.jpg` (12 ảnh) lấy từ [Pexels](https://www.pexels.com/license/) (giấy phép miễn phí), cắt về tỉ lệ 5:4 và nén lại; nguồn từng ảnh nằm trong [`assets/img/CREDITS.md`](assets/img/CREDITS.md). Đây là ảnh minh họa kiểu dáng, không phải sản phẩm thật. 26 sản phẩm dùng 19 ảnh khác nhau.
 

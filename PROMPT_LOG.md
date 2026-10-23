@@ -180,6 +180,18 @@
 - **Thách thức gặp phải:** (1) Tài liệu phải đúng với mã nguồn, không viết theo trí nhớ nên AI đọc lại `pricing.js`, `validation.js`, `Code.gs`... trước khi viết và tự tính lại các ví dụ. (2) Phải nói thật điểm yếu của chặn spam: không có IP nên chặn theo email có thể bị né, trần toàn hệ thống có thể làm khách thật bị từ chối tạm thời, kiểm tra ở trình duyệt chỉ giúp khách thật.
 - **Cách sửa prompt (Debug prompt):** "Mỗi quy tắc ghi kèm con số và tệp chứa nó; có ví dụ tính tay; có mục 'chặn được gì, không chặn được gì' để trả lời khi bị hỏi vặn."
 
+### Lần 29: Hiệu ứng không hiển thị vì máy bật "giảm chuyển động"
+- **Prompt đã dùng:** "Xem lại trình duyệt của tôi đang chặn animation hiệu ứng hiển thị của sections thì ta bật lại như nào, hoặc xử lý ở code để nó hiển thị."
+- **Kết quả AI tạo ra:** Chẩn đoán nguyên nhân bằng cách kiểm tra chính máy: Windows đang tắt "Hiệu ứng động" nên Chrome báo `prefers-reduced-motion: reduce`, website (đã viết để tôn trọng cài đặt này) rút mọi hiệu ứng xuống 0,01 ms. Hướng dẫn cách bật lại trong Windows. Ở phía mã: thêm dòng báo tình trạng và nút "Bật hiệu ứng cho website này" ở chân trang; lựa chọn lưu trong `localStorage`, một script nhỏ ở `<head>` áp dụng trước khi vẽ, các luật CSS giảm chuyển động đều thêm điều kiện `html:not([data-motion="on"])`, và `reduceMotion` trong `site.js` tính lại theo lựa chọn. Có nút quay lại "Theo cài đặt của máy" và bản tiếng Anh.
+- **Thách thức gặp phải:** (1) Không được bỏ hẳn việc tôn trọng `prefers-reduced-motion` (đó là trợ năng) nên chọn cách để người dùng tự quyết. (2) GSAP, vanilla-tilt và đếm số chỉ khởi tạo một lần lúc tải trang nên bật hiệu ứng phải tải lại trang. (3) Bài kiểm thử trên máy này mặc định ở chế độ giảm chuyển động nên phải ép `no-preference` khi mô phỏng người dùng bình thường.
+- **Cách sửa prompt (Debug prompt):** "Đừng đoán: kiểm tra giá trị `prefers-reduced-motion` mà trình duyệt thật báo; đừng tắt trợ năng của mọi người để sửa cho một máy, hãy thêm lựa chọn của người dùng; kiểm thử cả hai trạng thái."
+
+### Lần 30: Định hướng mở rộng thành ứng dụng quản lý báo giá, bán hàng, sản xuất
+- **Prompt đã dùng:** "Cập nhật thêm bài PPT: định hướng dự án mở rộng tiếp theo sẽ build một app quản lý các phân hệ liên quan như báo giá, bán hàng và sản xuất."
+- **Kết quả AI tạo ra:** Thêm hai slide vào bộ slide báo cáo: (1) ba phân hệ Báo giá, Bán hàng, Sản xuất nối tiếp nhau, mỗi phân hệ ghi rõ làm gì và phần nào website đã có nền; (2) lộ trình ba giai đoạn và các nền tảng kỹ thuật cần có (API có xác thực, cơ sở dữ liệu, phân quyền, chặn spam mạnh hơn). Cột "hướng phát triển" ở slide kết thúc trỏ tới hai slide này. README có mục "Định hướng phát triển tiếp theo" với bảng tương ứng.
+- **Thách thức gặp phải:** (1) Phải nói rõ đây là định hướng chưa làm, không trình bày như tính năng đã có. (2) Gắn từng phân hệ với thứ website đã có (hàm tính giá, SKU và MOQ, trạng thái yêu cầu, 8 công đoạn) để định hướng có cơ sở. (3) Tệp slide đang được mở trong PowerPoint nên không ghi đè trực tiếp được.
+- **Cách sửa prompt (Debug prompt):** "Mỗi phân hệ phải chỉ ra phần nào đã có sẵn và phần nào còn mới; thứ tự làm theo mức độ sẵn dữ liệu (báo giá trước); nêu điểm yếu hiện tại cần thay đầu tiên (link Apps Script công khai)."
+
 ---
 
 ## 3. Đánh giá cá nhân về quá trình Vibe Coding
